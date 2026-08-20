@@ -68,18 +68,44 @@ Resultado real observado (ver `evidencia/salida-mvn-test.log` y
 `evidencia/surefire-ProductoTest.txt` para la salida completa):
 
 ```
-Tests run: 13, Failures: 0, Errors: 0, Skipped: 0
+Tests run: 17, Failures: 0, Errors: 0, Skipped: 0
 BUILD SUCCESS
 ```
+
+Registro de versiones efectivas (comando `java -version`, `javac -version`,
+`mvn -version`, tal como pide M01_lectura_estudiante):
+
+```
+$ java -version
+openjdk version "11.0.31" 2026-04-21
+OpenJDK Runtime Environment (build 11.0.31+11-post-1ubuntu1-24.04.2-Ubuntu)
+OpenJDK 64-Bit Server VM (build 11.0.31+11-post-1ubuntu1-24.04.2-Ubuntu, mixed mode, sharing)
+
+$ javac -version
+javac 11.0.31
+
+$ mvn -version
+Apache Maven 3.8.7
+Java version: 11.0.31, vendor: Ubuntu, runtime: /usr/lib/jvm/java-11-openjdk-amd64
+```
+
+Discrepancia registrada: el perfil de ejecucion declarado en P01/M01 pide
+Maven 3.9.9; el entorno de preparacion disponible tenia Maven 3.8.7. Se
+deja constancia en vez de ocultarla, siguiendo el saber axiologico de M01
+("honestidad al distinguir lo ejecutado de lo supuesto").
 
 ## Declaracion de resultados (VERIFICADO / NO_VERIFICADO / PENDIENTE)
 
 - **VERIFICADO** — Compilacion del codigo fuente (`main` y `test`) con Java 11.
-- **VERIFICADO** — Ejecucion de las 13 pruebas JUnit 5 de `ProductoTest`
-  (5 casos positivos, 8 casos negativos o limite), todas en verde.
+- **VERIFICADO** — Ejecucion de las 17 pruebas JUnit 5 de `ProductoTest`
+  (6 casos positivos, 8 casos negativos o limite y 3 pruebas dedicadas a
+  comprobar que un rechazo no modifica el estado), todas en verde.
 - **VERIFICADO** — Encapsulamiento de `Producto`: los atributos son
   privados y las mutaciones (`actualizarPrecio`, `agregarExistencia`,
-  `retirarExistencia`) validan sus invariantes y son cubiertas por prueba.
+  `descontar`) validan toda precondicion antes de modificar el objeto y
+  estan cubiertas por prueba, incluyendo la distincion entre
+  `IllegalArgumentException` (argumento invalido) e `IllegalStateException`
+  (operacion imposible por el estado actual) que exige el ejemplo de M01.
 - **NO_VERIFICADO** — El goal `clean` del plugin `maven-clean-plugin` no
   pudo ejecutarse en este entorno de preparacion particular por una
   dependencia transitiva (`plexus-utils:1.1`) ausente en el repositorio

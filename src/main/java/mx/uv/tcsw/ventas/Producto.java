@@ -105,18 +105,34 @@ public final class Producto {
     }
 
     /**
-     * Reduce la existencia del producto (por ejemplo, tras una venta),
-     * evitando que el invariante de no negatividad se rompa.
+     * Descuenta existencia del producto (por ejemplo, tras una venta).
      *
-     * @param cantidad cantidad a retirar, debe ser mayor a cero y no exceder la existencia actual
-     * @throws IllegalArgumentException si la cantidad no es positiva o excede la existencia disponible
+     * <p>Contrato:</p>
+     * <ul>
+     *   <li>Entrada: entero positivo.</li>
+     *   <li>Precondicion: {@code cantidad} no mayor que la existencia actual.</li>
+     *   <li>Resultado: existencia anterior menos {@code cantidad}.</li>
+     *   <li>Fallo: rechazo sin modificar el estado del objeto.</li>
+     * </ul>
+     *
+     * <p>Se distingue el tipo de excepcion segun la causa del rechazo: un
+     * argumento invalido en si mismo (cantidad no positiva) se senala con
+     * {@link IllegalArgumentException}; una operacion imposible por el
+     * estado actual del objeto (existencia insuficiente) se senala con
+     * {@link IllegalStateException}. En ambos casos toda precondicion se
+     * valida antes de modificar {@code existencia}, de modo que un rechazo
+     * nunca deja el objeto parcialmente modificado.</p>
+     *
+     * @param cantidad cantidad a descontar, debe ser mayor a cero y no exceder la existencia actual
+     * @throws IllegalArgumentException si la cantidad no es positiva
+     * @throws IllegalStateException    si la cantidad excede la existencia disponible
      */
-    public void retirarExistencia(int cantidad) {
+    public void descontar(int cantidad) {
         if (cantidad <= 0) {
-            throw new IllegalArgumentException("La cantidad a retirar debe ser mayor a cero.");
+            throw new IllegalArgumentException("La cantidad debe ser positiva.");
         }
         if (cantidad > this.existencia) {
-            throw new IllegalArgumentException("No hay existencia suficiente para retirar.");
+            throw new IllegalStateException("Existencia insuficiente.");
         }
         this.existencia -= cantidad;
     }

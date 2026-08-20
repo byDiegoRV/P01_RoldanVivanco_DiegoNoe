@@ -8,9 +8,12 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  * Pruebas automatizadas para la entidad Producto.
  *
- * <p>Incluye casos positivos (creacion y operaciones validas) y casos
+ * <p>Incluye casos positivos (creacion y operaciones validas), casos
  * negativos o limite (datos invalidos que deben ser rechazados por los
- * invariantes de la clase), tal como lo exige el saber heuristico de P01.</p>
+ * invariantes de la clase) y una prueba de preservacion de estado: un
+ * rechazo nunca debe dejar el objeto parcialmente modificado, tal como lo
+ * exige el saber heuristico de M01/P01 ("conserva existencia despues de un
+ * rechazo").</p>
  */
 class ProductoTest {
 
@@ -53,10 +56,10 @@ class ProductoTest {
     }
 
     @Test
-    void retirarExistenciaDentroDelLimiteDisponibleLaReduce() {
+    void descontarCantidadDisponibleReduceLaExistencia() {
         Producto producto = new Producto("P-005", "Webcam", 550.0, 10);
 
-        producto.retirarExistencia(4);
+        producto.descontar(4);
 
         assertEquals(6, producto.getExistencia());
     }
@@ -102,11 +105,19 @@ class ProductoTest {
     }
 
     @Test
-    void rechazaRetirarMasExistenciaDeLaDisponible() {
-        Producto producto = new Producto("P-010", "Router", 750.0, 2);
+    void rechazaDescontarCantidadCeroOMenor() {
+        Producto producto = new Producto("P-010a", "Router", 750.0, 2);
 
         assertThrows(IllegalArgumentException.class,
-                () -> producto.retirarExistencia(5));
+                () -> producto.descontar(0));
+    }
+
+    @Test
+    void rechazaDescontarMasExistenciaDeLaDisponible() {
+        Producto producto = new Producto("P-010", "Router", 750.0, 2);
+
+        assertThrows(IllegalStateException.class,
+                () -> producto.descontar(5));
     }
 
     @Test
@@ -115,5 +126,37 @@ class ProductoTest {
 
         assertThrows(IllegalArgumentException.class,
                 () -> producto.agregarExistencia(0));
+    }
+
+    // ---------- Preservacion de estado tras un rechazo ----------
+
+    @Test
+    void conservaExistenciaDespuesDeUnDescuentoRechazadoPorLimite() {
+        Producto producto = new Producto("P-012", "Teclado inalambrico", 899.0, 3);
+
+        assertThrows(IllegalStateException.class, () -> producto.descontar(4));
+
+        assertEquals(3, producto.getExistencia(),
+                "Un descuento rechazado por existencia insuficiente no debe modificar el estado.");
+    }
+
+    @Test
+    void conservaExistenciaDespuesDeUnDescuentoRechazadoPorArgumentoInvalido() {
+        Producto producto = new Producto("P-013", "Mousepad", 199.0, 8);
+
+        assertThrows(IllegalArgumentException.class, () -> producto.descontar(-1));
+
+        assertEquals(8, producto.getExistencia(),
+                "Un descuento con cantidad invalida no debe modificar el estado.");
+    }
+
+    @Test
+    void conservaPrecioDespuesDeUnaActualizacionRechazada() {
+        Producto producto = new Producto("P-014", "Silla gamer", 4500.0, 1);
+
+        assertThrows(IllegalArgumentException.class, () -> producto.actualizarPrecio(-1.0));
+
+        assertEquals(4500.0, producto.getPrecio(),
+                "Un precio invalido rechazado no debe modificar el estado.");
     }
 }
