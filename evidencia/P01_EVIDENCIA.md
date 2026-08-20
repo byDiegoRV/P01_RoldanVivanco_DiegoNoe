@@ -28,13 +28,21 @@ Commit con el codigo fuente, pruebas y ambiente reproducible (Producto,
 3cd8a351186251f60e48d16b1da7893b80fe33c0
 ```
 
-Commit posterior que agrega esta carpeta `evidencia/` (log de `mvn test` y
-reporte Surefire) sin modificar el codigo ya verificado:
+Commit que agrega esta carpeta `evidencia/` (log de `mvn test` y reporte
+Surefire) sin modificar el codigo ya verificado:
 
 ```
 789c6a2
 ```
-(ver `git log` en el repositorio para el hash completo tras el push).
+
+Commit final que alinea `Producto` con el contrato exacto de
+`M01_lectura_estudiante` (metodo `descontar`, distincion
+`IllegalArgumentException` / `IllegalStateException`, pruebas de
+preservacion de estado y `MODULO_M01_VERIFICADO`):
+
+```
+b61d732b775c32f4229da173fcdaabb1dd102787
+```
 
 ## URL del repositorio
 
