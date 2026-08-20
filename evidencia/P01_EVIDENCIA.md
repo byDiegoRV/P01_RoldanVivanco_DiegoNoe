@@ -21,9 +21,20 @@
 
 ## Identificador del commit final
 
+Commit con el codigo fuente, pruebas y ambiente reproducible (Producto,
+`pom.xml`, `Dockerfile`, README):
+
 ```
 3cd8a351186251f60e48d16b1da7893b80fe33c0
 ```
+
+Commit posterior que agrega esta carpeta `evidencia/` (log de `mvn test` y
+reporte Surefire) sin modificar el codigo ya verificado:
+
+```
+789c6a2
+```
+(ver `git log` en el repositorio para el hash completo tras el push).
 
 ## URL del repositorio
 
