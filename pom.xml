@@ -1,7 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>mx.uv.tcsw</groupId>
@@ -26,6 +27,7 @@
             <version>${junit.jupiter.version}</version>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
@@ -36,12 +38,15 @@
 
     <build>
         <finalName>tcsw-ventas</finalName>
+
         <plugins>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-clean-plugin</artifactId>
                 <version>3.2.0</version>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -50,23 +55,31 @@
                     <release>11</release>
                 </configuration>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.3</version>
+                <version>2.22.2</version>
+
                 <configuration>
                     <dependenciesToScan>
-                        <dependency>org.junit.jupiter:junit-jupiter-engine</dependency>
+                        <dependency>
+                            org.junit.jupiter:junit-jupiter-engine
+                        </dependency>
                     </dependenciesToScan>
                 </configuration>
+
                 <dependencies>
                     <dependency>
                         <groupId>org.apache.maven.surefire</groupId>
                         <artifactId>surefire-junit-platform</artifactId>
-                        <version>2.22.3</version>
+                        <version>2.22.2</version>
                     </dependency>
                 </dependencies>
+
             </plugin>
+
         </plugins>
     </build>
+
 </project>

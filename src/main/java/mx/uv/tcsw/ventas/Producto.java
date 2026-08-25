@@ -10,13 +10,6 @@ import java.util.Objects;
  * los atributos son privados e inmutables desde fuera del objeto salvo por
  * metodos de negocio explicitos y validados.</p>
  *
- * <p>Invariantes garantizados durante todo el ciclo de vida del objeto:</p>
- * <ul>
- *   <li>{@code codigo} no es nulo ni una cadena en blanco.</li>
- *   <li>{@code nombre} no es nulo ni una cadena en blanco.</li>
- *   <li>{@code precio} es mayor o igual a cero.</li>
- *   <li>{@code existencia} es mayor o igual a cero.</li>
- * </ul>
  */
 public final class Producto {
 

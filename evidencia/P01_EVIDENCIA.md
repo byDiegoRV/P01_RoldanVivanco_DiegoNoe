@@ -1,9 +1,9 @@
 # P01 — Archivo breve de evidencia
 
-**Experiencia educativa:** Tecnologias para la Construccion de Software (TCSW-19234)
+**Experiencia educativa:** Tecnologias para la Construccion de Software 
 **Actividad:** P01 — Ambiente reproducible y Producto
 **Modulo:** M01. Ambiente y bases de POO
-**Fecha de preparacion:** 2026-08-20
+
 
 ## Indice de evidencia (relacion con criterios de R01)
 
