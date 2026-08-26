@@ -21,7 +21,7 @@
 ## URL del repositorio
 
 ```
-<URL_DEL_REPOSITORIO> 
+https://github.com/byDiegoRV/P01_RoldanVivanco_DiegoNoe/tree/master
 ```
 
 *(Completar: pega aqui la URL de tu repositorio en GitHub, la misma que
@@ -34,8 +34,7 @@ reportaste en P01 si es el mismo repositorio acumulativo, seguida de
 <COMMIT_FINAL_P02>
 ```
 
-*(Completar: pega aqui la salida real de `git log -1 --format="%H"` DESPUES
-de hacer `git add`, `git commit` y `git push` de los archivos de P02.)*
+47530253b0d782132238179c3293c2a010216789
 
 ## Ambiente en el que se ejecuto la verificacion
 
