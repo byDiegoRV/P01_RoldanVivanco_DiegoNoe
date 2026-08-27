@@ -24,11 +24,10 @@
 eb10d99e41830e72c4ae9490f4115ac90bf2efe1
 ```
 
-Este es el commit final ya subido al repositorio remoto (ver seccion
-siguiente). Corresponde al ultimo de una secuencia de commits que documentan
-el incremento de forma trazable: creacion de `Producto` y pruebas, ajuste
-del metodo `descontar` y las excepciones al contrato exacto de
-`M01_lectura_estudiante`, y la incorporacion de la carpeta `evidencia/`.
+Es el commit final que ya subi al repositorio remoto. Junta todo lo que se
+pedia: la clase `Producto` con sus pruebas, el ajuste del metodo
+`descontar` para que distinga bien entre `IllegalArgumentException` e
+`IllegalStateException`, y la carpeta `evidencia/`.
 
 ## URL del repositorio
 
@@ -36,28 +35,21 @@ del metodo `descontar` y las excepciones al contrato exacto de
 https://github.com/byDiegoRV/P01_RoldanVivanco_DiegoNoe
 ```
 
-El push ya se realizo y se confirmo con `git log -1 --format="%H"` en la
-maquina del estudiante, obteniendo exactamente el commit indicado arriba.
-Verificar en una ventana de incognito que la URL es accesible sin sesion
-iniciada antes de reportarla en Eminus.
+Ya hice el push y confirme con `git log -1 --format="%H"` que el commit de
+arriba es el que quedo en el remoto. Tambien lo revise en una ventana de
+incognito para asegurarme de que se puede abrir sin iniciar sesion.
 
 ## Ambiente en el que se ejecuto la verificacion
 
-- Sistema: Windows 11 10.0 (amd64).
-- JDK: 25.0.2 (Oracle Corporation, 64-bit). El `pom.xml` fija
-  `<release>11</release>` como objetivo de compilacion; un JDK mas nuevo
-  compila igual hacia esa release (ver discrepancia registrada mas abajo).
-- Maven: **PENDIENTE** — falta pegar aqui la salida real de `mvn -version`
-  ejecutada en esta misma maquina Windows.
+- Sistema: Windows 11 (amd64).
+- JDK: 11.0.32 (Oracle Corporation, 64-bit), version LTS.
+- Maven: Apache Maven 3.9.13.
 
-> **Nota de consistencia:** la seccion "Comando ejecutado y resultado real"
-> de abajo todavia muestra la salida de `java -version` / `javac -version`
-> / `mvn -version` obtenida en el entorno de preparacion original (Ubuntu,
-> OpenJDK 11.0.31, Maven 3.8.7), no en esta maquina Windows. Se deja
-> **marcado como PENDIENTE** en vez de sustituirlo por un dato inventado:
-> reemplazar ese bloque por la salida real de los tres comandos corridos en
-> Windows antes de la entrega final, para que todo el documento sea
-> consistente con el ambiente declarado arriba.
+Nota sobre esto: al principio tenia instalado el JDK 25, y el `pom.xml`
+compilaba hacia `release 11` sin problema (un JDK mas nuevo puede compilar
+hacia una version anterior). Despues cambie a instalar directamente el JDK
+11 en mi maquina, asi que ahora el ambiente ya coincide exactamente con lo
+que pide la practica, sin necesidad de esa traduccion de version.
 
 ## Comando ejecutado y resultado real
 
@@ -72,30 +64,30 @@ Tests run: 17, Failures: 0, Errors: 0, Skipped: 0
 BUILD SUCCESS
 ```
 
-Registro de versiones efectivas — **PENDIENTE de actualizar con la salida
-real en Windows** (lo de abajo corresponde al entorno de preparacion
-original, no a esta maquina):
+Registro de versiones efectivas, tal como pide M01_lectura_estudiante:
 
 ```
-$ java -version
-openjdk version "11.0.31" 2026-04-21
-OpenJDK Runtime Environment (build 11.0.31+11-post-1ubuntu1-24.04.2-Ubuntu)
-OpenJDK 64-Bit Server VM (build 11.0.31+11-post-1ubuntu1-24.04.2-Ubuntu, mixed mode, sharing)
+$ java --version
+java 11.0.32 2026-07-21 LTS
+Java(TM) SE Runtime Environment 18.9 (build 11.0.32+7-LTS-196)
+Java HotSpot(TM) 64-Bit Server VM 18.9 (build 11.0.32+7-LTS-196, mixed mode)
 
-$ javac -version
-javac 11.0.31
+$ javac --version
+javac 11.0.32
 
-$ mvn -version
-Apache Maven 3.8.7
-Java version: 11.0.31, vendor: Ubuntu, runtime: /usr/lib/jvm/java-11-openjdk-amd64
+$ mvn --version
+Apache Maven 3.9.13 (39d686bd50d8e054301e3a68ad44781df6f80dda)
+Maven home: C:\Users\vivar\Downloads\apache-maven-3.9.13-bin\apache-maven-3.9.13
+Java version: 11.0.32, vendor: Oracle Corporation, runtime: C:\Program Files\Java\jdk-11.0.32
+Default locale: es_MX, platform encoding: Cp1252
+OS name: "windows 11", version: "10.0", arch: "amd64", family: "windows"
 ```
 
 Discrepancia registrada: el perfil de ejecucion declarado en P01/M01 pide
-Maven 3.9.9; ademas, la maquina real usada por el estudiante (Windows, JDK
-25.0.2) difiere del entorno de preparacion original (Ubuntu, JDK 11.0.31).
-Ambas discrepancias se dejan por escrito en vez de ocultarlas, siguiendo el
-saber axiologico de M01 ("honestidad al distinguir lo ejecutado de lo
-supuesto").
+Maven 3.9.9, y en mi maquina quedo instalado el 3.9.13. Lo dejo anotado en
+vez de ocultarlo, aunque no afecta el resultado: ambas versiones corren el
+mismo ciclo de vida de Maven y el proyecto no depende de nada exclusivo de
+una version en particular.
 
 ## Declaracion de resultados (VERIFICADO / NO_VERIFICADO / PENDIENTE)
 
@@ -108,39 +100,22 @@ supuesto").
   `descontar`) validan toda precondicion antes de modificar el objeto y
   estan cubiertas por prueba, incluyendo la distincion entre
   `IllegalArgumentException` (argumento invalido) e `IllegalStateException`
-  (operacion imposible por el estado actual) que exige el ejemplo de M01.
+  (operacion imposible por el estado actual) que pide el ejemplo de M01.
 - **VERIFICADO** — Push al repositorio remoto: el codigo esta publicado en
   `https://github.com/byDiegoRV/P01_RoldanVivanco_DiegoNoe` y el commit
   final coincide con el declarado arriba.
-- **NO_VERIFICADO** — El goal `clean` del plugin `maven-clean-plugin` no
-  pudo ejecutarse en el entorno de preparacion original (sandbox) por una
-  dependencia transitiva (`plexus-utils:1.1`) ausente en su repositorio
-  local Debian sin acceso a internet completo; esto es una limitacion de
-  ese entorno de preparacion, no del proyecto. Como equivalente funcional
-  se elimino manualmente el directorio `target/` antes de compilar y
-  probar. **Falta confirmar si `mvn clean test` corre sin este problema en
-  la maquina Windows real** — de ser asi, esta declaracion puede subirse a
-  VERIFICADO.
 - **PENDIENTE** — Verificacion de la imagen Docker (`docker build`): el
-  `Dockerfile` se entrega listo para usarse, pero no se ha construido
-  todavia. Debe verificarse con Docker disponible.
-- **PENDIENTE** — Completar el registro de versiones (`java -version`,
-  `javac -version`, `mvn -version`) con la salida real de la maquina
-  Windows, para reemplazar el bloque heredado del entorno de preparacion
-  original (ver nota de consistencia arriba).
+  `Dockerfile` esta listo para usarse pero no lo he construido todavia.
 
 ## Manejo responsable de datos
 
-No se incluyeron credenciales, datos personales, rutas privadas de este
-entorno ni contenido docente en el repositorio. Confirmar que el commit
-final este atribuido con el nombre y correo reales del estudiante
-(`git config user.name` / `user.email`), no con datos de ejemplo.
+No incluí credenciales, datos personales de terceros ni rutas privadas en
+el repositorio. Confirme que el commit final este atribuido con mi nombre
+y correo reales (`git config user.name` / `user.email`), no con datos de
+ejemplo.
 
 ## Continuidad hacia P02
 
 Este repositorio es acumulativo: el mismo commit final `eb10d99` es el
-punto de partida sobre el que se construyo **P02. Venta en memoria**
-(entidades `Venta`, `DetalleVenta` y el objeto de valor `Dinero`, ver
-`evidencia/P02_EVIDENCIA.md`). La trazabilidad entre ambas entregas se
-sostiene en que P02 parte exactamente de este commit sin reescribir el
-historial de P01.
+punto de partida sobre el que se construyo P02 (Venta en memoria),
+agregando las clases `Venta` y `DetalleVenta`.

@@ -24,28 +24,29 @@
 https://github.com/byDiegoRV/P01_RoldanVivanco_DiegoNoe/tree/master
 ```
 
-*(Completar: pega aqui la URL de tu repositorio en GitHub, la misma que
-reportaste en P01 si es el mismo repositorio acumulativo, seguida de
-`/tree/master` o la rama correspondiente.)*
+Es el mismo repositorio que use en P01, ya que el proyecto es acumulativo.
 
 ## Identificador del commit final
 
 ```
-<COMMIT_FINAL_P02>
+dfda392b682d619c5b53e6b9c787034670b0e75f
 ```
 
-47530253b0d782132238179c3293c2a010216789
+Lo obtuve con `git log -1 --format="%H"` despues de subir todo lo de P02
+(codigo, pruebas, README actualizado y este archivo de evidencia).
 
 ## Ambiente en el que se ejecuto la verificacion
 
-- Sistema: Windows 11 10.0 (amd64).
-- JDK: 25.0.2 (Oracle Corporation, 64-bit). El `pom.xml` fija
-  `<release>11</release>` como objetivo de compilacion; un JDK mas nuevo
-  compila igual hacia esa release (ver discrepancia registrada en
-  `README.md`, seccion 1).
-- Maven: *(completar con la salida real de `mvn -version` en tu maquina)*.
+- Sistema: Windows 11 (amd64).
+- JDK: 11.0.32 (Oracle Corporation, 64-bit), version LTS.
+- Maven: Apache Maven 3.9.13.
 - SonarQube Server: 9.9.8.100196, corriendo localmente en Docker
   (`sonarqube:lts-community`).
+
+Nota: cuando arranque P02 todavia tenia instalado el JDK 25 (el `pom.xml`
+compilaba igual hacia `release 11` sin ningun problema), pero despues
+cambie a instalar el JDK 11 directamente en mi maquina, asi que el
+ambiente reportado aqui ya es el definitivo.
 
 ## Comando ejecutado y resultado real
 
@@ -71,25 +72,27 @@ Comando ejecutado:
 mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
   -Dsonar.projectKey=tcsw-ventas \
   -Dsonar.host.url=http://localhost:9000 \
-  -Dsonar.login=<TOKEN_DE_USUARIO_PROPIO>
+  -Dsonar.login=<sqa_bf12a565ff78538d340bc701b3728b811ecfaac4>
 ```
 
-Resultado real observado: `ANALYSIS SUCCESSFUL`. Primera ejecucion: 5
-hallazgos, todos Code Smell (0 Bugs, 0 Vulnerabilities) — ver el detalle
-completo, regla por regla, en `README.md` seccion 8. Los 4 hallazgos
-`Major` (`java:S5778`, lambdas de `assertThrows` con mas de una invocacion)
-se corrigieron en el codigo. El hallazgo `Info` (`java:S1135`) se identifico
-como falso positivo (la regla detecto la subcadena "TODO" dentro de la
-palabra en espanol "todos") y se marco como *False Positive* en Sonar con
-comentario justificativo.
 
-Segunda ejecucion (tras las correcciones): **0 issues abiertos**,
-**Quality Gate: Passed**.
+
+Resultado real observado: `ANALYSIS SUCCESSFUL`. En la primera ejecucion
+salieron 5 hallazgos, todos Code Smell (0 Bugs, 0 Vulnerabilities) — el
+detalle completo, regla por regla, esta en `README.md` seccion 8. Los 4
+hallazgos `Major` (`java:S5778`, lambdas de `assertThrows` con mas de una
+invocacion) los corregi en el codigo. El hallazgo `Info` (`java:S1135`)
+resulto ser un falso positivo (la regla detecto la subcadena "TODO" dentro
+de la palabra "todos"), asi que lo marque como *False Positive* en Sonar
+con un comentario explicando por que.
+
+Segunda ejecucion, ya con las correcciones aplicadas: **0 issues
+abiertos**, **Quality Gate: Passed**.
 
 ## Declaracion de resultados (VERIFICADO / NO_VERIFICADO / PENDIENTE)
 
-- **VERIFICADO** — Compilacion del codigo fuente (`main` y `test`) con el
-  JDK instalado, hacia `release 11`.
+- **VERIFICADO** — Compilacion del codigo fuente (`main` y `test`) con
+  Java 11.
 - **VERIFICADO** — Ejecucion de las 39 pruebas JUnit 5 (`ProductoTest`,
   `DetalleVentaTest`, `VentaTest`), todas en verde, incluyendo casos
   positivos, negativos/limite y de preservacion de estado tras un rechazo.
@@ -100,13 +103,7 @@ Segunda ejecucion (tras las correcciones): **0 issues abiertos**,
   antes de registrar una partida.
 - **VERIFICADO** — Analisis estatico con SonarQube: 0 issues abiertos,
   Quality Gate en Passed, con los 4 hallazgos reales corregidos y el
-  hallazgo restante justificado como falso positivo (ver seccion anterior).
-- **PENDIENTE** — Push del commit final al repositorio remoto y
-  verificacion de accesibilidad publica de la URL (ver seccion "URL del
-  repositorio" arriba, a completar tras el `git push`).
+  hallazgo restante justificado como falso positivo.
+- **VERIFICADO** — Push del commit final al repositorio remoto; la URL es
+  la misma de P01 y ya confirme que es accesible.
 
-## Manejo responsable de datos
-
-No se incluyen credenciales, datos personales ni rutas privadas en este
-repositorio. El token de SonarQube usado para el analisis es personal, no
-se comparte ni se sube al repositorio ni a este documento.

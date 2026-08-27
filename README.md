@@ -30,7 +30,7 @@ tcsw-ventas/
 
 | Herramienta | Version usada / minima | Verificacion |
 |---|---|---|
-| Java (JDK)  | 25 | `java -version` / `javac -version` |
+| Java (JDK)  | 11 | `java -version` / `javac -version` |
 | Maven       | 3.6+ | `mvn -version` |
 | Git         | 2.x | `git --version` |
 | Docker      | 24.x (opcional, para el `Dockerfile`) | `docker --version` |
@@ -57,17 +57,21 @@ el que corre el propio proceso de Maven. Cualquier discrepancia se registra
 en vez de ocultarse. Salida obtenida al preparar esta entrega:
 
 ```
-$ java -version
-openjdk version "25.0.2 " 2026-04-21
-OpenJDK Runtime Environment (build 25.0.2 +11-post-1ubuntu1-24.04.2-Ubuntu)
-OpenJDK 64-Bit Server VM (build 25.0.2 +11-post-1ubuntu1-24.04.2-Ubuntu, mixed mode, sharing)
+$ java --version
+java 11.0.32 2026-07-21 LTS
+Java(TM) SE Runtime Environment 18.9 (build 11.0.32+7-LTS-196)
+Java HotSpot(TM) 64-Bit Server VM 18.9 (build 11.0.32+7-LTS-196, mixed mode)
+
 
 $ javac -version
-javac 25.0.2 
+javac 11.0.32 
 
-$ mvn -version
-Apache Maven 3.8.7
-Java version:25.0.2 , vendor: Ubuntu, runtime: /usr/lib/jvm/java-11-openjdk-amd64
+$ mvn --version
+Apache Maven 3.9.13 (39d686bd50d8e054301e3a68ad44781df6f80dda)
+Maven home: C:\Users\vivar\Downloads\apache-maven-3.9.13-bin\apache-maven-3.9.13
+Java version: 11.0.32, vendor: Oracle Corporation, runtime: C:\Program Files\Java\jdk-11.0.32
+Default locale: es_MX, platform encoding: Cp1252
+OS name: "windows 11", version: "10.0", arch: "amd64", family: "windows"
 ```
 
 **Discrepancia registrada:** el perfil declarado para P01 pide Maven 3.9.9;
@@ -81,11 +85,11 @@ confirmarlo con su propio `mvn -version` antes de reportar un resultado.
 ## 2. Clonar el repositorio
 
 ```bash
-git clone <URL_DEL_REPOSITORIO>
+git clone <https://github.com/byDiegoRV/P01_RoldanVivanco_DiegoNoe>
 cd tcsw-ventas
 ```
 
-(Sustituye `<URL_DEL_REPOSITORIO>` por la URL entregada en Eminus.)
+https://github.com/byDiegoRV/P01_RoldanVivanco_DiegoNoe
 
 ## 3. Compilar y ejecutar las pruebas
 
