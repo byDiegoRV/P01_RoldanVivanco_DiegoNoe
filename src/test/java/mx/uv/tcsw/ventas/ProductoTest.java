@@ -1,9 +1,8 @@
 package mx.uv.tcsw.ventas;
 
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.Test;
 
 /**
  * Pruebas automatizadas para la entidad Producto.
@@ -62,6 +61,33 @@ class ProductoTest {
         producto.descontar(4);
 
         assertEquals(6, producto.getExistencia());
+    }
+
+        @Test
+    void precioConDescuentoCalculaCorrectamente() {
+        Producto producto = new Producto("P-005b", "Audifonos", 1000.0, 5);
+
+        double resultado = producto.precioConDescuento(20);
+
+        assertEquals(800.0, resultado);
+    }
+
+    @Test
+    void precioConDescuentoEnCeroRegresaElMismoPrecio() {
+        Producto producto = new Producto("P-005c", "Cargador", 300.0, 5);
+
+        double resultado = producto.precioConDescuento(0);
+
+        assertEquals(300.0, resultado);
+    }
+
+    @Test
+    void precioConDescuentoEnCienRegresaCero() {
+        Producto producto = new Producto("P-005d", "Funda", 250.0, 5);
+
+        double resultado = producto.precioConDescuento(100);
+
+        assertEquals(0.0, resultado);
     }
 
     // ---------- Casos negativos / limite: rechazo de datos invalidos ----------
@@ -126,6 +152,24 @@ class ProductoTest {
 
         assertThrows(IllegalArgumentException.class,
                 () -> producto.agregarExistencia(0));
+    }
+
+        @Test
+    void rechazaPrecioConDescuentoNegativo() {
+        Producto producto = new Producto("P-011b", "Micrófono", 800.0, 3);
+
+        assertThrows(IllegalArgumentException.class,
+                () -> producto.precioConDescuento(-5));
+    }
+
+    @Test
+    void rechazaPrecioConDescuentoMayorA100() {
+        // este caso es justo el que provoco el conflicto entre las dos ramas:
+        // una version no validaba este limite y podia regresar un precio negativo
+        Producto producto = new Producto("P-011c", "Tripie", 450.0, 3);
+
+        assertThrows(IllegalArgumentException.class,
+                () -> producto.precioConDescuento(150));
     }
 
     // ---------- Preservacion de estado tras un rechazo ----------
