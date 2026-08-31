@@ -120,7 +120,7 @@ public final class Producto {
      * @throws IllegalArgumentException si la cantidad no es positiva
      * @throws IllegalStateException    si la cantidad excede la existencia disponible
      */
-    public void descontar(int cantidad) {
+        public void descontar(int cantidad) {
         if (cantidad <= 0) {
             throw new IllegalArgumentException("La cantidad debe ser positiva.");
         }
@@ -129,6 +129,18 @@ public final class Producto {
         }
         this.existencia -= cantidad;
     }
+
+    // Calcula el precio aplicando un descuento (en porcentaje, de 0 a 100).
+    // No modifica el precio del producto, solo regresa el valor calculado.
+    public double precioConDescuento(double porcentaje) {
+        if (porcentaje < 0) {
+            throw new IllegalArgumentException("El porcentaje de descuento no puede ser negativo.");
+        }
+        double factor = 1 - (porcentaje / 100);
+        return precio * factor;
+    }
+
+   
 
     @Override
     public boolean equals(Object o) {
