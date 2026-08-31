@@ -132,14 +132,13 @@ public final class Producto {
 
     // Calcula el precio aplicando un descuento (en porcentaje, de 0 a 100).
     // No modifica el precio del producto, solo regresa el valor calculado.
-    public double precioConDescuento(double porcentaje) {
+     public double precioConDescuento(double porcentaje) {
         if (porcentaje < 0 || porcentaje > 100) {
             throw new IllegalArgumentException("El porcentaje de descuento debe estar entre 0 y 100.");
         }
         double descuento = precio * (porcentaje / 100);
         return precio - descuento;
     }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
