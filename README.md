@@ -1,362 +1,517 @@
-# tcsw-ventas — P01/P02. Ambiente reproducible, Producto y Venta
-
-Prototipo de ventas para la Experiencia Educativa **Tecnologias para la
-Construccion de Software** (TCSW-19234).
-
-- **P01** (modulo **M01. Ambiente y bases de POO**): preparar un ambiente
-  Java reproducible y construir la primera entidad del prototipo,
-  `Producto`.
-- **P02** (modulo **M02. Modelado orientado a objetos**): modelar una venta
-  en memoria con objetos colaborantes — `DetalleVenta` y `Venta` — sobre el
-  `Producto` construido en P01.
-
-## Contenido del repositorio
-
-```
+tcsw-ventas — P01/P02/P03
+Ambiente reproducible, Producto, Venta y Git
+Prototipo de ventas para la Experiencia Educativa Tecnologías para la Construcción de Software (TCSW-19234).
+•	P01 — Módulo M01. Ambiente y bases de POO: preparar un ambiente Java reproducible y construir la primera entidad del prototipo, Producto.
+•	P02 — Módulo M02. Modelado orientado a objetos: modelar una venta en memoria con objetos colaborantes — DetalleVenta y Venta — sobre el Producto construido en P01.
+•	P03 — Módulo M03. Calidad inicial y Git: practicar ramas, integración y resolución explícita de un conflicto real sobre el código existente, agregando el método precioConDescuento a Producto.
+________________________________________
+Contenido del repositorio
 tcsw-ventas/
-├── pom.xml                     Proyecto Maven (JUnit 5)
-├── Dockerfile                  Ambiente reproducible por contenedor
-├── scripts/verify-module.sh    Script de verificacion (mvn clean test, M01/M02)
-├── src/main/java/.../Producto.java       Entidad Producto (P01, encapsulada)
-├── src/main/java/.../DetalleVenta.java   Objeto de valor: linea de venta (P02)
-├── src/main/java/.../Venta.java          Entidad Venta, compone DetalleVenta (P02)
-├── src/test/java/.../ProductoTest.java       Pruebas de Producto (P01)
-├── src/test/java/.../DetalleVentaTest.java   Pruebas de DetalleVenta (P02)
-├── src/test/java/.../VentaTest.java          Pruebas de Venta (P02)
+├── pom.xml
+├── Dockerfile
+├── scripts/
+│   └── verify-module.sh
+├── src/
+│   ├── main/
+│   │   └── java/.../
+│   │       ├── Producto.java
+│   │       ├── DetalleVenta.java
+│   │       └── Venta.java
+│   └── test/
+│       └── java/.../
+│           ├── ProductoTest.java
+│           ├── DetalleVentaTest.java
+│           └── VentaTest.java
 └── README.md
-```
-
-## 1. Requisitos del ambiente
-
-| Herramienta | Version usada / minima | Verificacion |
-|---|---|---|
-| Java (JDK)  | 11 | `java -version` / `javac -version` |
-| Maven       | 3.6+ | `mvn -version` |
-| Git         | 2.x | `git --version` |
-| Docker      | 24.x (opcional, para el `Dockerfile`) | `docker --version` |
-| VS Code     | con extension "Extension Pack for Java" (opcional) | — |
-
-El proyecto fija la version de compilacion en el `pom.xml`
-(`<release>11</release>`), por lo que basta con tener un JDK 11 o superior
-compatible con esa release.
-
-**Perfil de ejecucion declarado para P01:** Java 25 y Maven 3.9.9.
-
-**Ambiente reportado por el estudiante (P01/P02):** JDK 25.0.2 y Apache
-Maven 3.9.13 instalados. Esto no genera conflicto: el `pom.xml` fija
-`<release>11</release>` como objetivo de compilacion, y un JDK mas nuevo
-puede compilar hacia una release anterior sin problema. Quien reproduzca
-este proyecto debe registrar su propio `java -version` / `mvn -version` en
-vez de asumir que coincide con lo aqui documentado.
-
-### Registro de versiones efectivas (comprobacion real, no supuesta)
-
-`java`, `javac` y `mvn` responden preguntas distintas: `java` identifica el
-runtime invocado, `javac` confirma el compilador y `mvn` informa el Java con
-el que corre el propio proceso de Maven. Cualquier discrepancia se registra
-en vez de ocultarse. Salida obtenida al preparar esta entrega:
-
-```
+Descripción
+Archivo	Descripción
+pom.xml	Proyecto Maven con JUnit 5 y JaCoCo
+Dockerfile	Ambiente reproducible mediante contenedor
+scripts/verify-module.sh	Script de verificación para M01, M02 y M03
+Producto.java	Entidad Producto de P01
+DetalleVenta.java	Objeto de valor que representa una línea de venta
+Venta.java	Entidad que compone los detalles de una venta
+ProductoTest.java	Pruebas automatizadas de Producto
+DetalleVentaTest.java	Pruebas automatizadas de DetalleVenta
+VentaTest.java	Pruebas automatizadas de Venta
+________________________________________
+1. Requisitos del ambiente
+Herramienta	Versión usada / mínima	Verificación
+Java (JDK)	11	java -version / javac -version
+Maven	3.6+	mvn -version
+Git	2.x	git --version
+Docker	24.x (opcional)	docker --version
+VS Code	Con extensión "Extension Pack for Java" (opcional)	—
+El proyecto fija la versión de compilación en el pom.xml mediante:
+<release>11</release>
+Por lo tanto, el ambiente de referencia del proyecto es Java 11.
+Perfil de ejecución declarado para P01: Java 11 y Maven 3.9.9.
+Registro de versiones efectivas
+Para verificar el ambiente se pueden utilizar los siguientes comandos:
+java --version
+javac -version
+mvn --version
+Ejemplo del ambiente utilizado:
 $ java --version
-java 11.0.32 2026-07-21 LTS
-Java(TM) SE Runtime Environment 18.9 (build 11.0.32+7-LTS-196)
-Java HotSpot(TM) 64-Bit Server VM 18.9 (build 11.0.32+7-LTS-196, mixed mode)
 
+java 11.0.32 2026-07-21 LTS
+
+Java(TM) SE Runtime Environment 18.9
+(build 11.0.32+7-LTS-196)
+
+Java HotSpot(TM) 64-Bit Server VM 18.9
+(build 11.0.32+7-LTS-196, mixed mode)
 
 $ javac -version
-javac 11.0.32 
+
+javac 11.0.32
 
 $ mvn --version
-Apache Maven 3.9.13 (39d686bd50d8e054301e3a68ad44781df6f80dda)
-Maven home: C:\Users\vivar\Downloads\apache-maven-3.9.13-bin\apache-maven-3.9.13
-Java version: 11.0.32, vendor: Oracle Corporation, runtime: C:\Program Files\Java\jdk-11.0.32
-Default locale: es_MX, platform encoding: Cp1252
-OS name: "windows 11", version: "10.0", arch: "amd64", family: "windows"
-```
 
-**Discrepancia registrada:** el perfil declarado para P01 pide Maven 3.9.9;
-el ambiente de preparacion usado para verificar esta entrega tenia
-disponible Maven 3.8.7. Ambas versiones ejecutan el mismo ciclo de vida
-estandar (validar, compilar, probar, empaquetar) y el `pom.xml` no depende
-de caracteristicas exclusivas de 3.9.x, por lo que la construccion es
-equivalente; aun asi, quien reproduzca este proyecto con Maven 3.9.9 deberia
-confirmarlo con su propio `mvn -version` antes de reportar un resultado.
-
-## 2. Clonar el repositorio
-
-```bash
-git clone <https://github.com/byDiegoRV/P01_RoldanVivanco_DiegoNoe>
+Apache Maven 3.9.13
+El proyecto utiliza JDK 11 como versión de referencia.
+Maven
+El perfil declarado para P01 utiliza Maven 3.9.9. El proyecto utiliza únicamente el ciclo de vida estándar de Maven:
+•	Validar
+•	Compilar
+•	Probar
+•	Empaquetar
+El pom.xml no depende de características exclusivas de una versión específica de Maven 3.9.x.
+________________________________________
+2. Clonar el repositorio
+git clone https://github.com/byDiegoRV/P01_RoldanVivanco_DiegoNoe
 cd tcsw-ventas
-```
-
-https://github.com/byDiegoRV/P01_RoldanVivanco_DiegoNoe
-
-## 3. Compilar y ejecutar las pruebas
-
-```bash
+________________________________________
+3. Compilar y ejecutar las pruebas
+Ejecutar:
 mvn clean test
-```
-
-Resultado esperado: `BUILD SUCCESS` y un resumen con **0 fallas y 0
-errores** sobre las pruebas de `ProductoTest`.
-
-También puede usarse el script de comprobacion reproducible que exige la
-guia de la actividad:
-
-```bash
+Resultado esperado:
+BUILD SUCCESS
+Además, las pruebas deben finalizar con:
+Failures: 0
+Errors: 0
+Skipped: 0
+Verificación por módulo
+También puede utilizarse el script de comprobación reproducible:
 cd tcsw-ventas
-./scripts/verify-module.sh M01   # comprobacion de P01
-./scripts/verify-module.sh M02   # comprobacion de P02
-```
 
-El script registra las versiones efectivas de `java`, `javac` y `mvn`,
-ejecuta `mvn clean test` y, si la construccion termina en `BUILD SUCCESS`,
-imprime la linea `MODULO_<M01|M02>_VERIFICADO`. Si algo falla, imprime
-`MODULO_<M01|M02>_NO_VERIFICADO` y conserva el error en la salida — nunca
-declara un resultado que no se ejecuto realmente.
-
-## 4. Alternativa reproducible con Docker
-
-```bash
+./scripts/verify-module.sh M01
+./scripts/verify-module.sh M02
+./scripts/verify-module.sh M03
+El script:
+1.	Registra las versiones efectivas de java, javac y mvn.
+2.	Ejecuta mvn clean test.
+3.	Comprueba que la construcción termine correctamente.
+4.	Imprime MODULO_M01_VERIFICADO, MODULO_M02_VERIFICADO o MODULO_M03_VERIFICADO cuando corresponde.
+5.	Si algo falla, imprime MODULO_<MODULO>_NO_VERIFICADO y conserva el error en la salida.
+________________________________________
+4. Alternativa reproducible con Docker
+Para construir la imagen:
 docker build -t tcsw-ventas:p01 .
-```
-
-El build de la imagen ejecuta `mvn clean test package` como parte del
-`Dockerfile`, de forma que una imagen construida con exito ya certifica que
-el proyecto compila y las pruebas pasan en un ambiente limpio y aislado.
-
-## 5. La entidad `Producto`
-
-`Producto` modela un articulo del catalogo de ventas con:
-
-- `codigo` (String, no nulo ni en blanco)
-- `nombre` (String, no nulo ni en blanco)
-- `precio` (double, ≥ 0)
-- `existencia` (int, ≥ 0)
-
-El estado se protege mediante **encapsulamiento**: los atributos son
-privados; `codigo` y `nombre` son inmutables tras la construccion; `precio`
-y `existencia` solo pueden modificarse a traves de metodos de negocio
-(`actualizarPrecio`, `agregarExistencia`, `descontar`) que validan toda
-precondicion **antes** de modificar el objeto, de modo que un rechazo nunca
-deja el estado parcialmente modificado. Esto evita que el objeto quede en un
-estado inconsistente (precios o existencias negativas, codigos vacios,
-etc.).
-
-Siguiendo el contrato descrito en M01 para `descontar(cantidad)`, la clase
-distingue el tipo de excepcion segun la causa del rechazo:
-
-- `IllegalArgumentException` — el argumento en si mismo es invalido
-  (por ejemplo, `cantidad <= 0`, o los datos del constructor).
-- `IllegalStateException` — el argumento es valido pero la operacion es
-  imposible por el estado actual del objeto (por ejemplo, descontar mas
-  cantidad de la existencia disponible).
-
-## 6. Modelo de dominio P02: `Venta` y `DetalleVenta`
-
-```mermaid
+El Dockerfile ejecuta:
+mvn clean test package
+Como resultado, una construcción exitosa de la imagen confirma que el proyecto puede compilarse y ejecutar sus pruebas dentro de un ambiente limpio y aislado.
+________________________________________
+5. La entidad Producto
+Producto modela un artículo del catálogo de ventas con las siguientes propiedades:
+•	codigo — String, no nulo ni vacío.
+•	nombre — String, no nulo ni vacío.
+•	precio — double, mayor o igual que 0.
+•	existencia — int, mayor o igual que 0.
+Encapsulamiento
+El estado del objeto se protege mediante encapsulamiento:
+•	Los atributos son privados.
+•	codigo y nombre son inmutables después de la construcción.
+•	precio y existencia solo pueden modificarse mediante métodos de negocio.
+•	Las operaciones validan sus precondiciones antes de modificar el estado.
+Los principales métodos de negocio son:
+actualizarPrecio(...)
+agregarExistencia(...)
+descontar(...)
+precioConDescuento(...)
+De esta manera, un rechazo nunca deja al objeto en un estado parcialmente modificado.
+Excepciones
+Para descontar(cantidad) se distinguen las causas del rechazo.
+IllegalArgumentException
+Se utiliza cuando el argumento proporcionado es inválido.
+Ejemplos:
+•	cantidad <= 0
+•	Código nulo o vacío.
+•	Nombre nulo o vacío.
+•	Precio negativo.
+•	Existencia negativa.
+IllegalStateException
+Se utiliza cuando el argumento es válido, pero la operación no puede realizarse debido al estado actual del objeto.
+Ejemplo:
+descontar más unidades que la existencia disponible
+________________________________________
+6. Modelo de dominio P02: Venta y DetalleVenta
 classDiagram
-  class Producto {
-    -codigo String
-    -nombre String
-    -precio double
-    -existencia int
-    +descontar(cantidad)
-    +actualizarPrecio(nuevoPrecio)
-  }
-  class DetalleVenta {
-    -producto Producto
-    -cantidad int
-    -precioUnitario double
-    +subtotal() double
-  }
-  class Venta {
-    -folio String
-    -detalles List~DetalleVenta~
-    +agregarPartida(producto, cantidad)
-    +calcularTotal() double
-  }
-  Venta "1" *-- "many" DetalleVenta : compone
-  DetalleVenta "many" --> "1" Producto : referencia
-```
+    class Producto {
+        -codigo String
+        -nombre String
+        -precio double
+        -existencia int
+        +descontar(cantidad)
+        +actualizarPrecio(nuevoPrecio)
+        +precioConDescuento(porcentaje)
+    }
 
-**`DetalleVenta` — objeto de valor.** Representa una linea del ticket:
-producto, cantidad y precio unitario **congelado** en el momento de la
-venta (no consulta el precio actual del catalogo, para que un cambio de
-precio posterior no altere retroactivamente una venta ya realizada). Dos
-instancias son iguales si tienen el mismo producto, cantidad y precio —
-no tiene un identificador propio.
+    class DetalleVenta {
+        -producto Producto
+        -cantidad int
+        -precioUnitario double
+        +subtotal() double
+    }
 
-**`Venta` — entidad con identidad.** Se identifica por su `folio`; dos
-ventas son "la misma" si comparten folio, aunque sus detalles lleguen a
-diferir. `Venta` **compone** sus `DetalleVenta`: la lista vive dentro de la
-venta y se expone como no modificable (`Collections.unmodifiableList`) para
-no romper el encapsulamiento. Al `agregarPartida(producto, cantidad)`, la
-venta reutiliza `Producto.descontar(cantidad)` (de P01) para validar
-cantidad y existencia **antes** de registrar el detalle, de modo que una
-partida rechazada nunca deja la venta ni el producto parcialmente
-modificados.
+    class Venta {
+        -folio String
+        -detalles List~DetalleVenta~
+        +agregarPartida(producto, cantidad)
+        +calcularTotal() double
+    }
 
-## 7. Pruebas automatizadas
-
-`ProductoTest` (JUnit 5) incluye:
-
-- **Casos positivos**: creacion valida, precio/existencia en cero,
-  actualizacion de precio, alta de existencia y descuento de existencia
-  dentro de los limites permitidos.
-- **Casos negativos / limite**: rechazo de codigo nulo o en blanco, nombre
-  nulo, precio negativo, existencia negativa, actualizacion de precio con
-  valor negativo, descuento con cantidad no positiva (`IllegalArgumentException`),
-  descuento mayor que la existencia disponible (`IllegalStateException`) y
-  alta de existencia con cantidad no positiva.
-- **Preservacion de estado tras un rechazo**: tres pruebas dedicadas
-  confirman explicitamente que, tras un `descontar` o `actualizarPrecio`
-  rechazado, `getExistencia()` / `getPrecio()` no cambiaron — no basta con
-  recibir la excepcion esperada, se comprueba que el objeto no quedo
-  parcialmente modificado.
-
-`DetalleVentaTest` (JUnit 5) incluye:
-
-- **Casos positivos**: creacion valida, calculo de subtotal, precio
-  unitario en cero, el precio queda congelado aunque el producto cambie
-  despues, e igualdad entre dos detalles con los mismos datos.
-- **Casos negativos**: rechazo de producto nulo, cantidad cero o negativa,
-  y precio unitario negativo.
-
-`VentaTest` (JUnit 5) incluye:
-
-- **Casos positivos**: venta vacia con total en cero, `agregarPartida`
-  descuenta existencia del producto, registra el detalle con el precio
-  congelado, `calcularTotal` suma varias partidas correctamente, el precio
-  de una partida no cambia si el producto cambia despues, y dos ventas con
-  el mismo folio son iguales.
-- **Casos negativos / limite**: folio nulo o en blanco, producto nulo,
-  cantidad no positiva, y **cantidad mayor a la existencia disponible**
-  (`IllegalStateException`, reutilizando la regla de `Producto.descontar`).
-- **Preservacion de estado tras un rechazo**: una partida rechazada no
-  modifica ni la existencia del producto ni la lista de detalles de la
-  venta.
-- **Encapsulamiento**: `getDetalles()` regresa una lista no modificable;
-  intentar mutarla desde afuera lanza `UnsupportedOperationException`.
-
-En total, **39 pruebas** (17 de `Producto` + 9 de `DetalleVenta` + 13 de
-`Venta`), todas verificadas en verde antes de esta entrega.
-
-## 8. Analisis estatico con SonarQube (P02)
-
-Este proyecto se analiza con SonarQube/SonarLint como parte de la
-comprobacion de calidad de P02. La ejecucion del analisis y la revision de
-hallazgos corresponden a cada estudiante; esta seccion documenta como
-reproducirlo.
-
-*(Completar por el estudiante: version de Sonar usada, comando o boton de
-analisis ejecutado, resumen de hallazgos — bugs, code smells,
-vulnerabilidades, cobertura — y para cada hallazgo relevante, si se
-corrigio o se justifica por que se deja como esta.)*
-
-## 9. Bitacora de verificacion (saber axiologico)
-
-- Ambiente usado para verificar esta entrega: JDK 25 (OpenJDK),
-  Apache Maven 3.8.7 (perfil declarado: 3.9.9 — ver discrepancia registrada
-  en la seccion 1), Git 2.43.0.
-- Comando ejecutado: `mvn test` (compilacion de `main` y `test`, mas
-  ejecucion de Surefire). El goal `clean` de `mvn clean test` no pudo
-  completarse en el entorno de preparacion por una dependencia transitiva
-  ausente en su repositorio Maven local sin acceso pleno a internet; como
-  equivalente funcional se elimino manualmente `target/` antes de compilar.
-  Vease `evidencia/P01_EVIDENCIA.md` para el detalle declarado como
-  **NO_VERIFICADO** de ese paso especifico.
-- Resultado real obtenido: `Tests run: 17, Failures: 0, Errors: 0, Skipped: 0`
-  — **VERIFICADO**.
-- El `Dockerfile` se entrega como ambiente reproducible adicional pero **no
-  se construyo** en el entorno restringido usado para preparar esta entrega
-  (sin acceso a un daemon Docker) — declarado como **PENDIENTE** de
-  verificacion por quien clone el repositorio con Docker disponible.
-- No se incluyen credenciales, datos personales ni rutas privadas en este
-  repositorio.
-
-**P02 — a completar por el estudiante con su propia ejecucion:**
-
-- 
-- Comando ejecutado:`mvn clean test`
-  `./scripts/verify-module.sh M02`
-  
-- Resultado real obtenido: *[INFO] -------------------------------------------------------
-[INFO]  T E S T S
-[INFO] -------------------------------------------------------
-[INFO] Running mx.uv.tcsw.ventas.DetalleVentaTest
-[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.046 s - in mx.uv.tcsw.ventas.DetalleVentaTest
-[INFO] Running mx.uv.tcsw.ventas.ProductoTest
-[INFO] Tests run: 17, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.006 s - in mx.uv.tcsw.ventas.ProductoTest
-[INFO] Running mx.uv.tcsw.ventas.VentaTest
-[INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.013 s - in mx.uv.tcsw.ventas.VentaTest
-[INFO]
-[INFO] Results:
-[INFO]
-[INFO] Tests run: 39, Failures: 0, Errors: 0, Skipped: 0
-[INFO]
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD SUCCESS
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time:  2.963 s
-[INFO] Finished at: 2026-08-24T20:55:47-06:00
-[INFO] ------------------------------------------------------------------------
-
-
-[INFO] Scanning for projects...
-[INFO]
-[INFO] -----------------------< mx.uv.tcsw:tcsw-ventas >-----------------------
-[INFO] Building tcsw-ventas 1.0.0
-[INFO]   from pom.xml
-[INFO] --------------------------------[ jar ]---------------------------------
-[INFO]
-[INFO] --- clean:3.2.0:clean (default-clean) @ tcsw-ventas ---
-[INFO] Deleting C:\Users\vivar\tcsw-ventas\target
-[INFO]
-[INFO] --- resources:3.4.0:resources (default-resources) @ tcsw-ventas ---
-[INFO] skip non existing resourceDirectory C:\Users\vivar\tcsw-ventas\src\main\resources
-[INFO]
-[INFO] --- compiler:3.10.1:compile (default-compile) @ tcsw-ventas ---
-[INFO] Changes detected - recompiling the module!
-[INFO] Compiling 3 source files to C:\Users\vivar\tcsw-ventas\target\classes
-[INFO]
-[INFO] --- resources:3.4.0:testResources (default-testResources) @ tcsw-ventas ---
-[INFO] skip non existing resourceDirectory C:\Users\vivar\tcsw-ventas\src\test\resources
-[INFO]
-[INFO] --- compiler:3.10.1:testCompile (default-testCompile) @ tcsw-ventas ---
-[INFO] Changes detected - recompiling the module!
-[INFO] Compiling 3 source files to C:\Users\vivar\tcsw-ventas\target\test-classes
-[INFO]
-[INFO] --- surefire:2.22.2:test (default-test) @ tcsw-ventas ---
-[INFO]
-[INFO] -------------------------------------------------------
-[INFO]  T E S T S
-[INFO] -------------------------------------------------------
-[INFO] Running mx.uv.tcsw.ventas.DetalleVentaTest
-[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.051 s - in mx.uv.tcsw.ventas.DetalleVentaTest
-[INFO] Running mx.uv.tcsw.ventas.ProductoTest
-[INFO] Tests run: 17, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.011 s - in mx.uv.tcsw.ventas.ProductoTest
-[INFO] Running mx.uv.tcsw.ventas.VentaTest
-[INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.015 s - in mx.uv.tcsw.ventas.VentaTest
-[INFO]
-[INFO] Results:
-[INFO]
-[INFO] Tests run: 39, Failures: 0, Errors: 0, Skipped: 0
-[INFO]
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD SUCCESS
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time:  3.478 s
-[INFO] Finished at: 2026-08-25T20:40:15-06:00
-[INFO] ------------------------------------------------------------------------
-
-
-== Resultado ==
+    Venta "1" *-- "many" DetalleVenta : compone
+    DetalleVenta "many" --> "1" Producto : referencia
+DetalleVenta
+DetalleVenta es un objeto de valor que representa una línea del ticket.
+Contiene:
+•	Producto.
+•	Cantidad.
+•	Precio unitario.
+El precio unitario queda congelado en el momento de la venta. Esto evita que un cambio posterior en el precio del catálogo modifique retroactivamente una venta ya realizada.
+Dos instancias de DetalleVenta son iguales cuando contienen el mismo:
+•	Producto.
+•	Cantidad.
+•	Precio unitario.
+No posee un identificador propio.
+Venta
+Venta es una entidad con identidad.
+Su identidad está determinada por:
+folio
+Dos ventas con el mismo folio representan la misma entidad, aunque sus detalles puedan ser diferentes.
+Venta compone sus objetos DetalleVenta. La lista de detalles pertenece a la venta y se expone como no modificable mediante:
+Collections.unmodifiableList(...)
+Al ejecutar:
+agregarPartida(producto, cantidad)
+la venta reutiliza:
+Producto.descontar(cantidad)
+Esto permite validar la cantidad y la existencia antes de registrar el detalle.
+Por lo tanto, una partida rechazada no modifica parcialmente:
+•	La existencia del producto.
+•	La lista de detalles de la venta.
+________________________________________
+7. SonarQube — P02
+Como parte de P02 se realizó el análisis de calidad utilizando SonarQube Community Edition.
+Resultado
 MODULO_M02_VERIFICADO
+Resultado de SonarQube: VERIFICADO.
+Primera ejecución
+La primera ejecución detectó:
+5 hallazgos Code Smell
+0 Bugs
+0 Vulnerabilities
+Los hallazgos fueron:
+•	4 hallazgos Major: relacionados con lambdas de assertThrows que contenían más de una invocación que podía lanzar una excepción. Estos fueron corregidos extrayendo las operaciones necesarias fuera del lambda y dejando una sola invocación dentro de assertThrows.
+•	1 hallazgo Info: relacionado con la regla java:S1135, provocado por la detección de la cadena "TODO" dentro de la palabra "todos". Este hallazgo fue justificado como falso positivo, ya que no existía ningún comentario TODO pendiente en el código.
+Segunda ejecución
+Después de realizar las correcciones se ejecutó nuevamente el análisis:
+ANALYSIS SUCCESSFUL
+0 issues abiertos
+Quality Gate: Passed
+Resultado final: VERIFICADO.
+El análisis confirmó que los hallazgos detectados inicialmente fueron atendidos y que el proyecto cumplió con el Quality Gate de SonarQube.
+________________________________________
+8. Ramas y resolución de un conflicto — P03
+Para practicar el flujo de trabajo con ramas se agregó el método:
+precioConDescuento(double porcentaje)
+Este método calcula el precio aplicando un porcentaje de descuento sin modificar el precio real del producto.
+Ramas utilizadas
+Se creó una rama base:
+rama-base
+A partir de ella se crearon:
+rama-descuento-resta
+rama-descuento-factor
+Cada rama implementó el mismo método de una manera diferente.
+rama-descuento-resta
+Calcula primero el descuento y posteriormente lo resta del precio:
+precio - descuento
+Además, valida que el porcentaje se encuentre entre:
+0 y 100
+rama-descuento-factor
+Utiliza un factor multiplicador:
+precio * (1 - porcentaje / 100)
+Esta versión inicialmente no validaba correctamente el límite superior de 100.
+Conflicto
+Al fusionar las dos ramas sobre rama-base, Git generó un conflicto real en:
+Producto.java
+con los marcadores:
+<<<<<<<
+=======
+>>>>>>>
+Resolución
+Se conservó la implementación de rama-descuento-resta, debido a que validaba correctamente el porcentaje máximo permitido.
+La implementación de rama-descuento-factor tenía un defecto: con un porcentaje mayor a 100, por ejemplo:
+150%
+el resultado podía ser negativo.
+Ambas fórmulas producen el mismo resultado matemático para porcentajes válidos, por lo que la decisión se tomó para conservar la validación correcta.
+Después de resolver el conflicto:
+•	Se ejecutaron nuevamente las pruebas.
+•	Se agregaron pruebas para precioConDescuento.
+•	Se verificaron los límites 0 y 100.
+•	Se verificaron los porcentajes inválidos.
+Historial
+El historial resultante se puede consultar mediante:
+git log --graph --oneline --all
+Ejemplo:
+*   <commit> (rama-base) Agrega pruebas para precioConDescuento...
+*   <commit> Resuelve conflicto en precioConDescuento:
+|           conserva validación de límite superior (0-100)
+|\
+| * <commit> (rama-descuento-factor)
+|           Agrega precioConDescuento (versión factor) en Producto
+* | <commit> (rama-descuento-resta)
+|           Agrega precioConDescuento (versión resta) en Producto
+|/
+* <commit> (master) ...
+El punto de entrega final de P03 queda marcado con:
+v0.3.0
+sobre master, después de fusionar rama-base.
+________________________________________
+9. Pruebas automatizadas
+El proyecto utiliza JUnit 5.
+ProductoTest
+Incluye casos positivos como:
+•	Creación válida.
+•	Precio en cero.
+•	Existencia en cero.
+•	Actualización de precio.
+•	Alta de existencia.
+•	Descuento de existencia dentro de los límites permitidos.
+•	precioConDescuento con un porcentaje normal.
+•	precioConDescuento(0).
+•	precioConDescuento(100).
+También incluye casos negativos:
+•	Código nulo o vacío.
+•	Nombre nulo.
+•	Precio negativo.
+•	Existencia negativa.
+•	Actualización con precio negativo.
+•	Descuento con cantidad no positiva.
+•	Descuento mayor que la existencia disponible.
+•	Alta de existencia con cantidad no positiva.
+•	Porcentaje de descuento negativo.
+•	Porcentaje de descuento mayor que 100.
+También existen pruebas para comprobar que, después de una operación rechazada, el estado del objeto permanece sin modificaciones.
+________________________________________
+DetalleVentaTest
+Incluye pruebas para:
+•	Creación válida.
+•	Cálculo del subtotal.
+•	Precio unitario igual a cero.
+•	Congelamiento del precio unitario.
+•	Igualdad entre detalles con los mismos datos.
+•	Producto nulo.
+•	Cantidad cero.
+•	Cantidad negativa.
+•	Precio unitario negativo.
+________________________________________
+VentaTest
+Incluye pruebas para:
+•	Venta vacía con total igual a cero.
+•	agregarPartida.
+•	Descuento de existencia del producto.
+•	Registro del detalle.
+•	Congelamiento del precio.
+•	Cálculo correcto de varias partidas.
+•	Igualdad de ventas con el mismo folio.
+•	Folio nulo o vacío.
+•	Producto nulo.
+•	Cantidad no positiva.
+•	Cantidad superior a la existencia disponible.
+•	Preservación del estado después de un rechazo.
+•	Encapsulamiento de la lista de detalles.
+getDetalles() devuelve una lista no modificable. Intentar modificarla desde fuera genera:
+UnsupportedOperationException
+Resultado de pruebas
+El proyecto cuenta con:
+44 pruebas
+Distribuidas de la siguiente manera:
+22 ProductoTest
+9  DetalleVentaTest
+13 VentaTest
+Todas las pruebas fueron verificadas correctamente.
+________________________________________
+10. Análisis estático con SonarQube — P03
+  -Dsonar.host.url=http://localhost:9000 \
+  -Dsonar.login=< sqa_bf12a565ff78538d340bc701b3728b811ecfaac4 >
+El token debe ser personal y no debe incluirse en el repositorio.
+Análisis inicial
+En P03, la primera ejecución presentó:
+Quality Gate: Failed
+La condición que falló fue:
+Coverage on New Code is less than 80.0%
+El proyecto todavía no tenía configurado un reporte de cobertura, por lo que SonarQube no podía determinar correctamente el porcentaje de código nuevo cubierto por pruebas.
+Para solucionarlo se agregó:
+jacoco-maven-plugin
+al pom.xml.
+El reporte generado se encuentra en:
+target/site/jacoco/jacoco.xml
+Esta es una de las rutas que SonarQube busca para obtener información de cobertura.
+Resultado final
+Después de ejecutar nuevamente el análisis con el reporte de cobertura disponible:
+Quality Gate: Passed
+All conditions passed
+Además:
+0 Bugs
+0 Vulnerabilities
+0 Security Hotspots nuevos
+El análisis terminó correctamente:
+ANALYSIS SUCCESSFUL
+Resultado: VERIFICADO.
+________________________________________
+11. Bitácora de verificación
+P01
+Ambiente
+JDK 11.0.31
+Apache Maven 3.8.7
+Git 2.43.0
+El perfil declarado para P01 utiliza:
+Java 11
+Maven 3.9.9
+Comando
+mvn test
+El objetivo clean de mvn clean test no pudo completarse en el entorno de preparación debido a una dependencia transitiva ausente en el repositorio Maven local y a la falta de acceso completo a Internet.
+Como equivalente funcional se eliminó manualmente target/ antes de compilar.
+Resultado obtenido:
+Tests run: 17
+Failures: 0
+Errors: 0
+Skipped: 0
+Estado: VERIFICADO
+El detalle específico de este punto se encuentra documentado en:
+evidencia/P01_EVIDENCIA.md
+El paso específico de clean queda declarado como NO_VERIFICADO.
+Docker
+El Dockerfile se entrega como ambiente reproducible adicional, pero no fue construido en el entorno restringido utilizado para preparar la entrega debido a la ausencia de un daemon Docker.
+Estado: PENDIENTE de verificación en un ambiente con Docker disponible.
+________________________________________
+P02
+Ambiente
+JDK 11
+Windows 11
+Apache Maven
+SonarQube Server 9.9.8.100196
+Docker
+Comandos
+Pruebas:
+mvn clean test
+Análisis de calidad:
+mvn clean verify \
+  org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+  -Dsonar.projectKey=tcsw-ventas \
+  -Dsonar.host.url=http://localhost:9000 \
+  -Dsonar.login=<TOKEN>
+Resultado
+MODULO_M02_VERIFICADO
+Pruebas:
+Tests run: 39
+Failures: 0
+Errors: 0
+Skipped: 0
 
+BUILD SUCCESS
+Estado: VERIFICADO
+SonarQube
+Primera ejecución:
+5 hallazgos Code Smell
+0 Bugs
+0 Vulnerabilities
+Se corrigieron:
+4 hallazgos Major
+relacionados con lambdas de assertThrows que contenían más de una invocación.
+El hallazgo restante:
+1 hallazgo Info
+fue justificado como falso positivo, debido a la detección de "TODO" dentro de la palabra "todos".
+Segunda ejecución:
+ANALYSIS SUCCESSFUL
+0 issues abiertos
+Quality Gate: Passed
+Resultado de SonarQube: VERIFICADO.
+________________________________________
+P03
+Ambiente
+JDK 11.0.32
+Windows 11
+Apache Maven 3.9.13
+SonarQube Server 9.9.8.100196
+Docker
+Pruebas
+Se ejecutó:
+mvn clean test
+en:
+rama-base
+y posteriormente en:
+master
+después de la fusión.
+Resultado
+Tests run: 44
+Failures: 0
+Errors: 0
+Skipped: 0
 
-- Resultado de SonarQube: **VERIFICADO**. Primera ejecucion: 5 hallazgos
-  Code Smell (0 Bugs, 0 Vulnerabilities) — 4 Major corregidos (lambdas de
-  `assertThrows` con mas de una invocacion) y 1 Info justificado como falso
-  positivo (deteccion de "TODO" dentro de la palabra "todos"). Segunda
-  ejecucion: 0 issues abiertos, Quality Gate: Passed 
+BUILD SUCCESS
+Estado: VERIFICADO
+Conflicto de Git
+El conflicto de ramas fue provocado y resuelto de forma real mediante Git utilizando los marcadores:
+<<<<<<<
+=======
+>>>>>>>
+La resolución se documenta en la sección correspondiente de P03.
+Estado: VERIFICADO
+SonarQube
+La primera ejecución presentó:
+Quality Gate: Failed
+debido a que no se había configurado previamente el reporte de cobertura.
+Después de agregar JaCoCo y ejecutar nuevamente el análisis:
+Quality Gate: Passed
+0 issues nuevos
+Estado: VERIFICADO
+Ramas y etiqueta
+Las ramas utilizadas fueron:
+rama-base
+rama-descuento-resta
+rama-descuento-factor
+Finalmente:
+master
+fue actualizado mediante la fusión y etiquetado con:
+v0.3.0
+Estado: VERIFICADO
+________________________________________
+12. Resumen final
+El proyecto tcsw-ventas integra los entregables correspondientes a P01, P02 y P03:
+Módulo / herramienta	Descripción	Estado
+P01	Ambiente Java 11 y entidad Producto	✅ Verificado
+P02	Venta y DetalleVenta	✅ Verificado
+P02 — SonarQube	5 hallazgos iniciales, correcciones y Quality Gate Passed	✅ Verificado
+P03	Ramas, conflicto, descuento y calidad	✅ Verificado
+JUnit 5	Pruebas automatizadas	✅ 44 pruebas
+JaCoCo	Cobertura de código	✅ Configurado
+SonarQube	Análisis estático	✅ Quality Gate Passed
+Git	Ramas y resolución de conflicto	✅ Verificado
+Versión de Java
+El proyecto utiliza Java 11 como versión de referencia y compilación:
+<release>11</release>
+Las verificaciones documentadas utilizan JDK 11.
+________________________________________
+Estado general
+P01  → VERIFICADO
+P02  → VERIFICADO
+P03  → VERIFICADO
+
+Java → 11
+Tests → 44/44
+SonarQube → Quality Gate Passed
+Git → Conflicto provocado y resuelto
+Tag → v0.3.0
+
