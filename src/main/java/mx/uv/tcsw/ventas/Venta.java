@@ -3,6 +3,7 @@ package mx.uv.tcsw.ventas;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 /**
@@ -78,6 +79,19 @@ public final class Venta {
     }
 
     /**
+     * Elimina una partida de la venta si se encuentra presente.
+     *
+     * @param detalle la partida a eliminar, puede ser nula
+     * @return {@code true} si la partida estaba presente y fue eliminada; {@code false} de lo contrario
+     */
+    public boolean eliminarPartida(DetalleVenta detalle) {
+        if (detalle == null) {
+            return false;
+        }
+        return this.detalles.remove(detalle);
+    }
+
+    /**
      * Calcula el total de la venta como la suma de los subtotales de todos
      * sus detalles.
      *
@@ -89,6 +103,15 @@ public final class Venta {
             total += detalle.subtotal();
         }
         return total;
+    }
+
+    /**
+     * Devuelve el total formateado a dos decimales asegurando el punto decimal.
+     *
+     * @return representación en cadena del total con formato numérico estándar
+     */
+    public String totalFormateado() {
+        return String.format(Locale.US, "%.2f", calcularTotal());
     }
 
     @Override
@@ -116,20 +139,6 @@ public final class Venta {
                 ", total=" + calcularTotal() +
                 '}';
     }
-
-   public boolean eliminarPartida(DetalleVenta detalle) {
-        if (detalle == null) {
-            return false;
-        }
-        return this.detalles.remove(detalle);
-    }
-}
-=======
-
-    public String totalFormateado() 
-{
-    return String.format(java.util.Locale.US, "$%.2f", calcularTotal());
-}
 }
 
 

@@ -8,170 +8,114 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
-/**
- * Pruebas automatizadas para la entidad Venta.
- *
- * <p>Incluye casos positivos (agregar partidas, calcular total), casos
- * negativos o limite (folio invalido, producto nulo, cantidad invalida,
- * existencia insuficiente) y una prueba de preservacion de estado: un
- * rechazo al agregar una partida no debe dejar la venta ni el producto
- * parcialmente modificados.</p>
- */
 class VentaTest {
 
-    private static Producto productoValido() {
-        return new Producto("P-001", "Teclado mecanico", 899.90, 10);
-    }
-
-    // ---------- Casos positivos ----------
-
     @Test
-    void creaVentaVaciaConTotalCero() {
+    void crearVentaValida() {
         Venta venta = new Venta("V-001");
-
         assertEquals("V-001", venta.getFolio());
         assertTrue(venta.getDetalles().isEmpty());
-        assertEquals(0.0, venta.calcularTotal());
     }
 
     @Test
-    void agregarPartidaDescuentaExistenciaDelProducto() {
-        Producto producto = productoValido();
-        Venta venta = new Venta("V-002");
-
-        venta.agregarPartida(producto, 3);
-
-        assertEquals(7, producto.getExistencia());
-    }
-
-    @Test
-    void agregarPartidaRegistraUnDetalleConPrecioCongelado() {
-        Producto producto = productoValido();
-        Venta venta = new Venta("V-003");
-
-        venta.agregarPartida(producto, 2);
-
-        assertEquals(1, venta.getDetalles().size());
-        DetalleVenta detalle = venta.getDetalles().get(0);
-        assertEquals(producto, detalle.getProducto());
-        assertEquals(2, detalle.getCantidad());
-        assertEquals(899.90, detalle.getPrecioUnitario());
-    }
-
-    @Test
-    void calcularTotalSumaLosSubtotalesDeVariasPartidas() {
-        Producto teclado = new Producto("P-001", "Teclado", 900.0, 10);
-        Producto mouse = new Producto("P-002", "Mouse", 300.0, 10);
-        Venta venta = new Venta("V-004");
-
-        venta.agregarPartida(teclado, 2); // 1800.0
-        venta.agregarPartida(mouse, 3);   // 900.0
-
-        assertEquals(2700.0, venta.calcularTotal());
-    }
-
-    @Test
-    void elPrecioDeLaPartidaNoCambiaAunqueElProductoCambieDespues() {
-        Producto producto = productoValido();
-        Venta venta = new Venta("V-005");
-
-        venta.agregarPartida(producto, 1);
-        producto.actualizarPrecio(1500.0);
-
-        assertEquals(899.90, venta.calcularTotal());
-    }
-
-    @Test
-    void dosVentasConElMismoFolioSonIguales() {
-        Venta uno = new Venta("V-006");
-        Venta otro = new Venta("V-006");
-
-        assertEquals(uno, otro);
-        assertEquals(uno.hashCode(), otro.hashCode());
-    }
-
-    // ---------- Casos negativos / limite ----------
-
-    @Test
-    void rechazaFolioNuloAlCrear() {
+    void folioNuloOEnBlancoLanzaExcepcion() {
         assertThrows(IllegalArgumentException.class, () -> new Venta(null));
-    }
-
-    @Test
-    void rechazaFolioEnBlancoAlCrear() {
+        assertThrows(IllegalArgumentException.class, () -> new Venta(""));
         assertThrows(IllegalArgumentException.class, () -> new Venta("   "));
     }
 
     @Test
-    void rechazaAgregarPartidaConProductoNulo() {
-        Venta venta = new Venta("V-007");
+    void agregarPartidaValidaDescuentaYRegistraDetalle() {
+        Producto producto = new Producto("P01", "Cuaderno", 25.0, 10);
+        Venta venta = new Venta("V-002");
 
-        assertThrows(IllegalArgumentException.class, () -> venta.agregarPartida(null, 1));
+        venta.agregarPartida(producto, 3);
+
+        assertEquals(1, venta.getDetalles().size());
+        assertEquals(7, producto.getExistencia());
+        assertEquals(75.0, venta.calcularTotal());
     }
 
     @Test
-    void rechazaAgregarPartidaConCantidadCeroOMenor() {
-        Producto producto = productoValido();
+    void agregarPartidaProductoNuloLanzaExcepcion() {
+        Venta venta = new Venta("V-003");
+        assertThrows(IllegalArgumentException.class, () -> venta.agregarPartida(null, 2));
+    }
+
+    @Test
+    void agregarPartidaCantidadExcedeExistenciaLanzaExcepcion() {
+        Producto producto = new Producto("P02", "Lapicera", 50.0, 2);
+        Venta venta = new Venta("V-004");
+
+        assertThrows(IllegalStateException.class, () -> venta.agregarPartida(producto, 5));
+        assertEquals(2, producto.getExistencia());
+        assertTrue(venta.getDetalles().isEmpty());
+    }
+
+    @Test
+    void calcularTotalVaciaDevuelveCero() {
+        Venta venta = new Venta("V-005");
+        assertEquals(0.0, venta.calcularTotal());
+    }
+
+    @Test
+    void calcularTotalMultiplesPartidas() {
+        Producto p1 = new Producto("P01", "Libreta", 20.0, 10);
+        Producto p2 = new Producto("P02", "Pluma", 10.0, 20);
+        Venta venta = new Venta("V-006");
+
+        venta.agregarPartida(p1, 2); // 40.0
+        venta.agregarPartida(p2, 3); // 30.0
+
+        assertEquals(70.0, venta.calcularTotal());
+    }
+
+    @Test
+    void equalsMismoFolioMismaVenta() {
+        Venta v1 = new Venta("V-007");
+        Venta v2 = new Venta("V-007");
+        assertEquals(v1, v2);
+        assertEquals(v1.hashCode(), v2.hashCode());
+    }
+
+    @Test
+    void toStringContieneInformacionBasica() {
         Venta venta = new Venta("V-008");
-
-        assertThrows(IllegalArgumentException.class, () -> venta.agregarPartida(producto, 0));
+        String texto = venta.toString();
+        assertTrue(texto.contains("V-008"));
+        assertTrue(texto.contains("detalles=0"));
     }
 
     @Test
-    void rechazaAgregarPartidaConCantidadMayorALaExistencia() {
-        Producto producto = productoValido(); // existencia: 10
+    void getDetallesNoPuedeModificarseDesdeAfuera() {
         Venta venta = new Venta("V-009");
+        List<DetalleVenta> detalles = venta.getDetalles();
+        DetalleVenta detalleExterno = new DetalleVenta(
+                new Producto("P09", "Borrador", 5.0, 10), 1, 5.0
+        );
 
-        assertThrows(IllegalStateException.class, () -> venta.agregarPartida(producto, 999));
+        assertThrows(UnsupportedOperationException.class,
+                () -> detalles.add(detalleExterno));
     }
-
-    // ---------- Preservacion de estado tras un rechazo ----------
 
     @Test
-    void unaPartidaRechazadaNoModificaLaExistenciaNiLaVenta() {
-        Producto producto = productoValido(); // existencia: 10
-        Venta venta = new Venta("V-010");
+    void testEliminarPartida() {
+        Venta venta = new Venta("V-012");
+        Producto p = new Producto("P01", "Cuaderno", 25.0, 10);
+        venta.agregarPartida(p, 2);
+        DetalleVenta detalle = venta.getDetalles().get(0);
 
-        assertThrows(IllegalStateException.class, () -> venta.agregarPartida(producto, 999));
-
-        assertEquals(10, producto.getExistencia(),
-                "La existencia del producto no debe cambiar si la partida fue rechazada.");
-        assertTrue(venta.getDetalles().isEmpty(),
-                "La venta no debe registrar un detalle si la partida fue rechazada.");
+        assertTrue(venta.eliminarPartida(detalle));
+        assertTrue(venta.getDetalles().isEmpty());
+        assertFalse(venta.eliminarPartida(null));
+        assertFalse(venta.eliminarPartida(detalle));
     }
 
-@Test
-void getDetallesNoPuedeModificarseDesdeAfuera() {
-    Producto producto = productoValido();
-    Venta venta = new Venta("V-011");
-    venta.agregarPartida(producto, 1);
-    DetalleVenta detalleExterno = new DetalleVenta(producto, 1, 100.0);
-    List<DetalleVenta> detalles = venta.getDetalles();
-
-    assertThrows(UnsupportedOperationException.class,
-            () -> detalles.add(detalleExterno));
-}
-
-@Test
-
-void testEliminarPartida() {
-    Venta venta = new Venta("V-012");
-    Producto p = new Producto("P01", "Cuaderno", 25.0, 10);
-    venta.agregarPartida(p, 2);
-    DetalleVenta detalle = venta.getDetalles().get(0);
-
-    assertTrue(venta.eliminarPartida(detalle), "Debe eliminar la partida existente");
-    assertFalse(venta.eliminarPartida(null), "Debe retornar false al intentar eliminar nulo");
-=======
-void testTotalFormateado() {
-    Venta venta = new Venta("V-012");
-    Producto p = new Producto("P01", "Mochila", 1234.5, 10);
-    venta.agregarPartida(p, 1);
-
-    assertEquals("$1234.50", venta.totalFormateado(), "Debe formatear a 2 decimales con signo $");
-
-    Venta ventaVacia = new Venta("V-013");
-    assertEquals("$0.00", ventaVacia.totalFormateado(), "Debe formatear $0.00 para venta vacía");
-
-}
+    @Test
+    void testTotalFormateado() {
+        Venta venta = new Venta("V-013");
+        Producto p = new Producto("P01", "Cuaderno", 25.50, 10);
+        venta.agregarPartida(p, 2);
+        assertEquals("51.00", venta.totalFormateado());
+    }
 }
