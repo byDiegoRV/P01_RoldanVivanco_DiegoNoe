@@ -1,7 +1,9 @@
 package mx.uv.tcsw.ventas;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -203,4 +205,13 @@ class ProductoTest {
         assertEquals(4500.0, producto.getPrecio(),
                 "Un precio invalido rechazado no debe modificar el estado.");
     }
+
+@Test
+void testEstaAgotado() {
+    Producto productoAgotado = new Producto("P01", "Goma", 10.0, 0);
+    assertTrue(productoAgotado.estaAgotado(), "Debe retornar true si no hay stock");
+
+    Producto productoConStock = new Producto("P02", "Pluma", 15.0, 5);
+    assertFalse(productoConStock.estaAgotado(), "Debe retornar false si hay stock disponible");
+}
 }

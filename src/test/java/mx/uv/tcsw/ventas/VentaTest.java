@@ -153,13 +153,13 @@ void getDetallesNoPuedeModificarseDesdeAfuera() {
 
 @Test
 void testTotalFormateado() {
-    Venta venta = new Venta();
+    Venta venta = new Venta("V-012");
     Producto p = new Producto("P01", "Mochila", 1234.5, 10);
-    venta.agregarDetalle(new DetalleVenta(p, 1));
+    venta.agregarPartida(p, 1);
 
     assertEquals("$1234.50", venta.totalFormateado(), "Debe formatear a 2 decimales con signo $");
 
-    Venta ventaVacia = new Venta();
+    Venta ventaVacia = new Venta("V-013");
     assertEquals("$0.00", ventaVacia.totalFormateado(), "Debe formatear $0.00 para venta vacía");
 }
 }
