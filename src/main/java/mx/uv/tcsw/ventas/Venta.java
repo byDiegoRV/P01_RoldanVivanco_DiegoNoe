@@ -116,4 +116,10 @@ public final class Venta {
                 ", total=" + calcularTotal() +
                 '}';
     }
+    public boolean eliminarPartida(DetalleVenta detalle) {
+    if (detalle == null || !this.detalles.contains(detalle)) {
+        return false;
+    }
+    return this.detalles.remove(detalle);
+}
 }
