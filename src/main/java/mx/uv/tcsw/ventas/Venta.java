@@ -117,9 +117,19 @@ public final class Venta {
                 '}';
     }
 
+   public boolean eliminarPartida(DetalleVenta detalle) {
+        if (detalle == null) {
+            return false;
+        }
+        return this.detalles.remove(detalle);
+    }
+}
+=======
+
     public String totalFormateado() 
 {
     return String.format(java.util.Locale.US, "$%.2f", calcularTotal());
 }
 }
+
 

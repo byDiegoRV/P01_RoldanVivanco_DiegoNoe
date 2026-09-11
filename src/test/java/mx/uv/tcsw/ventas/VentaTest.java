@@ -3,6 +3,7 @@ package mx.uv.tcsw.ventas;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
@@ -152,6 +153,16 @@ void getDetallesNoPuedeModificarseDesdeAfuera() {
 }
 
 @Test
+
+void testEliminarPartida() {
+    Venta venta = new Venta("V-012");
+    Producto p = new Producto("P01", "Cuaderno", 25.0, 10);
+    venta.agregarPartida(p, 2);
+    DetalleVenta detalle = venta.getDetalles().get(0);
+
+    assertTrue(venta.eliminarPartida(detalle), "Debe eliminar la partida existente");
+    assertFalse(venta.eliminarPartida(null), "Debe retornar false al intentar eliminar nulo");
+=======
 void testTotalFormateado() {
     Venta venta = new Venta("V-012");
     Producto p = new Producto("P01", "Mochila", 1234.5, 10);
@@ -161,5 +172,6 @@ void testTotalFormateado() {
 
     Venta ventaVacia = new Venta("V-013");
     assertEquals("$0.00", ventaVacia.totalFormateado(), "Debe formatear $0.00 para venta vacía");
+
 }
 }
