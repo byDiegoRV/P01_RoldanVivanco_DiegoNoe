@@ -116,4 +116,10 @@ public final class Venta {
                 ", total=" + calcularTotal() +
                 '}';
     }
+
+    public String totalFormateado() 
+{
+    return String.format(java.util.Locale.US, "$%.2f", calcularTotal());
 }
+}
+

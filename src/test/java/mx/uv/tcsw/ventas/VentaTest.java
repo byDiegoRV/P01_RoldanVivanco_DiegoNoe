@@ -150,4 +150,16 @@ void getDetallesNoPuedeModificarseDesdeAfuera() {
     assertThrows(UnsupportedOperationException.class,
             () -> detalles.add(detalleExterno));
 }
+
+@Test
+void testTotalFormateado() {
+    Venta venta = new Venta();
+    Producto p = new Producto("P01", "Mochila", 1234.5, 10);
+    venta.agregarDetalle(new DetalleVenta(p, 1));
+
+    assertEquals("$1234.50", venta.totalFormateado(), "Debe formatear a 2 decimales con signo $");
+
+    Venta ventaVacia = new Venta();
+    assertEquals("$0.00", ventaVacia.totalFormateado(), "Debe formatear $0.00 para venta vacía");
+}
 }
