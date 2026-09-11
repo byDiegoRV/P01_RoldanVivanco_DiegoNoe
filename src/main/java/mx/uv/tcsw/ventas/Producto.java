@@ -165,4 +165,9 @@ public final class Producto {
                 ", existencia=" + existencia +
                 '}';
     }
+    public boolean estaAgotado() {
+    return this.existencia <= 0;
 }
+}
+
+

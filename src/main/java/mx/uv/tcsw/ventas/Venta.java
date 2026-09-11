@@ -116,6 +116,7 @@ public final class Venta {
                 ", total=" + calcularTotal() +
                 '}';
     }
+
    public boolean eliminarPartida(DetalleVenta detalle) {
         if (detalle == null) {
             return false;
@@ -123,3 +124,12 @@ public final class Venta {
         return this.detalles.remove(detalle);
     }
 }
+=======
+
+    public String totalFormateado() 
+{
+    return String.format(java.util.Locale.US, "$%.2f", calcularTotal());
+}
+}
+
+
