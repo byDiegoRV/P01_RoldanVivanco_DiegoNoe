@@ -4,6 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
 
+import mx.uv.tcsw.ventas.domain.DetalleVenta;
+import mx.uv.tcsw.ventas.domain.Producto;
+
 /**
  * Pruebas automatizadas para la entidad DetalleVenta.
  *
