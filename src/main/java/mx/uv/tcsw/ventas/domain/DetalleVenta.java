@@ -1,4 +1,4 @@
-package mx.uv.tcsw.ventas;
+package mx.uv.tcsw.ventas.domain;
 
 import java.util.Objects;
 

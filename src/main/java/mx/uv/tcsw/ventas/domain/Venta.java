@@ -1,4 +1,4 @@
-package mx.uv.tcsw.ventas;
+package mx.uv.tcsw.ventas.domain;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -92,11 +92,10 @@ public final class Venta {
     }
 
     /**
-     * Calcula el total de la venta como la suma de los subtotales de todos
-     * sus detalles.
-     *
-     * @return el total de la venta; 0.0 si la venta no tiene detalles
-     */
+   * Calcula el total de la venta como la suma de los subtotales
+   * de cada uno de sus detalles.
+   */
+  
     public double calcularTotal() {
         double total = 0.0;
         for (DetalleVenta detalle : detalles) {
@@ -140,5 +139,4 @@ public final class Venta {
                 '}';
     }
 }
-
 
