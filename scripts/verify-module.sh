@@ -17,7 +17,7 @@
 
 set -euo pipefail
 
-MODULOS_VALIDOS=("M01" "M02" "M03" "M04" "M05")
+MODULOS_VALIDOS=("M01" "M02" "M03" "M04" "M05" "M06" "M07")
 MODULO="${1:-}"
 
 modulo_valido=false
