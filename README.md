@@ -508,10 +508,21 @@ Estado general
 P01  → VERIFICADO
 P02  → VERIFICADO
 P03  → VERIFICADO
+P04  → VERIFICADO
+P05  → VERIFICADO
+P06  → VERIFICADO
 
 Java → 11
 Tests → 44/44
 SonarQube → Quality Gate Passed
 Git → Conflicto provocado y resuelto
 Tag → v0.3.0
+
+## Guía de Reproducción - Corte 1 (C01)
+
+Para evaluar la entrega arquitectónica (C01), siga estos pasos:
+
+1. **Posicionarse en la versión entregable:**
+   ```bash
+   git checkout v0.1-arquitectura
 
