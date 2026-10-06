@@ -9,16 +9,18 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.WindowConstants;
 
 public class FormularioVentaView extends JFrame {
     private JTextField txtNombre;
     private JTextField txtTarjeta;
-    private JButton btnConfirmar, btnCancelar;
+    private JButton btnConfirmar;
+    private JButton btnCancelar;
 
     public FormularioVentaView() {
         setTitle("Pago y Confirmación - P07");
         setSize(350, 200);
-        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 

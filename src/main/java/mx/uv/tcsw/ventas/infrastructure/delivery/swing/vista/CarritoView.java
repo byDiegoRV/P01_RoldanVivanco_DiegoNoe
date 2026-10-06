@@ -12,17 +12,19 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
+import javax.swing.WindowConstants;
 
 public class CarritoView extends JFrame {
     private JList<String> listaCarrito;
     private DefaultListModel<String> modeloLista;
     private JLabel lblTotal;
-    private JButton btnPagar, btnVolver;
+    private JButton btnPagar;
+    private JButton btnVolver;
 
     public CarritoView() {
         setTitle("Carrito de Compras - P07");
         setSize(400, 300);
-        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE); 
+        setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         setLocationRelativeTo(null);
         
         setLayout(new BorderLayout());
