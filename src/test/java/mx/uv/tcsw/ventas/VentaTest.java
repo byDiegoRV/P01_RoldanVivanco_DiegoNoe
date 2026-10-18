@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
-import mx.uv.tcsw.ventas.application.service.PagoFactory;
 import mx.uv.tcsw.ventas.domain.DetalleVenta;
 import mx.uv.tcsw.ventas.domain.Producto;
 import mx.uv.tcsw.ventas.domain.Venta;
