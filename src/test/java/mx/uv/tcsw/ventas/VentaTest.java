@@ -12,6 +12,7 @@ import mx.uv.tcsw.ventas.domain.DetalleVenta;
 import mx.uv.tcsw.ventas.domain.Producto;
 import mx.uv.tcsw.ventas.domain.Venta;
 
+
 class VentaTest {
 
     @Test
@@ -122,4 +123,5 @@ class VentaTest {
         venta.agregarPartida(p, 2);
         assertEquals("51.00", venta.totalFormateado());
     }
+
 }

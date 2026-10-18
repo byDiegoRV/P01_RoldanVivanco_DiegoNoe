@@ -525,4 +525,28 @@ Para evaluar la entrega arquitectónica (C01), siga estos pasos:
 1. **Posicionarse en la versión entregable:**
    ```bash
    git checkout v0.1-arquitectura
+   
 
+# Sistema de Ventas - Arquitectura Limpia y Cliente Swing (Proyecto P07)
+
+Sistema de ventas modular desarrollado en Java bajo los principios de Arquitectura Limpia (Clean Architecture), Domain-Driven Design (DDD), patrones de diseño y una interfaz gráfica en Java Swing con control de calidad estricto mediante SonarQube.
+
+## 🛠️ Tecnologías y Herramientas
+* **Java 11**[cite: 1]
+* **Maven** (Gestión de proyectos y compilación)
+* **JUnit 5 & JaCoCo** (Pruebas unitarias y cobertura de código)
+* **SonarQube** (Análisis estático de código y Quality Gate)
+* **Java Swing** (Interfaz gráfica cliente)
+
+---
+
+## 📂 Estructura General del Proyecto
+El proyecto está organizado en capas independientes para garantizar la mantenibilidad y escalabilidad del software:
+
+```text
+mx.uv.tcsw.ventas
+├── application/       # Casos de uso y servicios de aplicación (Regla de negocio central)
+├── domain/            # Entidades, objetos de valor y reglas del dominio
+└── infrastructure/    # Adaptadores de entrega, persistencia y cliente Swing
+    └── delivery/
+        └── swing/     # Vistas (Catalogo, Carrito, Formulario), Controladores y Modelos

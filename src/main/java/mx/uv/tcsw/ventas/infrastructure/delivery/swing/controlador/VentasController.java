@@ -1,11 +1,16 @@
 package mx.uv.tcsw.ventas.infrastructure.delivery.swing.controlador;
 
-import mx.uv.tcsw.ventas.infrastructure.delivery.swing.vista.*;
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.logging.Logger;
 import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.swing.JOptionPane;
+import javax.swing.SwingWorker;
+
+import mx.uv.tcsw.ventas.infrastructure.delivery.swing.vista.CarritoView;
+import mx.uv.tcsw.ventas.infrastructure.delivery.swing.vista.CatalogoView;
+import mx.uv.tcsw.ventas.infrastructure.delivery.swing.vista.FormularioVentaView;
 
 public class VentasController implements ActionListener {
     private static final Logger LOGGER = Logger.getLogger(VentasController.class.getName());
@@ -69,12 +74,15 @@ public class VentasController implements ActionListener {
         String nombre = (String) catalogoView.getTablaProductos().getValueAt(filaSeleccionada, 1);
         String precioStr = (String) catalogoView.getTablaProductos().getValueAt(filaSeleccionada, 2);
         
-        carritoView.getModeloLista().addElement(nombre + " | " + precioStr);
-        
         try {
             double precio = Double.parseDouble(precioStr.replace("$", "").trim());
+            
+            // Agrupa y actualiza la lista y el total automáticamente en la vista
+            carritoView.agregarProducto(nombre, precio);
+            
+            // Sincronizamos el acumulador general del controlador
             totalCarrito += precio;
-            carritoView.setTotal("$" + String.format("%.2f", totalCarrito));
+            
         } catch (NumberFormatException ex) {
             LOGGER.log(Level.SEVERE, "Error al calcular el precio del producto", ex);
         }
@@ -119,9 +127,10 @@ public class VentasController implements ActionListener {
                 formularioView.setVisible(false);
                 carritoView.setVisible(false);
                 
-                carritoView.getModeloLista().clear();
+                // Limpiamos el carrito utilizando el método dedicado de la vista
+                carritoView.limpiarCarrito();
                 totalCarrito = 0.0;
-                carritoView.setTotal("$0.00");
+                
                 formularioView.getTxtNombre().setText("");
                 formularioView.getTxtTarjeta().setText("");
             }
