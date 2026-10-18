@@ -18,6 +18,7 @@
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.jupiter.version>5.10.1</junit.jupiter.version>
+        <sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     </properties>
 
     <dependencies>
@@ -97,7 +98,6 @@
                         <version>2.22.2</version>
                     </dependency>
                 </dependencies>
-
             </plugin>
 
         </plugins>

@@ -1,27 +1,26 @@
-package mx.uv.tcsw.ventas.adapter.in.swing;
+package mx.uv.tcsw.ventas.infrastructure.delivery.swing;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import mx.uv.tcsw.ventas.infrastructure.delivery.swing.vista.CatalogoView;
 
 class VentaFrameTest {
 
-    private VentaFrame ventaFrame;
+    private CatalogoView catalogoView;
 
     @BeforeEach
     void setUp() {
-        ventaFrame = new VentaFrame();
+        catalogoView = new CatalogoView();
     }
 
     @Test
-    @DisplayName("Debe inicializar correctamente la ventana y sus componentes")
+    @DisplayName("Debe inicializar correctamente la vista de catálogo y sus componentes")
     void testInicializacionVentana() {
-        assertNotNull(ventaFrame, "La instancia de VentaFrame no debe ser nula");
-        assertEquals("Módulo de Ventas - Cliente Swing", ventaFrame.getTitle());
+        assertNotNull(catalogoView, "La instancia de CatalogoView no debe ser nula");
     }
 
     @Test
