@@ -9,25 +9,36 @@ import java.util.Objects;
  * existencia. La clase protege sus invariantes mediante encapsulamiento:
  * los atributos son privados e inmutables desde fuera del objeto salvo por
  * metodos de negocio explicitos y validados.</p>
- *
  */
 public final class Producto {
 
+    private Integer id; // Identificador autoincrementable generado por la base de datos
     private final String codigo;
     private final String nombre;
     private double precio;
     private int existencia;
 
     /**
-     * Crea un Producto valido.
+     * Crea un Producto nuevo (sin ID asignado, ideal para inserciones).
      *
      * @param codigo     identificador unico del producto, no nulo ni en blanco
      * @param nombre     nombre descriptivo del producto, no nulo ni en blanco
      * @param precio     precio unitario, debe ser mayor o igual a cero
      * @param existencia cantidad disponible en inventario, debe ser mayor o igual a cero
-     * @throws IllegalArgumentException si algun dato viola el invariante de la clase
      */
     public Producto(String codigo, String nombre, double precio, int existencia) {
+        this.id = null;
+        this.codigo = validarTexto(codigo, "codigo");
+        this.nombre = validarTexto(nombre, "nombre");
+        this.precio = validarPrecio(precio);
+        this.existencia = validarExistencia(existencia);
+    }
+
+    /**
+     * Crea un Producto existente recuperado de la base de datos (con ID asignado).
+     */
+    public Producto(Integer id, String codigo, String nombre, double precio, int existencia) {
+        this.id = id;
         this.codigo = validarTexto(codigo, "codigo");
         this.nombre = validarTexto(nombre, "nombre");
         this.precio = validarPrecio(precio);
@@ -56,6 +67,14 @@ public final class Producto {
         return existencia;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public String getCodigo() {
         return codigo;
     }
@@ -72,24 +91,10 @@ public final class Producto {
         return existencia;
     }
 
-    /**
-     * Actualiza el precio del producto, preservando el invariante de no
-     * negatividad.
-     *
-     * @param nuevoPrecio nuevo precio unitario, debe ser mayor o igual a cero
-     * @throws IllegalArgumentException si el nuevo precio es negativo o invalido
-     */
     public void actualizarPrecio(double nuevoPrecio) {
         this.precio = validarPrecio(nuevoPrecio);
     }
 
-    /**
-     * Incrementa la existencia del producto (por ejemplo, tras una compra a
-     * proveedor).
-     *
-     * @param cantidad cantidad a agregar, debe ser mayor a cero
-     * @throws IllegalArgumentException si la cantidad no es positiva
-     */
     public void agregarExistencia(int cantidad) {
         if (cantidad <= 0) {
             throw new IllegalArgumentException("La cantidad a agregar debe ser mayor a cero.");
@@ -97,30 +102,7 @@ public final class Producto {
         this.existencia += cantidad;
     }
 
-    /**
-     * Descuenta existencia del producto (por ejemplo, tras una venta).
-     *
-     * <p>Contrato:</p>
-     * <ul>
-     *   <li>Entrada: entero positivo.</li>
-     *   <li>Precondicion: {@code cantidad} no mayor que la existencia actual.</li>
-     *   <li>Resultado: existencia anterior menos {@code cantidad}.</li>
-     *   <li>Fallo: rechazo sin modificar el estado del objeto.</li>
-     * </ul>
-     *
-     * <p>Se distingue el tipo de excepcion segun la causa del rechazo: un
-     * argumento invalido en si mismo (cantidad no positiva) se senala con
-     * {@link IllegalArgumentException}; una operacion imposible por el
-     * estado actual del objeto (existencia insuficiente) se senala con
-     * {@link IllegalStateException}. En ambos casos toda precondicion se
-     * valida antes de modificar {@code existencia}, de modo que un rechazo
-     * nunca deja el objeto parcialmente modificado.</p>
-     *
-     * @param cantidad cantidad a descontar, debe ser mayor a cero y no exceder la existencia actual
-     * @throws IllegalArgumentException si la cantidad no es positiva
-     * @throws IllegalStateException    si la cantidad excede la existencia disponible
-     */
-        public void descontar(int cantidad) {
+    public void descontar(int cantidad) {
         if (cantidad <= 0) {
             throw new IllegalArgumentException("La cantidad debe ser positiva.");
         }
@@ -130,15 +112,14 @@ public final class Producto {
         this.existencia -= cantidad;
     }
 
-    // Calcula el precio aplicando un descuento (en porcentaje, de 0 a 100).
-    // No modifica el precio del producto, solo regresa el valor calculado.
-     public double precioConDescuento(double porcentaje) {
+    public double precioConDescuento(double porcentaje) {
         if (porcentaje < 0 || porcentaje > 100) {
             throw new IllegalArgumentException("El porcentaje de descuento debe estar entre 0 y 100.");
         }
         double descuento = precio * (porcentaje / 100);
         return precio - descuento;
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -159,13 +140,15 @@ public final class Producto {
     @Override
     public String toString() {
         return "Producto{" +
-                "codigo='" + codigo + '\'' +
+                "id=" + id +
+                ", codigo='" + codigo + '\'' +
                 ", nombre='" + nombre + '\'' +
                 ", precio=" + precio +
                 ", existencia=" + existencia +
                 '}';
     }
+
     public boolean estaAgotado() {
-    return this.existencia <= 0;
-}
+        return this.existencia <= 0;
+    }
 }
