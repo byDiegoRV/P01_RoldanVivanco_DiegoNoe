@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,6 +18,14 @@ import mx.uv.tcsw.ventas.domain.Producto;
 public class PostgresProductoAdapter implements ProductoRepository {
 
     private static final Logger LOGGER = Logger.getLogger(PostgresProductoAdapter.class.getName());
+    
+    // Constantes de columnas para SonarQube
+    private static final String COL_ID = "id";
+    private static final String COL_CODIGO = "codigo";
+    private static final String COL_NOMBRE = "nombre";
+    private static final String COL_PRECIO = "precio";
+    private static final String COL_STOCK = "stock";
+
     private final DatabaseConnectionManager connectionManager;
 
     public PostgresProductoAdapter(DatabaseConnectionManager connectionManager) {
@@ -74,11 +84,11 @@ public class PostgresProductoAdapter implements ProductoRepository {
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     Producto producto = new Producto(
-                        rs.getInt("id"),
-                        rs.getString("codigo"),
-                        rs.getString("nombre"),
-                        rs.getDouble("precio"),
-                        rs.getInt("stock")
+                        rs.getInt(COL_ID),
+                        rs.getString(COL_CODIGO),
+                        rs.getString(COL_NOMBRE),
+                        rs.getDouble(COL_PRECIO),
+                        rs.getInt(COL_STOCK)
                     );
                     return Optional.of(producto);
                 }
@@ -88,5 +98,87 @@ public class PostgresProductoAdapter implements ProductoRepository {
         }
         
         return Optional.empty();
+    }
+
+    @Override
+    public Optional<Producto> buscarPorCodigo(String codigo) {
+        String sql = "SELECT id, codigo, nombre, precio, stock FROM productos WHERE codigo = ?";
+        
+        try (Connection conn = connectionManager.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setString(1, codigo);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return Optional.of(new Producto(
+                        rs.getInt(COL_ID),
+                        rs.getString(COL_CODIGO),
+                        rs.getString(COL_NOMBRE),
+                        rs.getDouble(COL_PRECIO),
+                        rs.getInt(COL_STOCK)
+                    ));
+                }
+            }
+        } catch (SQLException e) {
+            throw new IllegalStateException("Error al buscar el producto por código", e);
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public List<Producto> listarTodos() {
+        String sql = "SELECT id, codigo, nombre, precio, stock FROM productos";
+        List<Producto> productos = new ArrayList<>();
+        
+        try (Connection conn = connectionManager.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            
+            while (rs.next()) {
+                productos.add(new Producto(
+                    rs.getInt(COL_ID),
+                    rs.getString(COL_CODIGO),
+                    rs.getString(COL_NOMBRE),
+                    rs.getDouble(COL_PRECIO),
+                    rs.getInt(COL_STOCK)
+                ));
+            }
+        } catch (SQLException e) {
+            throw new IllegalStateException("Error al listar los productos de la base de datos", e);
+        }
+        return productos;
+    }
+
+    @Override
+    public void actualizar(Producto producto) {
+        String sql = "UPDATE productos SET codigo = ?, nombre = ?, precio = ?, stock = ? WHERE id = ?";
+        
+        try (Connection conn = connectionManager.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setString(1, producto.getCodigo());
+            stmt.setString(2, producto.getNombre());
+            stmt.setBigDecimal(3, BigDecimal.valueOf(producto.getPrecio()));
+            stmt.setInt(4, producto.getExistencia());
+            stmt.setInt(5, producto.getId());
+            
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new IllegalStateException("Error al actualizar el producto en la base de datos", e);
+        }
+    }
+
+    @Override
+    public void eliminar(Integer id) {
+        String sql = "DELETE FROM productos WHERE id = ?";
+        
+        try (Connection conn = connectionManager.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new IllegalStateException("Error al eliminar el producto de la base de datos", e);
+        }
     }
 }
