@@ -1,5 +1,7 @@
 package mx.uv.tcsw.ventas.infrastructure.delivery.swing;
 
+
+
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,4 +33,6 @@ class VentaFrameTest {
             Double.parseDouble(precioInvalido);
         }, "Debe lanzar NumberFormatException cuando el precio contiene letras");
     }
-}
+} 
+
+
