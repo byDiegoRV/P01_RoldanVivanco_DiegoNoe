@@ -16,6 +16,9 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 
+import mx.uv.tcsw.ventas.domain.Producto;
+import mx.uv.tcsw.ventas.infrastructure.delivery.swing.modelo.CarritoViewModel;
+
 public class CarritoView extends JFrame {
     private DefaultListModel<String> modeloLista;
     private JList<String> listaCarrito;
@@ -23,17 +26,20 @@ public class CarritoView extends JFrame {
     private JButton btnVolver;
     private JButton btnPagar;
     
-    // Mapa para llevar el control de cantidades y subtotales por producto
-    // 1. Añade "transient" al mapa
-    private transient Map<String, CarritoItemControl> itemsCarrito = new HashMap<>();
+    // Botones de control para el carrito
+    private JButton btnIncrementar;
+    private JButton btnDecrementar;
+    private JButton btnQuitar;
+    
+    // Mapa usando tu CarritoViewModel existente
+    private transient Map<String, CarritoViewModel> itemsCarrito = new HashMap<>();
     private double totalGeneral = 0.0;
     private DecimalFormat df = new DecimalFormat("$#,##0.00");
 
     public CarritoView() {
         setTitle("Carrito de Compras - P07");
-        setSize(450, 350);
+        setSize(500, 400);
         setLocationRelativeTo(null);
-        // 2. Usa WindowConstants en lugar de JFrame
         setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         setLayout(new BorderLayout());
 
@@ -41,11 +47,31 @@ public class CarritoView extends JFrame {
         listaCarrito = new JList<>(modeloLista);
         add(new JScrollPane(listaCarrito), BorderLayout.CENTER);
 
+        // Panel inferior para controles y pagos
         JPanel panelSur = new JPanel(new BorderLayout());
+        
+        // Panel con los botones de acción por producto (+, -, Quitar)
+        JPanel panelAccionesItem = new JPanel();
+        btnIncrementar = new JButton("+");
+        btnDecrementar = new JButton("-");
+        btnQuitar = new JButton("Quitar del Carrito");
+        
+        // Enlazar eventos
+        btnIncrementar.addActionListener(e -> incrementarCantidadSeleccionada());
+        btnDecrementar.addActionListener(e -> decrementarCantidadSeleccionada());
+        btnQuitar.addActionListener(e -> quitarProductoSeleccionado());
+        
+        panelAccionesItem.add(btnDecrementar);
+        panelAccionesItem.add(btnIncrementar);
+        panelAccionesItem.add(btnQuitar);
+        panelSur.add(panelAccionesItem, BorderLayout.NORTH);
+
+        // Total general
         lblTotal = new JLabel("Total: $0.00", SwingConstants.RIGHT);
         lblTotal.setFont(new Font("Arial", Font.BOLD, 14));
-        panelSur.add(lblTotal, BorderLayout.NORTH);
+        panelSur.add(lblTotal, BorderLayout.CENTER);
 
+        // Botones de navegación principales (Volver / Pagar)
         JPanel panelBotones = new JPanel();
         btnVolver = new JButton("Volver al Catálogo");
         btnPagar = new JButton("Proceder al Pago");
@@ -56,28 +82,75 @@ public class CarritoView extends JFrame {
         add(panelSur, BorderLayout.SOUTH);
     }
 
-    public void agregarProducto(String nombre, double precio) {
+   public void agregarProducto(String nombre, double precio) {
         if (itemsCarrito.containsKey(nombre)) {
-            CarritoItemControl item = itemsCarrito.get(nombre);
-            item.cantidad++;
-            item.subtotal += precio;
+            CarritoViewModel item = itemsCarrito.get(nombre);
+            item.setCantidad(item.getCantidad() + 1);
         } else {
-            itemsCarrito.put(nombre, new CarritoItemControl(nombre, 1, precio));
+            //  Pasamos un código válido en lugar de null para cumplir con la regla del dominio
+            Producto producto = new Producto("SKU-" + nombre, nombre, precio, 100);
+            itemsCarrito.put(nombre, new CarritoViewModel(producto, 1));
         }
         actualizarVistaLista();
     }
 
+    public void incrementarCantidadSeleccionada() {
+        String seleccionado = listaCarrito.getSelectedValue();
+        if (seleccionado != null) {
+            String nombre = extraerNombreDesdeTexto(seleccionado);
+            CarritoViewModel item = itemsCarrito.get(nombre);
+            if (item != null) {
+                item.setCantidad(item.getCantidad() + 1);
+                actualizarVistaLista();
+            }
+        }
+    }
+
+    public void decrementarCantidadSeleccionada() {
+        String seleccionado = listaCarrito.getSelectedValue();
+        if (seleccionado != null) {
+            String nombre = extraerNombreDesdeTexto(seleccionado);
+            CarritoViewModel item = itemsCarrito.get(nombre);
+            if (item != null && item.getCantidad() > 1) {
+                item.setCantidad(item.getCantidad() - 1);
+                actualizarVistaLista();
+            }
+        }
+    }
+
+    public void quitarProductoSeleccionado() {
+        String seleccionado = listaCarrito.getSelectedValue();
+        if (seleccionado != null) {
+            String nombre = extraerNombreDesdeTexto(seleccionado);
+            itemsCarrito.remove(nombre);
+            actualizarVistaLista();
+        }
+    }
+
+    private String extraerNombreDesdeTexto(String textoLista) {
+        int idx = textoLista.indexOf(" (x");
+        return (idx != -1) ? textoLista.substring(0, idx) : textoLista;
+    }
+
     private void actualizarVistaLista() {
+        String seleccionadoPrevio = listaCarrito.getSelectedValue();
         modeloLista.clear();
         totalGeneral = 0.0;
 
-        for (CarritoItemControl item : itemsCarrito.values()) {
-            String texto = String.format("%s (x%d) | %s", item.nombre, item.cantidad, df.format(item.subtotal));
-            modeloLista.addElement(texto);
-            totalGeneral += item.subtotal;
+        for (CarritoViewModel item : itemsCarrito.values()) {
+            if (item.isSeleccionado()) {
+                String nombreProd = item.getProducto().getNombre();
+                String texto = String.format("%s (x%d) | %s", nombreProd, item.getCantidad(), df.format(item.getSubtotal()));
+                modeloLista.addElement(texto);
+                totalGeneral += item.getSubtotal();
+            }
         }
 
         lblTotal.setText("Total: " + df.format(totalGeneral));
+        
+        if (seleccionadoPrevio != null && modeloLista.contains(seleccionadoPrevio)) {
+            listaCarrito.setSelectedValue(seleccionadoPrevio, true);
+        }
     }
 
     public void limpiarCarrito() {
@@ -87,24 +160,13 @@ public class CarritoView extends JFrame {
         lblTotal.setText("Total: $0.00");
     }
 
-    // Getters para controladores y pruebas
+    // Getters
     public JButton getBtnVolver() { return btnVolver; }
     public JButton getBtnPagar() { return btnPagar; }
+    public JButton getBtnIncrementar() { return btnIncrementar; }
+    public JButton getBtnDecrementar() { return btnDecrementar; }
+    public JButton getBtnQuitar() { return btnQuitar; }
+    public JList<String> getListaCarrito() { return listaCarrito; }
     public DefaultListModel<String> getModeloLista() { return modeloLista; }
     public double getTotalGeneral() { return totalGeneral; }
-
-    // Clase auxiliar interna para el control agrupado
-    private static class CarritoItemControl {
-        String nombre;
-        int cantidad;
-        double subtotalUnitario;
-        double subtotal;
-
-        public CarritoItemControl(String nombre, int cantidad, double precioUnitario) {
-            this.nombre = nombre;
-            this.cantidad = cantidad;
-            this.subtotalUnitario = precioUnitario;
-            this.subtotal = precioUnitario;
-        }
-    }
 }
