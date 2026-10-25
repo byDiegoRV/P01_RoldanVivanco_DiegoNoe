@@ -550,3 +550,17 @@ mx.uv.tcsw.ventas
 └── infrastructure/    # Adaptadores de entrega, persistencia y cliente Swing
     └── delivery/
         └── swing/     # Vistas (Catalogo, Carrito, Formulario), Controladores y Modelos
+
+## 💾 Práctica: Persistencia JDBC y Arquitectura Hexagonal
+
+### 1. Esquema de Base de Datos
+La persistencia se realiza sobre PostgreSQL 16 (contenedor Docker ejecutándose en el puerto `5434`), utilizando el siguiente esquema para la tabla `productos`:
+
+```sql
+CREATE TABLE IF NOT EXISTS productos (
+    id SERIAL PRIMARY KEY,
+    codigo VARCHAR(50) NOT NULL,
+    nombre VARCHAR(100) NOT NULL,
+    precio NUMERIC(10, 2) NOT NULL,
+    stock INT NOT NULL
+);

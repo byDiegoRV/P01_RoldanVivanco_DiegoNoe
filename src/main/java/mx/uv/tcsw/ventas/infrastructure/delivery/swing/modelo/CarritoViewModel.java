@@ -1,25 +1,39 @@
 package mx.uv.tcsw.ventas.infrastructure.delivery.swing.modelo;
 
-public class CarritoViewModel {
-    private String nombreProducto;
-    private int cantidad;
-    private double subtotal;
+import mx.uv.tcsw.ventas.domain.Producto;
 
-    public CarritoViewModel(String nombreProducto, int cantidad, double subtotal) {
-        this.nombreProducto = nombreProducto;
+public class CarritoViewModel {
+    private Producto producto;
+    private int cantidad;
+    private boolean seleccionado; 
+
+    public CarritoViewModel(Producto producto, int cantidad) {
+        this.producto = producto;
         this.cantidad = cantidad;
-        this.subtotal = subtotal;
+        this.seleccionado = true;
     }
 
-    public String getNombreProducto() {
-        return nombreProducto;
+    public Producto getProducto() {
+        return producto;
     }
 
     public int getCantidad() {
         return cantidad;
     }
 
+    public void setCantidad(int cantidad) {
+        this.cantidad = Math.max(1, cantidad); 
+    }
+
+    public boolean isSeleccionado() {
+        return seleccionado;
+    }
+
+    public void setSeleccionado(boolean seleccionado) {
+        this.seleccionado = seleccionado;
+    }
+
     public double getSubtotal() {
-        return subtotal;
+        return producto.getPrecio() * cantidad;
     }
 }
