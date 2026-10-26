@@ -1,0 +1,12 @@
+Sabotaje: se comentó temporalmente `cn.setAutoCommit(false);` en VentaJdbcRepository.guardar
+Comando:  mvn test -Dtest=VentaJdbcRepositoryTest
+Fecha:    2026-10-26 16:03 (America/Mexico_City)
+
+[ERROR] Tests run: 3, Failures: 2, Errors: 1, Skipped: 0 <<< FAILURE!
+[ERROR] fallaIntermediaRevierteEncabezadoDetallesYExistencias: expected: <0> but was: <1> (VentaJdbcRepositoryTest.java:80)
+[ERROR] existenciaInsuficienteEnBdNoDejaVentaNiCambiaStock: expected: <0> but was: <1> (VentaJdbcRepositoryTest.java:62)
+[ERROR] ventaValidaConfirmaEncabezadoDetallesYDescuento: IllegalStateException: No se pudo registrar la venta V-001
+        Caused by: org.postgresql.util.PSQLException: Cannot commit when autoCommit is enabled.
+[INFO] BUILD FAILURE
+
+Resultado tras restaurar la línea: Tests run: 3, Failures: 0, Errors: 0 (ver README, sección C02).
