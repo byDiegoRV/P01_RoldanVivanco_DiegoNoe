@@ -1,5 +1,8 @@
 package mx.uv.tcsw.ventas.infrastructure.persistence.jdbc;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,14 +22,23 @@ class PostgresProductoAdapterTest {
     private DatabaseConnectionManager connectionManager;
 
     @BeforeEach
-    void setUp() {
-        connectionManager = new DatabaseConnectionManager(
-            "jdbc:postgresql://localhost:5434/ventas_test",
-            "postgres",
-            "1234"
-        );
-        productoAdapter = new PostgresProductoAdapter(connectionManager);
+void setUp() throws SQLException {
+    String url = System.getenv().getOrDefault("DB_URL", "jdbc:postgresql://localhost:5434/ventas_test");
+    String user = System.getenv().getOrDefault("DB_USER", "postgres");
+    String password = System.getenv("DB_PASSWORD");
+    if (password == null) {
+        throw new IllegalStateException("Define la variable de entorno DB_PASSWORD antes de ejecutar las pruebas");
     }
+
+    connectionManager = new DatabaseConnectionManager(url, user, password);
+    productoAdapter = new PostgresProductoAdapter(connectionManager);
+
+    // Fixture conocido: tabla vacía y contadores reiniciados antes de cada prueba
+    try (Connection cn = connectionManager.getConnection();
+         Statement st = cn.createStatement()) {
+        st.execute("TRUNCATE TABLE productos RESTART IDENTITY");
+    }
+}
 
     @Test
     void debeGuardarYBuscarProductoExitosamente() {
