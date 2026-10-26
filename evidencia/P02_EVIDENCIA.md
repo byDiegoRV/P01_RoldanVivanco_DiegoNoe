@@ -72,7 +72,7 @@ Comando ejecutado:
 mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
   -Dsonar.projectKey=tcsw-ventas \
   -Dsonar.host.url=http://localhost:9000 \
-  -Dsonar.login=<sqa_bf12a565ff78538d340bc701b3728b811ecfaac4>
+  -Dsonar.login=<TOKEN>
 ```
 
 

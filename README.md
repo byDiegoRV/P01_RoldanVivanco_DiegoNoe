@@ -344,7 +344,7 @@ Todas las pruebas fueron verificadas correctamente.
 ________________________________________
 10. Análisis estático con SonarQube — P03
   -Dsonar.host.url=http://localhost:9000 \
-  -Dsonar.login=< sqa_bf12a565ff78538d340bc701b3728b811ecfaac4 >
+  -Dsonar.login=< TOKEN >
 El token debe ser personal y no debe incluirse en el repositorio.
 Análisis inicial
 En P03, la primera ejecución presentó:
