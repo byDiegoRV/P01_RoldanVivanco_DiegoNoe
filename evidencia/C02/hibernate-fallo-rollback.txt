@@ -1,0 +1,7 @@
+Primer error significativo (2026-10-26 16:26, America/Mexico_City)
+Comando: mvn clean test
+Resultado: Tests run: 103, Failures: 1, Errors: 0
+[ERROR] HibernateVentaAdapterTest.existenciaInsuficienteEnBdNoDejaVentaNiCambiaStock:76 expected: <0> but was: <1>
+Observación: tras rechazar la venta por existencia insuficiente quedó una fila en `ventas`.
+Causa: Session abierta con try-with-resources; se cierra antes del catch y el rollback llega tarde.
+Corrección: abrir la Session fuera del try y cerrarla en finally, después de revertir.
