@@ -26,26 +26,30 @@ public class VentaJdbcRepository implements VentaRepository {
         this.connectionManager = connectionManager;
     }
 
-    /** Unidad de negocio "registrar venta": todo se confirma o nada se aplica. */
+    /** Registra la venta como una sola unidad de trabajo: se confirma completa o no se aplica ningún cambio. */
     @Override
-    public void guardar(Venta venta) {
-        try (Connection cn = connectionManager.getConnection()) {
-            cn.setAutoCommit(false);
-            try {
-                int ventaId = insertarVenta(cn, venta);
-                for (DetalleVenta detalle : venta.getDetalles()) {
-                    insertarDetalle(cn, ventaId, detalle);
-                    descontarExistencia(cn, detalle);
-                }
-                cn.commit();
-            } catch (SQLException | RuntimeException ex) {
-                revertir(cn, ex);
-                throw new IllegalStateException("No se pudo registrar la venta " + venta.getFolio(), ex);
-            }
-        } catch (SQLException ex) {
-            throw new IllegalStateException("Error de conexión al registrar la venta", ex);
-        }
+public void guardar(Venta venta) {
+    try (Connection cn = connectionManager.getConnection()) {
+        cn.setAutoCommit(false);
+        ejecutarEnTransaccion(cn, venta);
+    } catch (SQLException ex) {
+        throw new IllegalStateException("Error de conexión al registrar la venta", ex);
     }
+}
+
+private void ejecutarEnTransaccion(Connection cn, Venta venta) {
+    try {
+        int ventaId = insertarVenta(cn, venta);
+        for (DetalleVenta detalle : venta.getDetalles()) {
+            insertarDetalle(cn, ventaId, detalle);
+            descontarExistencia(cn, detalle);
+        }
+        cn.commit();
+    } catch (SQLException | RuntimeException ex) {
+        revertir(cn, ex);
+        throw new IllegalStateException("No se pudo registrar la venta " + venta.getFolio(), ex);
+    }
+}
 
     private int insertarVenta(Connection cn, Venta venta) throws SQLException {
         try (PreparedStatement ps = cn.prepareStatement(SQL_INSERT_VENTA, Statement.RETURN_GENERATED_KEYS)) {
