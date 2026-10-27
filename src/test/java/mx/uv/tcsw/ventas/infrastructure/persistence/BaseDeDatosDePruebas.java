@@ -1,15 +1,12 @@
 package mx.uv.tcsw.ventas.infrastructure.persistence;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 import mx.uv.tcsw.ventas.infrastructure.persistence.jdbc.DatabaseConnectionManager;
 
-/**
- * Configuración y fixture compartidos por las pruebas que usan PostgreSQL
- * (JDBC e Hibernate). Lee la conexión del entorno; no contiene credenciales.
- */
 public final class BaseDeDatosDePruebas {
 
     private static final String URL_POR_DEFECTO = "jdbc:postgresql://localhost:5435/ventas_test";
@@ -41,10 +38,27 @@ public final class BaseDeDatosDePruebas {
         return new DatabaseConnectionManager(url(), usuario(), password());
     }
 
-    /** Deja las tablas vacías y los contadores en 1: estado inicial conocido. */
     public static void limpiar(DatabaseConnectionManager connectionManager) throws SQLException {
         try (Connection cn = connectionManager.getConnection(); Statement st = cn.createStatement()) {
             st.execute(SQL_LIMPIAR);
+        }
+    }
+
+    public static int contar(DatabaseConnectionManager connectionManager, String tabla) throws SQLException {
+        try (Connection cn = connectionManager.getConnection();
+             Statement st = cn.createStatement();
+             ResultSet rs = st.executeQuery("SELECT COUNT(*) FROM " + tabla)) {
+            rs.next();
+            return rs.getInt(1);
+        }
+    }
+
+    public static int stockDe(DatabaseConnectionManager connectionManager, int idProducto) throws SQLException {
+        try (Connection cn = connectionManager.getConnection();
+             Statement st = cn.createStatement();
+             ResultSet rs = st.executeQuery("SELECT stock FROM productos WHERE id = " + idProducto)) {
+            rs.next();
+            return rs.getInt(1);
         }
     }
 }
