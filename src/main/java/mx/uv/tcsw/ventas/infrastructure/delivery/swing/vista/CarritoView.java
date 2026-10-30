@@ -3,7 +3,9 @@ package mx.uv.tcsw.ventas.infrastructure.delivery.swing.vista;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.DefaultListModel;
@@ -92,6 +94,28 @@ public class CarritoView extends JFrame {
             itemsCarrito.put(nombre, new CarritoViewModel(producto, 1));
         }
         actualizarVistaLista();
+    }
+
+    /** Agrega un producto real (con id de base de datos); si ya está en el carrito, incrementa la cantidad. */
+    public void agregarProducto(Producto producto) {
+        CarritoViewModel item = itemsCarrito.get(producto.getNombre());
+        if (item != null) {
+            item.setCantidad(item.getCantidad() + 1);
+        } else {
+            itemsCarrito.put(producto.getNombre(), new CarritoViewModel(producto, 1));
+        }
+        actualizarVistaLista();
+    }
+
+    /** Partidas actualmente seleccionadas para la compra (copia; no modifica el carrito). */
+    public List<CarritoViewModel> getItems() {
+        List<CarritoViewModel> items = new ArrayList<>();
+        for (CarritoViewModel item : itemsCarrito.values()) {
+            if (item.isSeleccionado()) {
+                items.add(item);
+            }
+        }
+        return items;
     }
 
     public void incrementarCantidadSeleccionada() {

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <!-- La URL, el usuario y la contraseña NO van aquí: se inyectan desde el entorno. -->
+        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+
+        <!-- El esquema lo crea schema.sql; Hibernate solo comprueba que el mapeo coincida. -->
+        <property name="hibernate.hbm2ddl.auto">validate</property>
+        <property name="hibernate.show_sql">false</property>
+
+        <mapping class="mx.uv.tcsw.ventas.infrastructure.persistence.hibernate.entidad.ProductoEntity"/>
+        <mapping class="mx.uv.tcsw.ventas.infrastructure.persistence.hibernate.entidad.VentaEntity"/>
+        <mapping class="mx.uv.tcsw.ventas.infrastructure.persistence.hibernate.entidad.DetalleVentaEntity"/>
+    </session-factory>
+</hibernate-configuration>

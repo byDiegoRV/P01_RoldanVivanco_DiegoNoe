@@ -1,6 +1,8 @@
 package mx.uv.tcsw.ventas.infrastructure.delivery.swing.vista;
 
 import java.awt.BorderLayout;
+import java.util.List;
+import java.util.Locale;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -8,6 +10,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.WindowConstants;
+import javax.swing.table.DefaultTableModel;
+
+import mx.uv.tcsw.ventas.domain.Producto;
 
 public class CatalogoView extends JFrame {
     private JTable tablaProductos;
@@ -45,6 +50,26 @@ public class CatalogoView extends JFrame {
         panelBotones.add(btnAgregarCarrito);
         panelBotones.add(btnVerCarrito);
         add(panelBotones, BorderLayout.SOUTH);
+    }
+
+    /** Reemplaza el contenido de la tabla con los productos leídos de la base de datos. */
+    public void cargarProductos(List<Producto> productos) {
+        String[] columnas = {"ID", "Nombre", "Precio", "Existencia"};
+        DefaultTableModel modelo = new DefaultTableModel(columnas, 0) {
+            @Override
+            public boolean isCellEditable(int fila, int columna) {
+                return false;
+            }
+        };
+        for (Producto p : productos) {
+            modelo.addRow(new Object[] {
+                String.valueOf(p.getId()),
+                p.getNombre(),
+                String.format(Locale.US, "$%.2f", p.getPrecio()),
+                String.valueOf(p.getExistencia())
+            });
+        }
+        tablaProductos.setModel(modelo);
     }
 
     public JButton getBtnAgregarCarrito() { return btnAgregarCarrito; }

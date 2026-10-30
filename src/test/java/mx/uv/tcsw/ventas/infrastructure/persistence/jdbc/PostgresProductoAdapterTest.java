@@ -1,5 +1,6 @@
 package mx.uv.tcsw.ventas.infrastructure.persistence.jdbc;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,6 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import mx.uv.tcsw.ventas.domain.Producto;
+import mx.uv.tcsw.ventas.infrastructure.persistence.BaseDeDatosDePruebas;
 
 class PostgresProductoAdapterTest {
 
@@ -19,14 +21,11 @@ class PostgresProductoAdapterTest {
     private DatabaseConnectionManager connectionManager;
 
     @BeforeEach
-    void setUp() {
-        connectionManager = new DatabaseConnectionManager(
-            "jdbc:postgresql://localhost:5434/ventas_test",
-            "postgres",
-            "1234"
-        );
-        productoAdapter = new PostgresProductoAdapter(connectionManager);
-    }
+       void setUp() throws SQLException {
+       connectionManager = BaseDeDatosDePruebas.crearConexion();
+       productoAdapter = new PostgresProductoAdapter(connectionManager);
+       BaseDeDatosDePruebas.limpiar(connectionManager);
+   }
 
     @Test
     void debeGuardarYBuscarProductoExitosamente() {
