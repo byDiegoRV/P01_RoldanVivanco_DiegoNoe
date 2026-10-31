@@ -563,4 +563,49 @@ CREATE TABLE IF NOT EXISTS productos (
     nombre VARCHAR(100) NOT NULL,
     precio NUMERIC(10, 2) NOT NULL,
     stock INT NOT NULL
-);
+
+    ---
+
+
+
+## 🛠️ Guía de Reproducción - Corte 2 (C02: Escritorio y Persistencia)
+
+1. **Configurar el entorno.** Copie el archivo de ejemplo y cargue las variables:
+   ```bash
+   cp .env.example .env
+   set -a; source .env; set +a
+   ```
+   Variables requeridas: `DB_USER`, `DB_PASSWORD`, `DB_NAME`, `DB_PORT`. Los valores de `.env.example` son solo de prueba local. No suba `.env` ni use credenciales reales.
+
+2. **Abrir Docker Desktop** y esperar a "Engine running".
+
+3. **Ejecutar la verificación del módulo:**
+   ```bash
+   ./scripts/verify-module.sh M11
+   ```
+   El script reinicia PostgreSQL desde cero (`docker compose down -v` + `up`), recrea el esquema desde `src/main/resources/sql/schema.sql`, comprueba las tablas `ventas` y `detalle_venta` y ejecuta `mvn clean test`.
+   **Resultado esperado:** la última línea es `MODULO_M11_VERIFICADO`.
+
+### Comprobaciones negativas / límites
+
+| Caso | Comando | Resultado esperado |
+|---|---|---|
+| Módulo inválido | `./scripts/verify-module.sh M99` | Imprime el uso y sale con código 1 |
+| Variable faltante | `(unset DB_PASSWORD; ./scripts/verify-module.sh M11)` | `ERROR: falta la variable de entorno DB_PASSWORD` y `MODULO_M11_NO_VERIFICADO` |
+
+### VERIFICADO
+- `mvn test` contra PostgreSQL en Docker: 112 pruebas, 0 fallos, 0 errores, BUILD SUCCESS ( ejecutado por Xochitl).
+
+### NO_VERIFICADO
+- `verify-module.sh M11` :
+- Recorrido Swing guardar, reiniciar, consultar (implementado por Noe; falta confirmar quién lo ejecutó y cuándo).
+- Reconstrucción desde un clon limpio por otra persona.
+- Análisis de Sonar sobre el corte final.
+
+### PENDIENTE
+- Reemplazar `DB_PASSWORD` de `.env.example` por un valor de ejemplo no operativo.
+- Actualizar JaCoCo (0.8.13 o superior) o fijar JDK 21.
+- Revisión y merge de los PR de C02-05 y C02-06.
+- Etiqueta `v0.2-escritorio` y envío único en Eminus.
+````
+

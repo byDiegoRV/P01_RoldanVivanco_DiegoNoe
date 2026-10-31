@@ -1,0 +1,2 @@
+(unset DB_PASSWORD; ./scripts/verify-module.sh M11) 2>&1 
+
