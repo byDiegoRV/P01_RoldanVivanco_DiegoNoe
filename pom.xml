@@ -130,6 +130,9 @@
                             org.junit.jupiter:junit-jupiter-engine
                         </dependency>
                     </dependenciesToScan>
+                                        <systemPropertyVariables>
+                        <java.awt.headless>false</java.awt.headless>
+                    </systemPropertyVariables>
                 </configuration>
 
                 <dependencies>
