@@ -8,6 +8,7 @@ import org.hibernate.Transaction;
 
 import mx.uv.tcsw.ventas.application.ports.out.VentaRepository;
 import mx.uv.tcsw.ventas.domain.DetalleVenta;
+import mx.uv.tcsw.ventas.domain.ExistenciaInsuficienteException;
 import mx.uv.tcsw.ventas.domain.Venta;
 import mx.uv.tcsw.ventas.infrastructure.persistence.hibernate.entidad.DetalleVentaEntity;
 import mx.uv.tcsw.ventas.infrastructure.persistence.hibernate.entidad.ProductoEntity;
@@ -64,8 +65,8 @@ public class HibernateVentaAdapter implements VentaRepository {
                 .setParameter("id", idProducto)
                 .executeUpdate();
         if (filas != 1) {
-            throw new IllegalStateException("Existencia insuficiente en base de datos para el producto "
-                    + detalle.getProducto().getCodigo());
+            throw new ExistenciaInsuficienteException("Existencia insuficiente en base de datos para el producto "
+                    + detalle.getProducto().getCodigo(), idProducto);
         }
     }
 

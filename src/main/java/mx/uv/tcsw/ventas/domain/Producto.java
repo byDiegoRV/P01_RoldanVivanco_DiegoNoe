@@ -107,7 +107,7 @@ public final class Producto {
             throw new IllegalArgumentException("La cantidad debe ser positiva.");
         }
         if (cantidad > this.existencia) {
-            throw new IllegalStateException("Existencia insuficiente.");
+            throw new ExistenciaInsuficienteException("Existencia insuficiente.", this.id);
         }
         this.existencia -= cantidad;
     }
