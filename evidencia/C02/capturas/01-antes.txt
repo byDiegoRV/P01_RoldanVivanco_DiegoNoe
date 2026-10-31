@@ -1,0 +1,7 @@
+ id |      nombre       | stock 
+----+-------------------+-------
+  1 | Laptop X          |    10
+  2 | Teclado Mecánico  |    25
+  3 | Mouse Inalámbrico |     0
+(3 rows)
+

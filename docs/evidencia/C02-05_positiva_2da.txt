@@ -1,0 +1,337 @@
+== Registro de versiones efectivas ==
+-- java (runtime) --
+java version "11.0.32" 2026-07-21 LTS
+Java(TM) SE Runtime Environment 18.9 (build 11.0.32+7-LTS-196)
+Java HotSpot(TM) 64-Bit Server VM 18.9 (build 11.0.32+7-LTS-196, mixed mode)
+
+-- javac (compilador) --
+javac 11.0.32
+
+-- mvn (Java con el que corre Maven) --
+Apache Maven 3.9.13 (39d686bd50d8e054301e3a68ad44781df6f80dda)
+Maven home: C:\Users\vivar\Downloads\apache-maven-3.9.13-bin\apache-maven-3.9.13
+Java version: 11.0.32, vendor: Oracle Corporation, runtime: C:\Program Files\Java\jdk-11.0.32
+Default locale: es_MX, platform encoding: Cp1252
+OS name: "windows 11", version: "10.0", arch: "amd64", family: "windows"
+
+== Preparando base de datos (M11) ==
+-- docker --
+Docker version 28.3.2, build 578ccf6
+Docker Compose version v2.39.1-desktop.1
+
+[1/4] Reiniciando PostgreSQL desde cero (down -v + up)...
+ Container postgres_ventas  Stopping
+ Container postgres_ventas  Stopped
+ Container postgres_ventas  Removing
+ Container postgres_ventas  Removed
+ Network tcsw-ventas_default  Removing
+ Volume tcsw-ventas_pgdata  Removing
+ Volume tcsw-ventas_pgdata  Removed
+ Network tcsw-ventas_default  Removed
+ Network tcsw-ventas_default  Creating
+ Network tcsw-ventas_default  Created
+ Volume "tcsw-ventas_pgdata"  Creating
+ Volume "tcsw-ventas_pgdata"  Created
+ Container postgres_ventas  Creating
+ Container postgres_ventas  Created
+ Container postgres_ventas  Starting
+ Container postgres_ventas  Started
+[2/4] Esperando a que la BD acepte conexiones TCP...
+[3/4] Recreando esquema desde cero...
+NOTICE:  drop cascades to 3 other objects
+DETAIL:  drop cascades to table productos
+drop cascades to table ventas
+drop cascades to table detalle_venta
+DROP SCHEMA
+CREATE SCHEMA
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+[4/4] Comprobando tablas...
+   tabla ventas: OK
+   tabla detalle_venta: OK
+
+== Compilando y probando (mvn clean test) ==
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -----------------------< mx.uv.tcsw:tcsw-ventas >-----------------------
+[INFO] Building tcsw-ventas 1.0.0
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ tcsw-ventas ---
+[INFO] Deleting C:\Users\vivar\tcsw-ventas\target
+[INFO] 
+[INFO] --- jacoco:0.8.11:prepare-agent (prepare-agent) @ tcsw-ventas ---
+[INFO] argLine set to -javaagent:C:\\Users\\vivar\\.m2\\repository\\org\\jacoco\\org.jacoco.agent\\0.8.11\\org.jacoco.agent-0.8.11-runtime.jar=destfile=C:\\Users\\vivar\\tcsw-ventas\\target\\jacoco.exec
+[INFO] 
+[INFO] --- resources:3.4.0:resources (default-resources) @ tcsw-ventas ---
+[INFO] Copying 2 resources from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.10.1:compile (default-compile) @ tcsw-ventas ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 32 source files to C:\Users\vivar\tcsw-ventas\target\classes
+[INFO] 
+[INFO] --- resources:3.4.0:testResources (default-testResources) @ tcsw-ventas ---
+[INFO] skip non existing resourceDirectory C:\Users\vivar\tcsw-ventas\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.10.1:testCompile (default-testCompile) @ tcsw-ventas ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 23 source files to C:\Users\vivar\tcsw-ventas\target\test-classes
+[INFO] 
+[INFO] --- surefire:2.22.2:test (default-test) @ tcsw-ventas ---
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running mx.uv.tcsw.ventas.application.service.CalculadorDescuentoTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.059 s - in mx.uv.tcsw.ventas.application.service.CalculadorDescuentoTest
+[INFO] Running mx.uv.tcsw.ventas.application.service.DescuentoSinPromoTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 s - in mx.uv.tcsw.ventas.application.service.DescuentoSinPromoTest
+[INFO] Running mx.uv.tcsw.ventas.application.service.DescuentoVIPTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 s - in mx.uv.tcsw.ventas.application.service.DescuentoVIPTest
+[INFO] Running mx.uv.tcsw.ventas.application.service.PagoEfectivoTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s - in mx.uv.tcsw.ventas.application.service.PagoEfectivoTest
+[INFO] Running mx.uv.tcsw.ventas.application.service.PagoFactoryTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 s - in mx.uv.tcsw.ventas.application.service.PagoFactoryTest
+[INFO] Running mx.uv.tcsw.ventas.application.service.RegistrarVentaServiceTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s - in mx.uv.tcsw.ventas.application.service.RegistrarVentaServiceTest
+[INFO] Running mx.uv.tcsw.ventas.DetalleVentaTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 s - in mx.uv.tcsw.ventas.DetalleVentaTest
+[INFO] Running mx.uv.tcsw.ventas.infrastructure.delivery.swing.controlador.VentasControllerPersistenteTest
+oct 30, 2026 9:44:55 P. M. mx.uv.tcsw.ventas.infrastructure.delivery.swing.controlador.VentasController compraFallida
+SEVERE: No se pudo registrar la venta
+java.lang.IllegalStateException: Existencia insuficiente.
+	at mx.uv.tcsw.ventas.domain.Producto.descontar(Producto.java:110)
+	at mx.uv.tcsw.ventas.domain.Venta.agregarPartida(Venta.java:76)
+	at mx.uv.tcsw.ventas.infrastructure.delivery.swing.controlador.VentasController.construirVenta(VentasController.java:206)
+	at mx.uv.tcsw.ventas.infrastructure.delivery.swing.controlador.VentasController$1.doInBackground(VentasController.java:174)
+	at mx.uv.tcsw.ventas.infrastructure.delivery.swing.controlador.VentasController$1.doInBackground(VentasController.java:170)
+	at java.desktop/javax.swing.SwingWorker$1.call(SwingWorker.java:304)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.desktop/javax.swing.SwingWorker.run(SwingWorker.java:343)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:834)
+
+oct 30, 2026 9:44:55 P. M. mx.uv.tcsw.ventas.infrastructure.delivery.swing.controlador.VentasController compraFallida
+SEVERE: No se pudo registrar la venta
+java.lang.IllegalStateException: No se pudo registrar la venta V-20261030214455885
+	at mx.uv.tcsw.ventas.infrastructure.delivery.swing.controlador.VentasControllerPersistenteTest.lambda$ventasSimuladas$19(VentasControllerPersistenteTest.java:237)
+	at mx.uv.tcsw.ventas.application.service.RegistrarVentaService.ejecutar(RegistrarVentaService.java:24)
+	at mx.uv.tcsw.ventas.infrastructure.delivery.swing.controlador.VentasController$1.doInBackground(VentasController.java:174)
+	at mx.uv.tcsw.ventas.infrastructure.delivery.swing.controlador.VentasController$1.doInBackground(VentasController.java:170)
+	at java.desktop/javax.swing.SwingWorker$1.call(SwingWorker.java:304)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.desktop/javax.swing.SwingWorker.run(SwingWorker.java:343)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:834)
+
+oct 30, 2026 9:44:56 P. M. mx.uv.tcsw.ventas.infrastructure.delivery.swing.controlador.VentasController compraFallida
+SEVERE: No se pudo registrar la venta
+java.lang.IllegalStateException: El producto Laptop ya no existe en el catálogo.
+	at mx.uv.tcsw.ventas.infrastructure.delivery.swing.controlador.VentasController.lambda$construirVenta$0(VentasController.java:205)
+	at java.base/java.util.Optional.orElseThrow(Optional.java:408)
+	at mx.uv.tcsw.ventas.infrastructure.delivery.swing.controlador.VentasController.construirVenta(VentasController.java:204)
+	at mx.uv.tcsw.ventas.infrastructure.delivery.swing.controlador.VentasController$1.doInBackground(VentasController.java:174)
+	at mx.uv.tcsw.ventas.infrastructure.delivery.swing.controlador.VentasController$1.doInBackground(VentasController.java:170)
+	at java.desktop/javax.swing.SwingWorker$1.call(SwingWorker.java:304)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.desktop/javax.swing.SwingWorker.run(SwingWorker.java:343)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:834)
+
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.935 s - in mx.uv.tcsw.ventas.infrastructure.delivery.swing.controlador.VentasControllerPersistenteTest
+[INFO] Running mx.uv.tcsw.ventas.infrastructure.delivery.swing.controlador.VentasControllerTest
+oct 30, 2026 9:45:05 P. M. org.hibernate.Version logVersion
+INFO: HHH000412: Hibernate ORM core version 6.4.4.Final
+oct 30, 2026 9:45:06 P. M. org.hibernate.cache.internal.RegionFactoryInitiator initiateService
+INFO: HHH000026: Second-level cache disabled
+oct 30, 2026 9:45:07 P. M. org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl configure
+WARN: HHH10001002: Using built-in connection pool (not intended for production use)
+oct 30, 2026 9:45:07 P. M. org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001005: Loaded JDBC driver class: org.postgresql.Driver
+oct 30, 2026 9:45:07 P. M. org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001012: Connecting with JDBC URL [jdbc:postgresql://localhost:5435/ventas_test]
+oct 30, 2026 9:45:07 P. M. org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001001: Connection properties: {password=****, user=postgres}
+oct 30, 2026 9:45:07 P. M. org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001003: Autocommit mode: false
+oct 30, 2026 9:45:07 P. M. org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl$PooledConnections <init>
+INFO: HHH10001115: Connection pool size: 20 (min=1)
+oct 30, 2026 9:45:10 P. M. org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator initiateService
+INFO: HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+oct 30, 2026 9:45:10 P. M. org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl getIsolatedConnection
+INFO: HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@5d9aed4] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 15.662 s - in mx.uv.tcsw.ventas.infrastructure.delivery.swing.controlador.VentasControllerTest
+[INFO] Running mx.uv.tcsw.ventas.infrastructure.delivery.swing.modelo.CarritoViewModelTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 s - in mx.uv.tcsw.ventas.infrastructure.delivery.swing.modelo.CarritoViewModelTest
+[INFO] Running mx.uv.tcsw.ventas.infrastructure.delivery.swing.modelo.ProductoViewModelTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 s - in mx.uv.tcsw.ventas.infrastructure.delivery.swing.modelo.ProductoViewModelTest
+[INFO] Running mx.uv.tcsw.ventas.infrastructure.delivery.swing.VentaFrameTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.03 s - in mx.uv.tcsw.ventas.infrastructure.delivery.swing.VentaFrameTest
+[INFO] Running mx.uv.tcsw.ventas.infrastructure.delivery.swing.vista.CarritoViewTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.021 s - in mx.uv.tcsw.ventas.infrastructure.delivery.swing.vista.CarritoViewTest
+[INFO] Running mx.uv.tcsw.ventas.infrastructure.delivery.swing.vista.CatalogoViewTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 s - in mx.uv.tcsw.ventas.infrastructure.delivery.swing.vista.CatalogoViewTest
+[INFO] Running mx.uv.tcsw.ventas.infrastructure.delivery.swing.vista.FormularioVentaViewTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 s - in mx.uv.tcsw.ventas.infrastructure.delivery.swing.vista.FormularioVentaViewTest
+[INFO] Running mx.uv.tcsw.ventas.infrastructure.persistence.hibernate.HibernateProductoAdapterTest
+oct 30, 2026 9:45:13 P. M. org.hibernate.cache.internal.RegionFactoryInitiator initiateService
+INFO: HHH000026: Second-level cache disabled
+oct 30, 2026 9:45:13 P. M. org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl configure
+WARN: HHH10001002: Using built-in connection pool (not intended for production use)
+oct 30, 2026 9:45:13 P. M. org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001005: Loaded JDBC driver class: org.postgresql.Driver
+oct 30, 2026 9:45:13 P. M. org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001012: Connecting with JDBC URL [jdbc:postgresql://localhost:5435/ventas_test]
+oct 30, 2026 9:45:13 P. M. org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001001: Connection properties: {password=****, user=postgres}
+oct 30, 2026 9:45:13 P. M. org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001003: Autocommit mode: false
+oct 30, 2026 9:45:13 P. M. org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl$PooledConnections <init>
+INFO: HHH10001115: Connection pool size: 20 (min=1)
+oct 30, 2026 9:45:13 P. M. org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator initiateService
+INFO: HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+oct 30, 2026 9:45:13 P. M. org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl getIsolatedConnection
+INFO: HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@57562473] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+oct 30, 2026 9:45:13 P. M. org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl$PoolState stop
+INFO: HHH10001008: Cleaning up connection pool [jdbc:postgresql://localhost:5435/ventas_test]
+oct 30, 2026 9:45:13 P. M. org.hibernate.cache.internal.RegionFactoryInitiator initiateService
+INFO: HHH000026: Second-level cache disabled
+oct 30, 2026 9:45:13 P. M. org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl configure
+WARN: HHH10001002: Using built-in connection pool (not intended for production use)
+oct 30, 2026 9:45:13 P. M. org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001005: Loaded JDBC driver class: org.postgresql.Driver
+oct 30, 2026 9:45:13 P. M. org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001012: Connecting with JDBC URL [jdbc:postgresql://localhost:5435/ventas_test]
+oct 30, 2026 9:45:13 P. M. org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001001: Connection properties: {password=****, user=postgres}
+oct 30, 2026 9:45:13 P. M. org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001003: Autocommit mode: false
+oct 30, 2026 9:45:13 P. M. org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl$PooledConnections <init>
+INFO: HHH10001115: Connection pool size: 20 (min=1)
+oct 30, 2026 9:45:14 P. M. org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator initiateService
+INFO: HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+oct 30, 2026 9:45:14 P. M. org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl getIsolatedConnection
+INFO: HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@115dcaea] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+oct 30, 2026 9:45:14 P. M. org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl$PoolState stop
+INFO: HHH10001008: Cleaning up connection pool [jdbc:postgresql://localhost:5435/ventas_test]
+oct 30, 2026 9:45:14 P. M. org.hibernate.cache.internal.RegionFactoryInitiator initiateService
+INFO: HHH000026: Second-level cache disabled
+oct 30, 2026 9:45:14 P. M. org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl configure
+WARN: HHH10001002: Using built-in connection pool (not intended for production use)
+oct 30, 2026 9:45:14 P. M. org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001005: Loaded JDBC driver class: org.postgresql.Driver
+oct 30, 2026 9:45:14 P. M. org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001012: Connecting with JDBC URL [jdbc:postgresql://localhost:5435/ventas_test]
+oct 30, 2026 9:45:14 P. M. org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001001: Connection properties: {password=****, user=postgres}
+oct 30, 2026 9:45:14 P. M. org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001003: Autocommit mode: false
+oct 30, 2026 9:45:14 P. M. org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl$PooledConnections <init>
+INFO: HHH10001115: Connection pool size: 20 (min=1)
+oct 30, 2026 9:45:14 P. M. org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator initiateService
+INFO: HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+oct 30, 2026 9:45:14 P. M. org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl getIsolatedConnection
+INFO: HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@4b4969ea] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+oct 30, 2026 9:45:14 P. M. org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl$PoolState stop
+INFO: HHH10001008: Cleaning up connection pool [jdbc:postgresql://localhost:5435/ventas_test]
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.538 s - in mx.uv.tcsw.ventas.infrastructure.persistence.hibernate.HibernateProductoAdapterTest
+[INFO] Running mx.uv.tcsw.ventas.infrastructure.persistence.hibernate.HibernateVentaAdapterTest
+oct 30, 2026 9:45:14 P. M. org.hibernate.cache.internal.RegionFactoryInitiator initiateService
+INFO: HHH000026: Second-level cache disabled
+oct 30, 2026 9:45:14 P. M. org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl configure
+WARN: HHH10001002: Using built-in connection pool (not intended for production use)
+oct 30, 2026 9:45:14 P. M. org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001005: Loaded JDBC driver class: org.postgresql.Driver
+oct 30, 2026 9:45:14 P. M. org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001012: Connecting with JDBC URL [jdbc:postgresql://localhost:5435/ventas_test]
+oct 30, 2026 9:45:14 P. M. org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001001: Connection properties: {password=****, user=postgres}
+oct 30, 2026 9:45:14 P. M. org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001003: Autocommit mode: false
+oct 30, 2026 9:45:14 P. M. org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl$PooledConnections <init>
+INFO: HHH10001115: Connection pool size: 20 (min=1)
+oct 30, 2026 9:45:15 P. M. org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator initiateService
+INFO: HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+oct 30, 2026 9:45:15 P. M. org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl getIsolatedConnection
+INFO: HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@7ac48f05] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+oct 30, 2026 9:45:15 P. M. org.hibernate.engine.jdbc.spi.SqlExceptionHelper logExceptions
+WARN: SQL Error: 0, SQLState: 23503
+oct 30, 2026 9:45:15 P. M. org.hibernate.engine.jdbc.spi.SqlExceptionHelper logExceptions
+ERROR: ERROR: insert or update on table "detalle_venta" violates foreign key constraint "detalle_venta_producto_id_fkey"
+  Detail: Key (producto_id)=(9999) is not present in table "productos".
+oct 30, 2026 9:45:15 P. M. org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl$PoolState stop
+INFO: HHH10001008: Cleaning up connection pool [jdbc:postgresql://localhost:5435/ventas_test]
+oct 30, 2026 9:45:15 P. M. org.hibernate.cache.internal.RegionFactoryInitiator initiateService
+INFO: HHH000026: Second-level cache disabled
+oct 30, 2026 9:45:15 P. M. org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl configure
+WARN: HHH10001002: Using built-in connection pool (not intended for production use)
+oct 30, 2026 9:45:15 P. M. org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001005: Loaded JDBC driver class: org.postgresql.Driver
+oct 30, 2026 9:45:15 P. M. org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001012: Connecting with JDBC URL [jdbc:postgresql://localhost:5435/ventas_test]
+oct 30, 2026 9:45:15 P. M. org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001001: Connection properties: {password=****, user=postgres}
+oct 30, 2026 9:45:15 P. M. org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001003: Autocommit mode: false
+oct 30, 2026 9:45:15 P. M. org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl$PooledConnections <init>
+INFO: HHH10001115: Connection pool size: 20 (min=1)
+oct 30, 2026 9:45:15 P. M. org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator initiateService
+INFO: HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+oct 30, 2026 9:45:15 P. M. org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl getIsolatedConnection
+INFO: HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@7e50eeb9] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+oct 30, 2026 9:45:16 P. M. org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl$PoolState stop
+INFO: HHH10001008: Cleaning up connection pool [jdbc:postgresql://localhost:5435/ventas_test]
+oct 30, 2026 9:45:16 P. M. org.hibernate.cache.internal.RegionFactoryInitiator initiateService
+INFO: HHH000026: Second-level cache disabled
+oct 30, 2026 9:45:16 P. M. org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl configure
+WARN: HHH10001002: Using built-in connection pool (not intended for production use)
+oct 30, 2026 9:45:16 P. M. org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001005: Loaded JDBC driver class: org.postgresql.Driver
+oct 30, 2026 9:45:16 P. M. org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001012: Connecting with JDBC URL [jdbc:postgresql://localhost:5435/ventas_test]
+oct 30, 2026 9:45:16 P. M. org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001001: Connection properties: {password=****, user=postgres}
+oct 30, 2026 9:45:16 P. M. org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001003: Autocommit mode: false
+oct 30, 2026 9:45:16 P. M. org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl$PooledConnections <init>
+INFO: HHH10001115: Connection pool size: 20 (min=1)
+oct 30, 2026 9:45:16 P. M. org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator initiateService
+INFO: HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+oct 30, 2026 9:45:16 P. M. org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl getIsolatedConnection
+INFO: HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@13dc6649] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+oct 30, 2026 9:45:16 P. M. org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl$PoolState stop
+INFO: HHH10001008: Cleaning up connection pool [jdbc:postgresql://localhost:5435/ventas_test]
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.879 s - in mx.uv.tcsw.ventas.infrastructure.persistence.hibernate.HibernateVentaAdapterTest
+[INFO] Running mx.uv.tcsw.ventas.infrastructure.persistence.jdbc.PostgresProductoAdapterTest
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.97 s - in mx.uv.tcsw.ventas.infrastructure.persistence.jdbc.PostgresProductoAdapterTest
+[INFO] Running mx.uv.tcsw.ventas.infrastructure.persistence.jdbc.VentaJdbcRepositoryTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.532 s - in mx.uv.tcsw.ventas.infrastructure.persistence.jdbc.VentaJdbcRepositoryTest
+[INFO] Running mx.uv.tcsw.ventas.ProductoTest
+[INFO] Tests run: 23, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.015 s - in mx.uv.tcsw.ventas.ProductoTest
+[INFO] Running mx.uv.tcsw.ventas.VentaFrameTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 s - in mx.uv.tcsw.ventas.VentaFrameTest
+[INFO] Running mx.uv.tcsw.ventas.VentaTest
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.011 s - in mx.uv.tcsw.ventas.VentaTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 112, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jacoco:0.8.11:report (report) @ tcsw-ventas ---
+[INFO] Loading execution data file C:\Users\vivar\tcsw-ventas\target\jacoco.exec
+[INFO] Analyzed bundle 'tcsw-ventas' with 29 classes
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  33.947 s
+[INFO] Finished at: 2026-10-30T21:45:19-06:00
+[INFO] ------------------------------------------------------------------------
+
+== Resultado ==
+MODULO_M11_VERIFICADO
