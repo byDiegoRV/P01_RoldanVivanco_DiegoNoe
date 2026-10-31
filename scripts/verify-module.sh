@@ -9,7 +9,7 @@
 #      responden preguntas distintas: runtime invocado, compilador y Java
 #      con el que corre el propio proceso de Maven). Cualquier discrepancia
 #      queda registrada, no oculta.
-#   2) Solo M11: levanta PostgreSQL con Docker Compose, recrea el esquema
+#   2) Solo M11 y M12: levanta PostgreSQL con Docker Compose, recrea el esquema
 #      desde cero (schema.sql) y comprueba que existan las tablas.
 #   3) Ejecuta la construccion limpia: mvn clean test.
 #   4) Si Maven informa BUILD SUCCESS, imprime MODULO_<MODULO>_VERIFICADO.
@@ -21,7 +21,7 @@
 
 set -euo pipefail
 
-MODULOS_VALIDOS=("M01" "M02" "M03" "M04" "M05" "M06" "M07" "M08" "M09" "M10" "M11")
+MODULOS_VALIDOS=("M01" "M02" "M03" "M04" "M05" "M06" "M07" "M08" "M09" "M10" "M11" "M12")
 MODULO="${1:-}"
 
 modulo_valido=false
@@ -114,9 +114,9 @@ echo ""
 echo "-- mvn (Java con el que corre Maven) --"
 mvn -version
 
-if [[ "$MODULO" == "M11" ]]; then
+if [[ "$MODULO" == "M11" || "$MODULO" == "M12" ]]; then
   echo ""
-  echo "== Preparando base de datos (M11) =="
+  echo "== Preparando base de datos ($MODULO) =="
   preparar_bd_m11 || fallo_modulo
 fi
 
