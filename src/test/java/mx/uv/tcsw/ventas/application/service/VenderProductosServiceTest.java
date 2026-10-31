@@ -1,27 +1,27 @@
 package mx.uv.tcsw.ventas.application.service;
 
+import java.time.Clock;
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
-import java.time.Clock;
-import java.time.Instant;
-import java.time.ZoneOffset;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Optional;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
 
 import mx.uv.tcsw.ventas.application.exception.ProductoNoEncontradoException;
 import mx.uv.tcsw.ventas.application.ports.in.ItemVenta;
@@ -66,8 +66,9 @@ class VenderProductosServiceTest {
     void productoInexistenteNoRegistra() {
         when(productos.buscarPorId(999)).thenReturn(Optional.empty());
 
-        ProductoNoEncontradoException ex = assertThrows(ProductoNoEncontradoException.class,
-                () -> servicio.ejecutar(Collections.singletonList(new ItemVenta(999, 1))));
+           List<ItemVenta> items = Collections.singletonList(new ItemVenta(999, 1));
+   ProductoNoEncontradoException ex = assertThrows(ProductoNoEncontradoException.class,
+           () -> servicio.ejecutar(items));
 
         assertEquals(999, ex.getProductoId());
         verify(registrar, never()).ejecutar(any());
@@ -76,8 +77,9 @@ class VenderProductosServiceTest {
     @Test
     @DisplayName("Sin existencia suficiente lanza ExistenciaInsuficienteException con el id y no registra nada")
     void existenciaInsuficienteNoRegistra() {
-        ExistenciaInsuficienteException ex = assertThrows(ExistenciaInsuficienteException.class,
-                () -> servicio.ejecutar(Collections.singletonList(new ItemVenta(3, 1))));
+          List<ItemVenta> items = Collections.singletonList(new ItemVenta(3, 1));
+   ExistenciaInsuficienteException ex = assertThrows(ExistenciaInsuficienteException.class,
+           () -> servicio.ejecutar(items));
 
         assertEquals(Integer.valueOf(3), ex.getProductoId());
         verify(registrar, never()).ejecutar(any());
@@ -86,8 +88,8 @@ class VenderProductosServiceTest {
     @Test
     @DisplayName("Una lista vacía o nula se rechaza")
     void listaVaciaSeRechaza() {
-        assertThrows(IllegalArgumentException.class, () -> servicio.ejecutar(Collections.emptyList()));
-        assertThrows(IllegalArgumentException.class, () -> servicio.ejecutar(null));
+           List<ItemVenta> vacia = Collections.emptyList();
+   assertThrows(IllegalArgumentException.class, () -> servicio.ejecutar(vacia));
         verify(registrar, never()).ejecutar(any());
     }
 
@@ -97,8 +99,9 @@ class VenderProductosServiceTest {
         ExistenciaInsuficienteException causa = new ExistenciaInsuficienteException("en base de datos", 1);
         doThrow(new IllegalStateException("No se pudo registrar la venta", causa)).when(registrar).ejecutar(any());
 
-        ExistenciaInsuficienteException ex = assertThrows(ExistenciaInsuficienteException.class,
-                () -> servicio.ejecutar(Collections.singletonList(new ItemVenta(1, 1))));
+           List<ItemVenta> items = Collections.singletonList(new ItemVenta(1, 1));
+   ExistenciaInsuficienteException ex = assertThrows(ExistenciaInsuficienteException.class,
+           () -> servicio.ejecutar(items));
 
         assertSame(causa, ex);
     }
@@ -109,8 +112,9 @@ class VenderProductosServiceTest {
         IllegalStateException original = new IllegalStateException("fallo de conexión");
         doThrow(original).when(registrar).ejecutar(any());
 
-        IllegalStateException ex = assertThrows(IllegalStateException.class,
-                () -> servicio.ejecutar(Arrays.asList(new ItemVenta(1, 1))));
+           List<ItemVenta> items = Arrays.asList(new ItemVenta(1, 1));
+   IllegalStateException ex = assertThrows(IllegalStateException.class,
+           () -> servicio.ejecutar(items));
 
         assertSame(original, ex);
     }

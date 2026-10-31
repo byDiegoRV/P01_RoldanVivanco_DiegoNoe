@@ -34,7 +34,8 @@ public class ManejadorErrores extends ResponseEntityExceptionHandler {
 
     static final String MENSAJE_INTERNO = "Ocurrió un error interno. Intenta de nuevo más tarde.";
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ManejadorErrores.class);
+    private static final Logger REGISTRO = LoggerFactory.getLogger(ManejadorErrores.class);
+    static final String CODIGO_SOLICITUD_INVALIDA = "SOLICITUD_INVALIDA";
 
     @ExceptionHandler(ProductoNoEncontradoException.class)
     public ResponseEntity<Object> productoNoEncontrado(ProductoNoEncontradoException ex, WebRequest request) {
@@ -53,7 +54,7 @@ public class ManejadorErrores extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> errorInterno(Exception ex, WebRequest request) {
-        LOGGER.error("Error interno no controlado", ex);
+        REGISTRO.error("Error interno no controlado", ex);
         return responder(HttpStatus.INTERNAL_SERVER_ERROR, "ERROR_INTERNO", MENSAJE_INTERNO,
                 Collections.emptyList(), new HttpHeaders(), request);
     }
@@ -72,7 +73,7 @@ public class ManejadorErrores extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
             HttpHeaders headers, HttpStatus status, WebRequest request) {
-        return responder(HttpStatus.BAD_REQUEST, "SOLICITUD_INVALIDA",
+        return responder(HttpStatus.BAD_REQUEST, CODIGO_SOLICITUD_INVALIDA,
                 "El cuerpo de la petición no es válido: JSON mal formado o con campos no permitidos.",
                 Collections.emptyList(), headers, request);
     }
@@ -83,7 +84,7 @@ public class ManejadorErrores extends ResponseEntityExceptionHandler {
         String parametro = ex instanceof MethodArgumentTypeMismatchException
                 ? ((MethodArgumentTypeMismatchException) ex).getName()
                 : ex.getPropertyName();
-        return responder(HttpStatus.BAD_REQUEST, "SOLICITUD_INVALIDA",
+        return responder(HttpStatus.BAD_REQUEST, CODIGO_SOLICITUD_INVALIDA,
                 "El parámetro '" + parametro + "' debe ser un número entero.", Collections.emptyList(), headers,
                 request);
     }
@@ -93,7 +94,7 @@ public class ManejadorErrores extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers,
             HttpStatus status, WebRequest request) {
         if (status.is5xxServerError()) {
-            LOGGER.error("Error interno de Spring MVC", ex);
+            REGISTRO.error("Error interno de Spring MVC", ex);
         }
         return responder(status, codigoPara(status), mensajePara(status), Collections.emptyList(), headers,
                 request);
@@ -111,7 +112,7 @@ public class ManejadorErrores extends ResponseEntityExceptionHandler {
             case UNSUPPORTED_MEDIA_TYPE:
                 return "TIPO_NO_SOPORTADO";
             default:
-                return "SOLICITUD_INVALIDA";
+                return CODIGO_SOLICITUD_INVALIDA;
         }
     }
 
