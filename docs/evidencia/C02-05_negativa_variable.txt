@@ -1,0 +1,24 @@
+== Registro de versiones efectivas ==
+-- java (runtime) --
+java version "11.0.32" 2026-07-21 LTS
+Java(TM) SE Runtime Environment 18.9 (build 11.0.32+7-LTS-196)
+Java HotSpot(TM) 64-Bit Server VM 18.9 (build 11.0.32+7-LTS-196, mixed mode)
+
+-- javac (compilador) --
+javac 11.0.32
+
+-- mvn (Java con el que corre Maven) --
+Apache Maven 3.9.13 (39d686bd50d8e054301e3a68ad44781df6f80dda)
+Maven home: C:\Users\vivar\Downloads\apache-maven-3.9.13-bin\apache-maven-3.9.13
+Java version: 11.0.32, vendor: Oracle Corporation, runtime: C:\Program Files\Java\jdk-11.0.32
+Default locale: es_MX, platform encoding: Cp1252
+OS name: "windows 11", version: "10.0", arch: "amd64", family: "windows"
+
+== Preparando base de datos (M11) ==
+ERROR: falta la variable de entorno DB_PASSWORD
+
+== Resultado ==
+MODULO_M11_NO_VERIFICADO
+La construccion fallo. Conserva este comando y su salida, identifica
+la causa, corrige y vuelve a ejecutar. No declares MODULO_M11_VERIFICADO
+sin haber ejecutado realmente la comprobacion.

@@ -1,2 +1,1 @@
-(unset DB_PASSWORD; ./scripts/verify-module.sh M11) 2>&1 
-
+Uso: ./scripts/verify-module.sh <M01 M02 M03 M04 M05 M06 M07 M08 M09 M10 M11>

@@ -1,0 +1,17 @@
+ id |      nombre       | stock 
+----+-------------------+-------
+  1 | Laptop X          |     8
+  2 | Teclado Mecánico  |    25
+  3 | Mouse Inalámbrico |     0
+(3 rows)
+
+ id |        folio        |  total   
+----+---------------------+----------
+  1 | V-20261030222423996 | 30000.00
+(1 row)
+
+ venta_id | producto_id | cantidad | precio_unitario 
+----------+-------------+----------+-----------------
+        1 |           1 |        2 |        15000.00
+(1 row)
+

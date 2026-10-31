@@ -518,73 +518,78 @@ SonarQube → Quality Gate Passed
 Git → Conflicto provocado y resuelto
 Tag → v0.3.0
 
+---
+
 ## Guía de Reproducción - Corte 1 (C01)
 
-Para evaluar la entrega arquitectónica (C01), siga estos pasos:
+Para evaluar la entrega arquitectónica (C01):
 
-1. **Posicionarse en la versión entregable:**
-   ```bash
-   git checkout v0.1-arquitectura
-   
-
-# Sistema de Ventas - Arquitectura Limpia y Cliente Swing (Proyecto P07)
-
-Sistema de ventas modular desarrollado en Java bajo los principios de Arquitectura Limpia (Clean Architecture), Domain-Driven Design (DDD), patrones de diseño y una interfaz gráfica en Java Swing con control de calidad estricto mediante SonarQube.
-
-## 🛠️ Tecnologías y Herramientas
-* **Java 11**[cite: 1]
-* **Maven** (Gestión de proyectos y compilación)
-* **JUnit 5 & JaCoCo** (Pruebas unitarias y cobertura de código)
-* **SonarQube** (Análisis estático de código y Quality Gate)
-* **Java Swing** (Interfaz gráfica cliente)
+```bash
+git checkout v0.1-arquitectura
+```
 
 ---
 
-## 📂 Estructura General del Proyecto
-El proyecto está organizado en capas independientes para garantizar la mantenibilidad y escalabilidad del software:
+# Sistema de Ventas - Arquitectura Limpia y Cliente Swing (Proyecto P07)
+
+Sistema de ventas modular desarrollado en Java bajo los principios de Arquitectura Limpia (Clean Architecture), Domain-Driven Design (DDD), patrones de diseño y una interfaz gráfica en Java Swing con control de calidad mediante SonarQube.
+
+## Tecnologías y herramientas
+* **Java 11**
+* **Maven** (gestión de proyectos y compilación)
+* **JUnit 5 y JaCoCo** (pruebas unitarias y cobertura de código)
+* **SonarQube** (análisis estático de código y Quality Gate)
+* **Java Swing** (interfaz gráfica cliente)
+* **PostgreSQL 16 en Docker, JDBC y Hibernate 6.4** (persistencia, Corte 2)
+
+## Estructura general del proyecto
+El proyecto está organizado en capas independientes:
 
 ```text
 mx.uv.tcsw.ventas
-├── application/       # Casos de uso y servicios de aplicación (Regla de negocio central)
+├── application/       # Casos de uso y servicios de aplicación
 ├── domain/            # Entidades, objetos de valor y reglas del dominio
 └── infrastructure/    # Adaptadores de entrega, persistencia y cliente Swing
-    └── delivery/
-        └── swing/     # Vistas (Catalogo, Carrito, Formulario), Controladores y Modelos
+    ├── delivery/
+    │   └── swing/     # Vistas, controladores y modelos
+    └── persistence/
+        ├── jdbc/      # Adaptadores JDBC (línea base)
+        └── hibernate/ # Adaptadores Hibernate sobre los mismos puertos
+```
 
-## 💾 Práctica: Persistencia JDBC y Arquitectura Hexagonal
+## Persistencia y arquitectura hexagonal
 
-### 1. Esquema de Base de Datos
-La persistencia se realiza sobre PostgreSQL 16 (contenedor Docker ejecutándose en el puerto `5434`), utilizando el siguiente esquema para la tabla `productos`:
+La persistencia se realiza sobre PostgreSQL 16 en un contenedor Docker (puerto `5435` del anfitrión, configurable con `DB_PORT`). El esquema completo está en `src/main/resources/sql/schema.sql` (tablas `productos`, `ventas` y `detalle_venta`). Los puertos del dominio (`ProductoRepository`, `VentaRepository`) tienen dos implementaciones intercambiables: JDBC (línea base) y Hibernate.
 
-```sql
-CREATE TABLE IF NOT EXISTS productos (
-    id SERIAL PRIMARY KEY,
-    codigo VARCHAR(50) NOT NULL,
-    nombre VARCHAR(100) NOT NULL,
-    precio NUMERIC(10, 2) NOT NULL,
-    stock INT NOT NULL
+El registro de una venta es una sola unidad de trabajo: se confirma completa (encabezado, detalles y descuento de existencias) o no se aplica ningún cambio.
 
-    ---
+---
 
+## Guía de Reproducción - Corte 2 (C02: Escritorio y Persistencia)
 
-
-## 🛠️ Guía de Reproducción - Corte 2 (C02: Escritorio y Persistencia)
-
-1. **Configurar el entorno.** Copie el archivo de ejemplo y cargue las variables:
+1. **Configurar el entorno.** Copie el archivo de ejemplo y defina una contraseña local:
    ```bash
    cp .env.example .env
+   # edite .env y reemplace DB_PASSWORD por una contraseña propia
    set -a; source .env; set +a
    ```
-   Variables requeridas: `DB_USER`, `DB_PASSWORD`, `DB_NAME`, `DB_PORT`. Los valores de `.env.example` son solo de prueba local. No suba `.env` ni use credenciales reales.
+   Variables requeridas: `DB_USER`, `DB_PASSWORD`, `DB_NAME`, `DB_PORT`. No suba `.env` ni use credenciales reales.
+   En PowerShell las variables se definen con `$env:DB_PASSWORD = "..."` y el script se ejecuta con Git Bash.
 
 2. **Abrir Docker Desktop** y esperar a "Engine running".
 
-3. **Ejecutar la verificación del módulo:**
+3. **Verificar el módulo:**
    ```bash
    ./scripts/verify-module.sh M11
    ```
-   El script reinicia PostgreSQL desde cero (`docker compose down -v` + `up`), recrea el esquema desde `src/main/resources/sql/schema.sql`, comprueba las tablas `ventas` y `detalle_venta` y ejecuta `mvn clean test`.
+   El script reinicia PostgreSQL desde cero (`docker compose down -v` y `up`), recrea el esquema, comprueba las tablas `ventas` y `detalle_venta` y ejecuta `mvn clean test`.
    **Resultado esperado:** la última línea es `MODULO_M11_VERIFICADO`.
+
+4. **Ejecutar el cliente Swing** (con la base de datos arriba):
+   ```bash
+   docker exec -i postgres_ventas psql -U "$DB_USER" -d "$DB_NAME" < scripts/datos-demo.sql
+   ```
+   Después ejecute `MainSwing` con las variables de entorno definidas. Por defecto usa Hibernate; con `PERSISTENCIA=jdbc` usa la línea base JDBC.
 
 ### Comprobaciones negativas / límites
 
@@ -593,19 +598,19 @@ CREATE TABLE IF NOT EXISTS productos (
 | Módulo inválido | `./scripts/verify-module.sh M99` | Imprime el uso y sale con código 1 |
 | Variable faltante | `(unset DB_PASSWORD; ./scripts/verify-module.sh M11)` | `ERROR: falta la variable de entorno DB_PASSWORD` y `MODULO_M11_NO_VERIFICADO` |
 
-### VERIFICADO
-- `mvn test` contra PostgreSQL en Docker: 112 pruebas, 0 fallos, 0 errores, BUILD SUCCESS ( ejecutado por Xochitl).
+### Estado de verificación (Corte 2)
 
-### NO_VERIFICADO
-- `verify-module.sh M11` :
-- Recorrido Swing guardar, reiniciar, consultar (implementado por Noe; falta confirmar quién lo ejecutó y cuándo).
+**VERIFICADO**
+- `mvn test` contra PostgreSQL en Docker: 112 pruebas, 0 fallos, 0 errores, BUILD SUCCESS (Xochitl; `docs/evidencia/C02-05_mvn_test_ok.txt`).
+- `./scripts/verify-module.sh M11` termina en `MODULO_M11_VERIFICADO` (Noe, 2026-10-30; `docs/evidencia/C02-05_positiva_2da.txt`) y las dos comprobaciones negativas (`C02-05_negativa_variable.txt`, `C02-05_negativa_modulo.txt`).
+- Registro de venta transaccional en JDBC y en Hibernate, con comprobación del estado final de la base de datos (`evidencia/C02/`).
+- Cliente Swing conectado a PostgreSQL: la compra descuenta existencias en la base de datos (Noe, 2026-10-26).
+- SonarQube sobre el código del PR #39: Quality Gate Passed, 0 issues, cobertura en código nuevo de 80.8 % o más (Noe, 2026-10-27).
+
+**NO_VERIFICADO**
 - Reconstrucción desde un clon limpio por otra persona.
-- Análisis de Sonar sobre el corte final.
+- Análisis de SonarQube posterior al PR #40.
 
-### PENDIENTE
-- Reemplazar `DB_PASSWORD` de `.env.example` por un valor de ejemplo no operativo.
-- Actualizar JaCoCo (0.8.13 o superior) o fijar JDK 21.
-- Revisión y merge de los PR de C02-05 y C02-06.
+**PENDIENTE**
+- Actualizar JaCoCo (0.8.13 o superior) o fijar JDK 21 si se cambia de versión de Java.
 - Etiqueta `v0.2-escritorio` y envío único en Eminus.
-````
-
