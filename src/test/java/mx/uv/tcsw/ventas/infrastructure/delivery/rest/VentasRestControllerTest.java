@@ -5,6 +5,9 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.not;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -17,7 +20,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
+import mx.uv.tcsw.ventas.application.exception.ProductoNoEncontradoException;
 import mx.uv.tcsw.ventas.application.ports.in.VenderProductosUseCase;
+import mx.uv.tcsw.ventas.domain.ExistenciaInsuficienteException;
 import mx.uv.tcsw.ventas.domain.Producto;
 import mx.uv.tcsw.ventas.domain.Venta;
 
@@ -56,7 +61,11 @@ class VentasRestControllerTest {
         mvc.perform(post("/api/ventas")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"partidas\":[{\"productoId\":1,\"cantidad\":0}]}"))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value("VALIDACION_FALLIDA"))
+                .andExpect(jsonPath("$.message").value("La petición contiene datos inválidos."))
+                .andExpect(jsonPath("$.details[0]").value("partidas[0].cantidad: debe ser mayor o igual a 1"))
+                .andExpect(jsonPath("$.path").value("/api/ventas"));
 
         verify(venderProductos, never()).ejecutar(any());
     }
@@ -67,7 +76,9 @@ class VentasRestControllerTest {
         mvc.perform(post("/api/ventas")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"partidas\":[]}"))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value("VALIDACION_FALLIDA"))
+                .andExpect(jsonPath("$.details[0]").value("partidas: debe incluir al menos una partida"));
 
         verify(venderProductos, never()).ejecutar(any());
     }
@@ -78,7 +89,9 @@ class VentasRestControllerTest {
         mvc.perform(post("/api/ventas")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"tarjeta\":\"1234567890123456\",\"partidas\":[{\"productoId\":1,\"cantidad\":1}]}"))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value("SOLICITUD_INVALIDA"))
+                .andExpect(content().string(not(containsString("1234567890123456"))));
 
         verify(venderProductos, never()).ejecutar(any());
     }
@@ -89,6 +102,51 @@ class VentasRestControllerTest {
         mvc.perform(post("/api/ventas")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"partidas\": ["))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value("SOLICITUD_INVALIDA"));
+    }
+
+    @Test
+    @DisplayName("Un producto inexistente devuelve 404 con el formato de error")
+    void productoInexistenteDevuelve404() throws Exception {
+        when(venderProductos.ejecutar(any())).thenThrow(new ProductoNoEncontradoException(999));
+
+        mvc.perform(post("/api/ventas")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"partidas\":[{\"productoId\":999,\"cantidad\":1}]}"))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.status").value(404))
+                .andExpect(jsonPath("$.code").value("PRODUCTO_NO_ENCONTRADO"))
+                .andExpect(jsonPath("$.message").value("No existe el producto con id 999."))
+                .andExpect(jsonPath("$.path").value("/api/ventas"));
+    }
+
+    @Test
+    @DisplayName("Sin existencia suficiente devuelve 409 con el formato de error")
+    void existenciaInsuficienteDevuelve409() throws Exception {
+        when(venderProductos.ejecutar(any()))
+                .thenThrow(new ExistenciaInsuficienteException("Existencia insuficiente.", 3));
+
+        mvc.perform(post("/api/ventas")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"partidas\":[{\"productoId\":3,\"cantidad\":1}]}"))
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.status").value(409))
+                .andExpect(jsonPath("$.code").value("EXISTENCIA_INSUFICIENTE"))
+                .andExpect(jsonPath("$.message").value("No hay existencia suficiente para el producto con id 3."));
+    }
+
+    @Test
+    @DisplayName("Un error inesperado al registrar devuelve 500 genérico, sin exponer el detalle")
+    void errorInesperadoDevuelve500() throws Exception {
+        when(venderProductos.ejecutar(any())).thenThrow(new IllegalStateException("fallo con password=secreto"));
+
+        mvc.perform(post("/api/ventas")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"partidas\":[{\"productoId\":1,\"cantidad\":1}]}"))
+                .andExpect(status().isInternalServerError())
+                .andExpect(jsonPath("$.code").value("ERROR_INTERNO"))
+                .andExpect(jsonPath("$.message").value("Ocurrió un error interno. Intenta de nuevo más tarde."))
+                .andExpect(content().string(not(containsString("secreto"))));
     }
 }

@@ -2,6 +2,9 @@ package mx.uv.tcsw.ventas.infrastructure.delivery.rest;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.not;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -16,6 +19,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
+import mx.uv.tcsw.ventas.application.exception.ProductoNoEncontradoException;
 import mx.uv.tcsw.ventas.application.ports.in.ConsultarProductosUseCase;
 import mx.uv.tcsw.ventas.domain.Producto;
 
@@ -66,5 +70,42 @@ class ProductosRestControllerTest {
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.nombre").value("Laptop X"))
                 .andExpect(jsonPath("$.existencia").value(10));
+    }
+
+    @Test
+    @DisplayName("GET /api/productos/{id} de un producto inexistente devuelve 404 con el formato de error")
+    void productoInexistenteDevuelve404() throws Exception {
+        when(consultarProductos.obtener(999)).thenThrow(new ProductoNoEncontradoException(999));
+
+        mvc.perform(get("/api/productos/999"))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.status").value(404))
+                .andExpect(jsonPath("$.code").value("PRODUCTO_NO_ENCONTRADO"))
+                .andExpect(jsonPath("$.message").value("No existe el producto con id 999."))
+                .andExpect(jsonPath("$.path").value("/api/productos/999"))
+                .andExpect(jsonPath("$.details.length()").value(0))
+                .andExpect(jsonPath("$.timestamp").exists());
+    }
+
+    @Test
+    @DisplayName("GET /api/productos/{id} con un id no numérico devuelve 400")
+    void idNoNumericoDevuelve400() throws Exception {
+        mvc.perform(get("/api/productos/abc"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value("SOLICITUD_INVALIDA"))
+                .andExpect(jsonPath("$.message").value("El parámetro 'id' debe ser un número entero."))
+                .andExpect(jsonPath("$.path").value("/api/productos/abc"));
+    }
+
+    @Test
+    @DisplayName("Un error inesperado devuelve 500 con mensaje genérico, sin exponer el detalle")
+    void errorInesperadoDevuelve500SinDetalles() throws Exception {
+        when(consultarProductos.listar()).thenThrow(new IllegalStateException("fallo con password=secreto"));
+
+        mvc.perform(get("/api/productos"))
+                .andExpect(status().isInternalServerError())
+                .andExpect(jsonPath("$.code").value("ERROR_INTERNO"))
+                .andExpect(jsonPath("$.message").value("Ocurrió un error interno. Intenta de nuevo más tarde."))
+                .andExpect(content().string(not(containsString("secreto"))));
     }
 }

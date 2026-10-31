@@ -9,6 +9,9 @@ info:
     Reglas generales:
     - Todas las peticiones y respuestas usan JSON (`application/json`).
     - Todos los errores usan el mismo esquema `Error`; nunca incluyen trazas, SQL ni credenciales.
+    - Además de las respuestas documentadas por operación, una ruta inexistente responde 404 (`RECURSO_NO_ENCONTRADO`),
+      un método no permitido 405 (`METODO_NO_PERMITIDO`) y un tipo de contenido no soportado 415 (`TIPO_NO_SOPORTADO`),
+      todas con el esquema `Error`.
     - La API no recibe ni registra datos de tarjeta ni datos personales del cliente.
     - El folio de la venta lo genera el servidor.
 servers:
@@ -138,7 +141,7 @@ paths:
                     precioUnitario: 15000.00
                     subtotal: 30000.00
         '400':
-          description: Petición inválida (JSON mal formado o datos que no cumplen la validación)
+          description: Petición inválida (JSON mal formado, campos no permitidos o datos que no cumplen la validación)
           content:
             application/json:
               schema:
@@ -155,12 +158,12 @@ paths:
                     details:
                       - "partidas[0].cantidad: debe ser mayor o igual a 1"
                 jsonInvalido:
-                  summary: JSON mal formado
+                  summary: JSON mal formado o con campos no permitidos
                   value:
                     timestamp: '2026-11-02T10:15:30Z'
                     status: 400
                     code: SOLICITUD_INVALIDA
-                    message: El cuerpo de la petición no es un JSON válido.
+                    message: 'El cuerpo de la petición no es válido: JSON mal formado o con campos no permitidos.'
                     path: /api/ventas
                     details: []
         '404':
@@ -314,6 +317,9 @@ components:
             - PRODUCTO_NO_ENCONTRADO
             - EXISTENCIA_INSUFICIENTE
             - ERROR_INTERNO
+            - RECURSO_NO_ENCONTRADO
+            - METODO_NO_PERMITIDO
+            - TIPO_NO_SOPORTADO
         message:
           type: string
           description: Mensaje legible, sin trazas, SQL ni credenciales
