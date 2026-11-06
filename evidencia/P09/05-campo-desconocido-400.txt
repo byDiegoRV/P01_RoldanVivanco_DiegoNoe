@@ -1,0 +1,7 @@
+HTTP/1.1 400 
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Sat, 31 Oct 2026 20:27:04 GMT
+Connection: close
+
+{"timestamp":"2026-10-31T20:27:04.220918500Z","status":400,"code":"SOLICITUD_INVALIDA","message":"El cuerpo de la petición no es válido: JSON mal formado o con campos no permitidos.","path":"/api/ventas","details":[]}

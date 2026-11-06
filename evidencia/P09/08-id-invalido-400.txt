@@ -1,0 +1,7 @@
+HTTP/1.1 400 
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Sat, 31 Oct 2026 20:28:32 GMT
+Connection: close
+
+{"timestamp":"2026-10-31T20:28:32.401316Z","status":400,"code":"SOLICITUD_INVALIDA","message":"El parámetro 'id' debe ser un número entero.","path":"/api/productos/abc","details":[]}

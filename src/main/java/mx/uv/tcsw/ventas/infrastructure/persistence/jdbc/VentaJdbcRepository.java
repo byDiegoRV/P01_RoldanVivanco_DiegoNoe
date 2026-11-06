@@ -9,6 +9,7 @@ import java.sql.Statement;
 
 import mx.uv.tcsw.ventas.application.ports.out.VentaRepository;
 import mx.uv.tcsw.ventas.domain.DetalleVenta;
+import mx.uv.tcsw.ventas.domain.ExistenciaInsuficienteException;
 import mx.uv.tcsw.ventas.domain.Venta;
 
 public class VentaJdbcRepository implements VentaRepository {
@@ -81,8 +82,8 @@ private void ejecutarEnTransaccion(Connection cn, Venta venta) {
             ps.setInt(2, idProducto(detalle));
             ps.setInt(3, detalle.getCantidad());
             if (ps.executeUpdate() != 1) {
-                throw new IllegalStateException("Existencia insuficiente en base de datos para el producto "
-                        + detalle.getProducto().getCodigo());
+                throw new ExistenciaInsuficienteException("Existencia insuficiente en base de datos para el producto "
+                        + detalle.getProducto().getCodigo(), detalle.getProducto().getId());
             }
         }
     }
