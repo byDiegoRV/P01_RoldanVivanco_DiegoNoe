@@ -1,0 +1,106 @@
+API: http://localhost:9098
+
+### 1. Listar productos (200)
+GET /api/productos
+HTTP/1.1 200 
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Sat, 07 Nov 2026 18:49:48 GMT
+
+[{"id":1,"codigo":"P-001","nombre":"Laptop","precio":15000.0,"existencia":8},{"id":2,"codigo":"P-002","nombre":"Mouse","precio":250.0,"existencia":4}]
+
+### 2. Consultar un producto (200)
+GET /api/productos/1
+HTTP/1.1 200 
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Sat, 07 Nov 2026 18:49:48 GMT
+
+{"id":1,"codigo":"P-001","nombre":"Laptop","precio":15000.0,"existencia":8}
+
+### 3. Registrar una venta válida (201)
+POST /api/ventas
+HTTP/1.1 201 
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Sat, 07 Nov 2026 18:49:48 GMT
+
+{"folio":"V-20261107124949307","total":15000.0,"partidas":[{"productoId":1,"nombre":"Laptop","cantidad":1,"precioUnitario":15000.0,"subtotal":15000.0}]}
+
+### 4. Producto inexistente (404)
+GET /api/productos/999
+HTTP/1.1 404 
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Sat, 07 Nov 2026 18:49:49 GMT
+
+{"timestamp":"2026-11-07T18:49:49.643952200Z","status":404,"code":"PRODUCTO_NO_ENCONTRADO","message":"No existe el producto con id 999.","path":"/api/productos/999","details":[]}
+
+### 5. Id no numérico (400)
+GET /api/productos/abc
+HTTP/1.1 400 
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Sat, 07 Nov 2026 18:49:49 GMT
+Connection: close
+
+{"timestamp":"2026-11-07T18:49:49.790466900Z","status":400,"code":"SOLICITUD_INVALIDA","message":"El parámetro 'id' debe ser un número entero.","path":"/api/productos/abc","details":[]}
+
+### 6. Cantidad inválida (400, VALIDACION_FALLIDA)
+POST /api/ventas
+HTTP/1.1 400 
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Sat, 07 Nov 2026 18:49:49 GMT
+Connection: close
+
+{"timestamp":"2026-11-07T18:49:49.951986300Z","status":400,"code":"VALIDACION_FALLIDA","message":"La petición contiene datos inválidos.","path":"/api/ventas","details":["partidas[0].cantidad: debe ser mayor o igual a 1"]}
+
+### 7. Campo no permitido (400, SOLICITUD_INVALIDA)
+POST /api/ventas
+HTTP/1.1 400 
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Sat, 07 Nov 2026 18:49:49 GMT
+Connection: close
+
+{"timestamp":"2026-11-07T18:49:50.096885100Z","status":400,"code":"SOLICITUD_INVALIDA","message":"El cuerpo de la petición no es válido: JSON mal formado o con campos no permitidos.","path":"/api/ventas","details":[]}
+
+### 8. JSON mal formado (400)
+POST /api/ventas
+HTTP/1.1 400 
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Sat, 07 Nov 2026 18:49:49 GMT
+Connection: close
+
+{"timestamp":"2026-11-07T18:49:50.261060700Z","status":400,"code":"SOLICITUD_INVALIDA","message":"El cuerpo de la petición no es válido: JSON mal formado o con campos no permitidos.","path":"/api/ventas","details":[]}
+
+### 9. Sin existencia suficiente (409)
+POST /api/ventas
+HTTP/1.1 409 
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Sat, 07 Nov 2026 18:49:49 GMT
+
+{"timestamp":"2026-11-07T18:49:50.404012Z","status":409,"code":"EXISTENCIA_INSUFICIENTE","message":"No hay existencia suficiente para el producto con id 1.","path":"/api/ventas","details":[]}
+
+### 10. Método no permitido (405)
+DELETE /api/productos
+HTTP/1.1 405 
+Allow: GET
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Sat, 07 Nov 2026 18:49:49 GMT
+
+{"timestamp":"2026-11-07T18:49:50.543143800Z","status":405,"code":"METODO_NO_PERMITIDO","message":"El método HTTP no está permitido para este recurso.","path":"/api/productos","details":[]}
+
+### 11. Ruta inexistente (404)
+GET /api/no-existe
+HTTP/1.1 404 
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Sat, 07 Nov 2026 18:49:50 GMT
+
+{"timestamp":"2026-11-07T18:49:50.724393600Z","status":404,"code":"RECURSO_NO_ENCONTRADO","message":"El recurso solicitado no existe.","path":"/api/no-existe","details":[]}
+

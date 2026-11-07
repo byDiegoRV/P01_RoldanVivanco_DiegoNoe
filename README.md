@@ -614,3 +614,40 @@ El registro de una venta es una sola unidad de trabajo: se confirma completa (en
 **PENDIENTE**
 - Actualizar JaCoCo (0.8.13 o superior) o fijar JDK 21 si se cambia de versión de Java.
 - Etiqueta `v0.2-escritorio` y envío único en Eminus.
+
+## API REST de ventas (P09)
+
+API REST sobre la lógica de ventas, con Spring Boot 2.7.18 y Java 11.
+
+### Arranque
+```bash
+set -a; source .env; set +a
+mvn spring-boot:run                 # puerto 8080 por defecto
+PORT=9098 mvn spring-boot:run       # otro puerto si el 8080 está ocupado
+```
+Requiere PostgreSQL (`docker compose up -d`, puerto 5435).
+
+### Endpoints
+| Método y ruta | Descripción | Respuestas |
+|---|---|---|
+| `GET /api/productos` | Lista los productos | 200 |
+| `GET /api/productos/{id}` | Consulta un producto | 200, 400, 404 |
+| `POST /api/ventas` | Registra una venta | 201, 400, 404, 409 |
+
+Contrato completo: `docs/openapi.yaml`. Las respuestas de error usan un solo formato JSON con `timestamp`, `status`, `code`, `message`, `path` y `details`. La API no acepta datos de tarjeta.
+
+### Pruebas y verificación
+```bash
+mvn clean test                        # 142 pruebas
+./scripts/verify-module.sh M12        # imprime MODULO_M12_VERIFICADO
+PORT=9098 ./scripts/curl-p09.sh       # demostración manual con curl
+```
+
+### Reproducción y evidencia
+- Guía de reproducción y registro de errores: `evidencia/EVIDENCIA_XOCHITL/P09.md`.
+- Índice de evidencia del equipo: `evidencia/P09_EQUIPO_06.md`.
+- Salidas de ejecución: `evidencia/P09/`.
+
+### Estado
+- **VERIFICADO:** pruebas, `MODULO_M12_VERIFICADO` y la demostración con curl.
+- **VERIFICADO:** reporte final de Sonar.
