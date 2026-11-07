@@ -1,0 +1,62 @@
+# Resumen filtrado de ./scripts/verify-module.sh M12 (se omiten trazas de pila y logs de pruebas negativas)
+[INFO] Running mx.uv.tcsw.ventas.application.service.CalculadorDescuentoTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.167 s - in mx.uv.tcsw.ventas.application.service.CalculadorDescuentoTest
+[INFO] Running mx.uv.tcsw.ventas.application.service.ConsultarProductosServiceTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.08 s - in mx.uv.tcsw.ventas.application.service.ConsultarProductosServiceTest
+[INFO] Running mx.uv.tcsw.ventas.application.service.DescuentoSinPromoTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 s - in mx.uv.tcsw.ventas.application.service.DescuentoSinPromoTest
+[INFO] Running mx.uv.tcsw.ventas.application.service.DescuentoVIPTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s - in mx.uv.tcsw.ventas.application.service.DescuentoVIPTest
+[INFO] Running mx.uv.tcsw.ventas.application.service.PagoEfectivoTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 s - in mx.uv.tcsw.ventas.application.service.PagoEfectivoTest
+[INFO] Running mx.uv.tcsw.ventas.application.service.PagoFactoryTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s - in mx.uv.tcsw.ventas.application.service.PagoFactoryTest
+[INFO] Running mx.uv.tcsw.ventas.application.service.RegistrarVentaServiceTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.008 s - in mx.uv.tcsw.ventas.application.service.RegistrarVentaServiceTest
+[INFO] Running mx.uv.tcsw.ventas.application.service.VenderProductosServiceTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.207 s - in mx.uv.tcsw.ventas.application.service.VenderProductosServiceTest
+[INFO] Running mx.uv.tcsw.ventas.DetalleVentaTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.007 s - in mx.uv.tcsw.ventas.DetalleVentaTest
+[INFO] Running mx.uv.tcsw.ventas.infrastructure.delivery.rest.ManejadorErroresTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.213 s - in mx.uv.tcsw.ventas.infrastructure.delivery.rest.ManejadorErroresTest
+[INFO] Running mx.uv.tcsw.ventas.infrastructure.delivery.rest.ProductosListaVaciaTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.155 s - in mx.uv.tcsw.ventas.infrastructure.delivery.rest.ProductosListaVaciaTest
+[INFO] Running mx.uv.tcsw.ventas.infrastructure.delivery.rest.ProductosRestControllerTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.141 s - in mx.uv.tcsw.ventas.infrastructure.delivery.rest.ProductosRestControllerTest
+[INFO] Running mx.uv.tcsw.ventas.infrastructure.delivery.rest.VentasRestControllerTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.203 s - in mx.uv.tcsw.ventas.infrastructure.delivery.rest.VentasRestControllerTest
+[INFO] Running mx.uv.tcsw.ventas.infrastructure.delivery.swing.controlador.VentasControllerPersistenteTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.454 s - in mx.uv.tcsw.ventas.infrastructure.delivery.swing.controlador.VentasControllerPersistenteTest
+[INFO] Running mx.uv.tcsw.ventas.infrastructure.delivery.swing.controlador.VentasControllerTest
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 18.012 s - in mx.uv.tcsw.ventas.infrastructure.delivery.swing.controlador.VentasControllerTest
+[INFO] Running mx.uv.tcsw.ventas.infrastructure.delivery.swing.modelo.CarritoViewModelTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s - in mx.uv.tcsw.ventas.infrastructure.delivery.swing.modelo.CarritoViewModelTest
+[INFO] Running mx.uv.tcsw.ventas.infrastructure.delivery.swing.modelo.ProductoViewModelTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 s - in mx.uv.tcsw.ventas.infrastructure.delivery.swing.modelo.ProductoViewModelTest
+[INFO] Running mx.uv.tcsw.ventas.infrastructure.delivery.swing.VentaFrameTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.021 s - in mx.uv.tcsw.ventas.infrastructure.delivery.swing.VentaFrameTest
+[INFO] Running mx.uv.tcsw.ventas.infrastructure.delivery.swing.vista.CarritoViewTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.006 s - in mx.uv.tcsw.ventas.infrastructure.delivery.swing.vista.CarritoViewTest
+[INFO] Running mx.uv.tcsw.ventas.infrastructure.delivery.swing.vista.CatalogoViewTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 s - in mx.uv.tcsw.ventas.infrastructure.delivery.swing.vista.CatalogoViewTest
+[INFO] Running mx.uv.tcsw.ventas.infrastructure.delivery.swing.vista.FormularioVentaViewTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s - in mx.uv.tcsw.ventas.infrastructure.delivery.swing.vista.FormularioVentaViewTest
+[INFO] Running mx.uv.tcsw.ventas.infrastructure.persistence.hibernate.HibernateProductoAdapterTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.102 s - in mx.uv.tcsw.ventas.infrastructure.persistence.hibernate.HibernateProductoAdapterTest
+[INFO] Running mx.uv.tcsw.ventas.infrastructure.persistence.hibernate.HibernateVentaAdapterTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.113 s - in mx.uv.tcsw.ventas.infrastructure.persistence.hibernate.HibernateVentaAdapterTest
+[INFO] Running mx.uv.tcsw.ventas.infrastructure.persistence.jdbc.PostgresProductoAdapterTest
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.917 s - in mx.uv.tcsw.ventas.infrastructure.persistence.jdbc.PostgresProductoAdapterTest
+[INFO] Running mx.uv.tcsw.ventas.infrastructure.persistence.jdbc.VentaJdbcRepositoryTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.454 s - in mx.uv.tcsw.ventas.infrastructure.persistence.jdbc.VentaJdbcRepositoryTest
+[INFO] Running mx.uv.tcsw.ventas.ProductoTest
+[INFO] Tests run: 23, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.01 s - in mx.uv.tcsw.ventas.ProductoTest
+[INFO] Running mx.uv.tcsw.ventas.VentaFrameTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 s - in mx.uv.tcsw.ventas.VentaFrameTest
+[INFO] Running mx.uv.tcsw.ventas.VentaTest
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.014 s - in mx.uv.tcsw.ventas.VentaTest
+[INFO] Tests run: 142, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD SUCCESS
+[INFO] Total time:  52.914 s
+== Resultado ==
+MODULO_M12_VERIFICADO
