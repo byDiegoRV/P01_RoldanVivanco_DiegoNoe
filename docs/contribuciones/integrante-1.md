@@ -60,5 +60,6 @@
 ### Declaración de estado
 
 - **VERIFICADO:** compilación (`ng build`), pruebas del cliente (`ng test`) y recorrido manual contra la API en el puerto 9098 (caso positivo, validación de cantidad, validación de pago y error sin conexión).
-- **NO_VERIFICADO:** cobertura de pruebas del cliente (no se midió); análisis de Sonar sobre el código TypeScript (el análisis cubre solo el backend); pruebas de extremo a extremo automatizadas.
+- **VERIFICADO:** compilación, pruebas del cliente y recorrido manual contra la API (puerto 9098). Cobertura medida con `ng test --code-coverage`: Statements X %, Branches X %, Functions X %, Lines X % (`evidencia/P10/P10-05_cobertura.txt`).
+- **NO_VERIFICADO:** análisis de Sonar sobre el código TypeScript (el análisis cubre solo el backend, por la configuración del escáner y la versión de Node); pruebas de extremo a extremo automatizadas (no requeridas por la actividad).
 - **VERIFICADO:** salida de `verify-module.sh M13`, guía de reproducción y registro de errores (a cargo de la otra integrante), pull request, tag o commit de entrega y entrega en Eminus.
