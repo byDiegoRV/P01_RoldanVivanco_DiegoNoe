@@ -1,0 +1,155 @@
+<section class="venta">
+  <div class="venta__titulo">
+    <h1>Registrar venta</h1>
+    <p class="venta__ayuda">Agrega productos al carrito, captura el pago simulado y confirma la venta.</p>
+  </div>
+
+  @if (errorCarga()) {
+    <div role="alert" class="estado estado--error">
+      <p>{{ errorCarga()?.message }}</p>
+      <button type="button" class="boton" (click)="cargarProductos()">Reintentar</button>
+    </div>
+  }
+
+  @if (recibo(); as r) {
+    <div role="status" class="estado estado--ok recibo">
+      <p>
+        Venta registrada. Folio: <strong>{{ r.folio }}</strong> · Total:
+        <strong>{{ r.total | currency: 'MXN' : 'symbol-narrow' }}</strong>
+        @if (terminacion()) {
+          · Pago simulado con tarjeta terminación <strong>{{ terminacion() }}</strong>
+        }
+      </p>
+    </div>
+  }
+
+  <form class="panel agregar" (submit)="$event.preventDefault(); agregar()">
+    <div class="campo campo--grande">
+      <label for="producto">Producto</label>
+      <select id="producto" #sel (change)="seleccionar(sel.value)">
+        <option value="">Selecciona un producto</option>
+        @for (p of productos(); track p.id) {
+          <option [value]="p.id" [disabled]="p.existencia === 0">
+            {{ p.codigo }} · {{ p.nombre }}
+            ({{ p.existencia === 0 ? 'Agotado' : p.existencia + ' disp.' }})
+          </option>
+        }
+      </select>
+    </div>
+    <div class="campo">
+      <label for="cantidad">Cantidad</label>
+      <input
+        id="cantidad"
+        #cant
+        type="number"
+        min="1"
+        step="1"
+        [value]="cantidad()"
+        (input)="cambiarCantidad(cant.valueAsNumber)"
+      />
+    </div>
+    <button type="submit" class="boton">Agregar</button>
+  </form>
+
+  @if (aviso()) {
+    <p role="alert" class="aviso">{{ aviso() }}</p>
+  }
+
+  <h2>Carrito</h2>
+  @if (carrito().length === 0) {
+    <p class="estado estado--info">El carrito está vacío.</p>
+  } @else {
+    <div class="tabla-contenedor carrito">
+      <table>
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th class="num">Cantidad</th>
+            <th class="num">Precio</th>
+            <th class="num">Subtotal</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (linea of carrito(); track linea.producto.id) {
+            <tr>
+              <td>{{ linea.producto.nombre }}</td>
+              <td class="num">{{ linea.cantidad }}</td>
+              <td class="num">{{ linea.producto.precio | currency: 'MXN' : 'symbol-narrow' }}</td>
+              <td class="num">
+                {{ linea.producto.precio * linea.cantidad | currency: 'MXN' : 'symbol-narrow' }}
+              </td>
+              <td class="num">
+                <button type="button" class="boton boton--claro" (click)="quitar(linea.producto.id)">
+                  Quitar
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3">Total</td>
+            <td class="num total">{{ total() | currency: 'MXN' : 'symbol-narrow' }}</td>
+            <td></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  }
+
+  <h2>Pago (simulado)</h2>
+  <fieldset class="panel pago">
+    <legend class="sr-only">Datos de pago simulado</legend>
+    <div class="campo campo--titular">
+      <label for="titular">Nombre del titular</label>
+      <input
+        id="titular"
+        #tit
+        type="text"
+        autocomplete="off"
+        [value]="titular()"
+        (input)="cambiarTitular(tit.value)"
+      />
+    </div>
+    <div class="campo campo--tarjeta">
+      <label for="tarjeta">Número de tarjeta (16 dígitos)</label>
+      <input
+        id="tarjeta"
+        #tar
+        type="text"
+        inputmode="numeric"
+        autocomplete="off"
+        maxlength="19"
+        placeholder="0000 0000 0000 0000"
+        [value]="tarjeta()"
+        (input)="cambiarTarjeta(tar.value)"
+      />
+    </div>
+    <p class="nota">
+      Simulación: estos datos no se envían a la API, no se guardan y se borran al confirmar la
+      venta. Usa solo datos de prueba.
+    </p>
+  </fieldset>
+
+  @if (errorPago()) {
+    <p role="alert" class="aviso error-pago">{{ errorPago() }}</p>
+  }
+
+  @if (errorVenta()) {
+    <div role="alert" class="estado estado--error error-venta">
+      <div>
+        <p>{{ errorVenta()?.message }}</p>
+        @for (detalle of errorVenta()?.details ?? []; track detalle) {
+          <p class="detalle">{{ detalle }}</p>
+        }
+      </div>
+    </div>
+  }
+
+  <div class="acciones">
+    <button type="button" class="boton boton--verde confirmar" [disabled]="enviando()" (click)="confirmar()">
+      {{ enviando() ? 'Registrando...' : 'Confirmar venta' }}
+    </button>
+  </div>
+</section>

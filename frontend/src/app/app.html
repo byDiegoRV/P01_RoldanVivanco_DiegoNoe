@@ -2,6 +2,10 @@
   <div class="encabezado__interior">
     <strong class="marca">Ventas</strong>
     <p class="lema">Cliente Angular · Tecnologías para la Construcción de Software</p>
+    <nav class="navegacion" aria-label="Principal">
+      <a routerLink="/" routerLinkActive="activo" [routerLinkActiveOptions]="{ exact: true }">Catálogo</a>
+      <a routerLink="/venta" routerLinkActive="activo">Nueva venta</a>
+    </nav>
   </div>
 </header>
 

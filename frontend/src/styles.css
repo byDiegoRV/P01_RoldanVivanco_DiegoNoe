@@ -59,6 +59,34 @@ body {
   opacity: 0.9;
 }
 
+.navegacion {
+  display: flex;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+.navegacion a {
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  color: #ffffff;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.navegacion a:hover {
+  background: rgb(255 255 255 / 15%);
+}
+
+.navegacion a.activo {
+  background: #ffffff;
+  color: var(--uv-azul);
+}
+
+.navegacion a:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 2px;
+}
+
 .contenedor {
   max-width: 60rem;
   margin: 0 auto;
