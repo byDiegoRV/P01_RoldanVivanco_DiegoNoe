@@ -1,0 +1,161 @@
+.catalogo__titulo {
+  margin-bottom: 1.25rem;
+}
+
+h1 {
+  margin: 0;
+  color: var(--uv-azul);
+  font-size: 1.75rem;
+}
+
+.catalogo__ayuda {
+  margin: 0.25rem 0 0;
+  color: var(--texto-suave);
+}
+
+.tabla-contenedor {
+  overflow-x: auto;
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead th {
+  padding: 0.85rem 1rem;
+  background: var(--uv-azul);
+  color: #ffffff;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+tbody td {
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--borde);
+}
+
+tbody tr:nth-child(even) {
+  background: var(--uv-azul-claro);
+}
+
+tbody tr:hover {
+  background: #d9e6f6;
+}
+
+tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.num {
+thead th.num:nth-child(3),
+tbody td.num:nth-child(3) {
+  text-align: right;
+  padding-right: 3rem;
+}
+}
+
+.codigo {
+  color: var(--texto-suave);
+  font-family: ui-monospace, 'Cascadia Code', Consolas, monospace;
+  font-size: 0.9rem;
+}
+
+.insignia {
+  display: inline-block;
+  min-width: 2.5rem;
+  padding: 0.15rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.insignia--ok {
+  background: var(--uv-verde-claro);
+  border: 1px solid var(--uv-verde);
+  color: var(--uv-verde-oscuro);
+}
+
+.insignia--agotado {
+  background: var(--error-claro);
+  border: 1px solid var(--error);
+  color: var(--error);
+}
+
+.estado {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 1rem 1.25rem;
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-left-width: 6px;
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+}
+
+.estado--info {
+  border-left-color: var(--uv-verde);
+}
+
+.estado--error {
+  flex-wrap: wrap;
+  justify-content: space-between;
+  border-left-color: var(--error);
+  background: var(--error-claro);
+  color: var(--error);
+}
+
+.estado--error p {
+  margin: 0;
+  font-weight: 600;
+}
+
+.boton {
+  padding: 0.5rem 1.1rem;
+  background: var(--uv-azul);
+  border: 0;
+  border-radius: 0.5rem;
+  color: #ffffff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.boton:hover {
+  background: var(--uv-azul-oscuro);
+}
+
+.boton:focus-visible {
+  outline: 3px solid var(--uv-verde);
+  outline-offset: 2px;
+}
+
+.spinner {
+  width: 1.1rem;
+  height: 1.1rem;
+  border: 3px solid var(--uv-azul-claro);
+  border-top-color: var(--uv-azul);
+  border-radius: 50%;
+  animation: girar 0.8s linear infinite;
+}
+
+@keyframes girar {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation: none;
+  }
+}

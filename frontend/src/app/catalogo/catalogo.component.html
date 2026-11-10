@@ -1,0 +1,55 @@
+<section class="catalogo">
+  <div class="catalogo__titulo">
+    <h1>Catálogo de productos</h1>
+    <p class="catalogo__ayuda">Consulta los productos disponibles para registrar una venta.</p>
+  </div>
+
+  @if (estado() === 'cargando') {
+    <p role="status" class="estado estado--info">
+      <span class="spinner" aria-hidden="true"></span>
+      Cargando productos...
+    </p>
+  }
+
+  @if (estado() === 'error') {
+    <div role="alert" class="estado estado--error">
+      <p>{{ error()?.message }}</p>
+      <button type="button" class="boton" (click)="cargar()">Reintentar</button>
+    </div>
+  }
+
+  @if (estado() === 'vacio') {
+    <p class="estado estado--info">No hay productos disponibles.</p>
+  }
+
+  @if (estado() === 'listo') {
+    <div class="tabla-contenedor">
+      <table>
+        <thead>
+          <tr>
+            <th>Código</th>
+            <th>Nombre</th>
+            <th class="num">Precio</th>
+            <th class="num">Existencia</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (producto of lista(); track producto.id) {
+            <tr>
+              <td class="codigo">{{ producto.codigo }}</td>
+              <td>{{ producto.nombre }}</td>
+              <td class="num">{{ producto.precio | currency: 'MXN' : 'symbol-narrow' }}</td>
+              <td class="num">
+                @if (producto.existencia === 0) {
+                  <span class="insignia insignia--agotado">Agotado</span>
+                } @else {
+                  <span class="insignia insignia--ok">{{ producto.existencia }}</span>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</section>
