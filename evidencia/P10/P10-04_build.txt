@@ -1,0 +1,18 @@
+== P10-04: build ==
+Fecha: 2026-11-09 22:57
+Node: v24.11.0  npm: 11.6.2
+Angular CLI: 20.3.42
+Node: 24.11.0
+Package Manager: npm 11.6.2
+Angular: 20.3.35
+-- ng build --
+> Building...
+√ Building...
+Initial chunk files   | Names         |  Raw size | Estimated transfer size
+main-2EHZTNAG.js      | main          | 264.58 kB |                71.91 kB
+polyfills-5CFQRCPP.js | polyfills     |  34.59 kB |                11.33 kB
+styles-LUTW3MCZ.css   | styles        |   1.43 kB |               622 bytes
+                      | Initial total | 300.60 kB |                83.87 kB
+Application bundle generation complete. [3.087 seconds] - 2026-11-10T04:57:18.025Z
+Output location: dist/frontend
+Codigo de salida del build: 0

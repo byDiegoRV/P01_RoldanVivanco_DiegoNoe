@@ -3,6 +3,7 @@
 # Uso: ./scripts/verify-module.sh M01
 #      ./scripts/verify-module.sh M02
 #      ./scripts/verify-module.sh M11   (requiere Docker y variables DB_*)
+#      ./scripts/verify-module.sh M13   (cliente Angular; requiere Node, npm y Chrome)
 #
 # Comprobacion reproducible de un modulo del curso (P01/M01, P02/M02, ...):
 #   1) Registra las versiones efectivas de java, javac y Maven (los tres
@@ -15,13 +16,20 @@
 #   4) Si Maven informa BUILD SUCCESS, imprime MODULO_<MODULO>_VERIFICADO.
 #      Si falla, imprime MODULO_<MODULO>_NO_VERIFICADO y conserva el error.
 #
+# M13 (cliente Angular, carpeta frontend/): en lugar de los pasos 1 a 3,
+# registra las versiones de node, npm y Angular, instala las dependencias con
+# "npm ci", compila con "ng build" y ejecuta las pruebas con "ng test" en
+# Chrome sin interfaz. El paso 4 es igual. No levanta la API ni la BD: las
+# pruebas del cliente usan servicios simulados.
+#
 # Requiere: JDK y Maven en el PATH, con acceso al repositorio configurado
 # (por defecto, Maven Central). Para M11 ademas: Docker en ejecucion y las
-# variables de entorno DB_USER, DB_PASSWORD, DB_NAME y DB_PORT.
+# variables de entorno DB_USER, DB_PASSWORD, DB_NAME y DB_PORT. Para M13:
+# Node, npm y Google Chrome instalados.
 
 set -euo pipefail
 
-MODULOS_VALIDOS=("M01" "M02" "M03" "M04" "M05" "M06" "M07" "M08" "M09" "M10" "M11" "M12")
+MODULOS_VALIDOS=("M01" "M02" "M03" "M04" "M05" "M06" "M07" "M08" "M09" "M10" "M11" "M12" "M13")
 MODULO="${1:-}"
 
 modulo_valido=false
@@ -94,6 +102,45 @@ preparar_bd_m11() {
   done
 }
 
+# Limpia la salida del cliente Angular: quita colores ANSI y retornos de carro,
+# y oculta la ruta absoluta del equipo (la evidencia no debe llevar rutas privadas).
+limpiar_salida() {
+  sed -E 's/\x1b\[[0-9;?]*[A-Za-z]//g' | tr '\r' '\n' \
+    | sed -E 's#Output location:.*#Output location: dist/frontend#'
+}
+
+# Verifica el cliente Angular (M13). Cada comando lleva "|| exit 1" dentro del
+# subshell y "|| return 1" fuera, por la misma razon que en preparar_bd_m11.
+verificar_cliente_angular() {
+  [[ -f frontend/package.json ]] || { echo "ERROR: no existe frontend/package.json" >&2; return 1; }
+
+  echo "-- node --"
+  node -v || return 1
+  echo ""
+  echo "-- npm --"
+  npm -v || return 1
+
+  (
+    cd frontend || exit 1
+
+    echo ""
+    echo "-- instalando dependencias (npm ci) --"
+    npm ci --no-audit --no-fund 2>&1 | limpiar_salida || exit 1
+
+    echo ""
+    echo "-- angular --"
+    npx ng version 2>/dev/null | limpiar_salida | grep -E 'Angular CLI|Angular:|Package Manager' || true
+
+    echo ""
+    echo "-- ng build --"
+    npx ng build 2>&1 | limpiar_salida || exit 1
+
+    echo ""
+    echo "-- ng test --"
+    npx ng test --watch=false --browsers=ChromeHeadless --progress=false 2>&1 | limpiar_salida || exit 1
+  ) || return 1
+}
+
 fallo_modulo() {
   echo ""
   echo "== Resultado =="
@@ -103,6 +150,17 @@ fallo_modulo() {
   echo "sin haber ejecutado realmente la comprobacion." >&2
   exit 1
 }
+
+if [[ "$MODULO" == "M13" ]]; then
+  echo "== Registro de versiones efectivas (cliente Angular) =="
+  if verificar_cliente_angular; then
+    echo ""
+    echo "== Resultado =="
+    echo "MODULO_${MODULO}_VERIFICADO"
+    exit 0
+  fi
+  fallo_modulo
+fi
 
 echo "== Registro de versiones efectivas =="
 echo "-- java (runtime) --"

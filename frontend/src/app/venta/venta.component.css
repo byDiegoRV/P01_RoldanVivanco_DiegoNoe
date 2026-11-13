@@ -1,0 +1,251 @@
+.venta__titulo {
+  margin-bottom: 1.25rem;
+}
+
+h1 {
+  margin: 0;
+  color: var(--uv-azul);
+  font-size: 1.75rem;
+}
+
+h2 {
+  margin: 1.5rem 0 0.75rem;
+  color: var(--uv-azul);
+  font-size: 1.25rem;
+}
+
+.venta__ayuda {
+  margin: 0.25rem 0 0;
+  color: var(--texto-suave);
+}
+
+.panel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.campo--grande {
+  flex: 1 1 16rem;
+}
+
+.campo--titular {
+  flex: 1 1 14rem;
+}
+
+.campo--tarjeta {
+  flex: 1 1 13rem;
+}
+
+label {
+  color: var(--texto-suave);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+select,
+input {
+  padding: 0.55rem 0.7rem;
+  background: #ffffff;
+  border: 1px solid var(--borde);
+  border-radius: 0.5rem;
+  color: var(--texto);
+  font: inherit;
+}
+
+input {
+  width: 7rem;
+}
+
+.pago input {
+  width: 100%;
+}
+
+#tarjeta {
+  font-family: ui-monospace, 'Cascadia Code', Consolas, monospace;
+  letter-spacing: 0.05em;
+}
+
+select:focus-visible,
+input:focus-visible {
+  outline: 3px solid var(--uv-azul);
+  outline-offset: 1px;
+}
+
+.nota {
+  flex-basis: 100%;
+  margin: 0;
+  color: var(--texto-suave);
+  font-size: 0.85rem;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.aviso {
+  margin: 0.75rem 0 0;
+  padding: 0.6rem 1rem;
+  background: var(--error-claro);
+  border-left: 6px solid var(--error);
+  border-radius: 0.5rem;
+  color: var(--error);
+  font-weight: 600;
+}
+
+.tabla-contenedor {
+  overflow-x: auto;
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead th {
+  padding: 0.85rem 1rem;
+  background: var(--uv-azul);
+  color: #ffffff;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+tbody td,
+tfoot td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--borde);
+}
+
+tfoot td {
+  background: var(--uv-azul-claro);
+  border-bottom: 0;
+  font-weight: 700;
+}
+
+thead th.num,
+tbody td.num,
+tfoot td.num {
+  text-align: center;
+}
+
+.total {
+  color: var(--uv-azul);
+  font-size: 1.1rem;
+}
+
+.estado {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin: 0 0 1rem;
+  padding: 1rem 1.25rem;
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-left-width: 6px;
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+}
+
+.estado p {
+  margin: 0;
+}
+
+.estado--info {
+  border-left-color: var(--uv-verde);
+}
+
+.estado--ok {
+  background: var(--uv-verde-claro);
+  border-left-color: var(--uv-verde);
+  color: var(--uv-verde-oscuro);
+}
+
+.estado--error {
+  flex-wrap: wrap;
+  background: var(--error-claro);
+  border-left-color: var(--error);
+  color: var(--error);
+  font-weight: 600;
+}
+
+.error-venta {
+  margin-top: 1rem;
+}
+
+.detalle {
+  font-size: 0.9rem;
+  font-weight: 400;
+}
+
+.acciones {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+.boton {
+  padding: 0.55rem 1.2rem;
+  background: var(--uv-azul);
+  border: 0;
+  border-radius: 0.5rem;
+  color: #ffffff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.boton:hover {
+  background: var(--uv-azul-oscuro);
+}
+
+.boton:focus-visible {
+  outline: 3px solid var(--uv-verde);
+  outline-offset: 2px;
+}
+
+.boton:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.boton--claro {
+  background: var(--uv-azul-claro);
+  color: var(--uv-azul);
+}
+
+.boton--claro:hover {
+  background: #d9e6f6;
+}
+
+.boton--verde {
+  background: var(--uv-verde-oscuro);
+  padding: 0.7rem 1.6rem;
+}
+
+.boton--verde:hover {
+  background: #11512a;
+}
