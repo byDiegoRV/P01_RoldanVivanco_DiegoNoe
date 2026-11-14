@@ -138,8 +138,12 @@ export class VentaComponent implements OnInit {
   }
 
   private validarPago(digitos: string): boolean {
-    if (this.titular().trim().length < 3) {
-      this.errorPago.set('Escribe el nombre del titular de la tarjeta.');
+    if (this.titular().trim().length < 3 || !/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(this.titular().trim())) {
+      this.errorPago.set(
+        this.titular().trim().length < 3
+          ? 'Escribe el nombre del titular de la tarjeta.'
+          : 'Ingresa un nombre válido (solo letras).',
+      );
       return false;
     }
     if (!/^\d{16}$/.test(digitos)) {
