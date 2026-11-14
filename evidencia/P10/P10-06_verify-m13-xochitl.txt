@@ -1,0 +1,108 @@
+== Registro de versiones efectivas (cliente Angular) ==
+-- node --
+v24.21.0
+
+-- npm --
+11.19.0
+
+-- instalando dependencias (npm ci) --
+npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+npm warn deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
+npm warn deprecated glob@7.2.3: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+
+added 541 packages in 57s
+npm warn install-scripts 4 packages have install scripts not yet covered by allowScripts:
+npm warn install-scripts   @parcel/watcher@2.6.0 (install: node scripts/build-from-source.js)
+npm warn install-scripts   esbuild@0.28.1 (postinstall: node install.js)
+npm warn install-scripts   lmdb@3.4.2 (install: node-gyp-build-optional-packages)
+npm warn install-scripts   msgpackr-extract@3.0.7 (install: node-gyp-build-optional-packages)
+npm warn install-scripts
+npm warn install-scripts Run `npm install-scripts ls` to review, or `npm install-scripts approve <pkg>` to allow.
+
+-- angular --
+Angular CLI: 20.3.42
+Package Manager: npm 11.19.0
+Angular: 20.3.35
+
+-- ng build --
+❯ Building...
+✔ Building...
+Initial chunk files   | Names         |  Raw size | Estimated transfer size
+main-2EHZTNAG.js      | main          | 264.58 kB |                71.91 kB
+polyfills-5CFQRCPP.js | polyfills     |  34.59 kB |                11.33 kB
+styles-LUTW3MCZ.css   | styles        |   1.43 kB |               622 bytes
+
+                      | Initial total | 300.60 kB |                83.87 kB
+
+Application bundle generation complete. [19.751 seconds] - 2026-11-13T20:45:20.767Z
+
+Output location: dist/frontend
+
+
+-- ng test --
+❯ Building...
+✔ Building...
+Initial chunk files             | Names                        |  Raw size
+chunk-JOVR5U5H.js               | -                            |   1.16 MB | 
+chunk-ZM75EXLE.js               | -                            |   1.13 MB | 
+polyfills.js                    | polyfills                    |   1.04 MB | 
+spec-app.spec.js                | spec-app.spec                | 258.04 kB | 
+chunk-F5BEJG3N.js               | -                            | 194.61 kB | 
+chunk-MUFOZ3EV.js               | -                            |  97.53 kB | 
+jasmine-cleanup-1.js            | jasmine-cleanup-1            |  67.20 kB | 
+chunk-3IKFRTKT.js               | -                            |  43.42 kB | 
+test_main.js                    | test_main                    |  21.91 kB | 
+spec-venta.component.spec.js    | spec-venta.component.spec    |  20.78 kB | 
+chunk-VPX6SPCH.js               | -                            |  12.24 kB | 
+spec-catalogo.component.spec.js | spec-catalogo.component.spec |   9.93 kB | 
+spec-ventas.service.spec.js     | spec-ventas.service.spec     |   3.27 kB | 
+spec-productos.service.spec.js  | spec-productos.service.spec  |   2.28 kB | 
+chunk-3FMBEB3S.js               | -                            |   2.13 kB | 
+spec-errores-api.spec.js        | spec-errores-api.spec        |   2.10 kB | 
+styles.css                      | styles                       |   1.90 kB | 
+chunk-RTKXKDJI.js               | -                            |   1.40 kB | 
+chunk-G4BZLFWL.js               | -                            |   1.20 kB | 
+chunk-HXYQJ5ML.js               | -                            |   1.04 kB | 
+jasmine-cleanup-0.js            | jasmine-cleanup-0            | 519 bytes | 
+
+                                | Initial total                |   4.08 MB
+
+Application bundle generation complete. [7.623 seconds] - 2026-11-13T20:45:49.082Z
+
+13 11 2026 14:45:49.701:INFO [karma-server]: Karma v6.4.4 server started at http://localhost:9876/
+13 11 2026 14:45:49.707:INFO [launcher]: Launching browsers ChromeHeadless with concurrency unlimited
+13 11 2026 14:45:49.735:INFO [launcher]: Starting browser ChromeHeadless
+13 11 2026 14:45:50.664:INFO [Chrome Headless 157.0.0.0 (Windows 10)]: Connected on socket ymLyv4hPESN8iwdaAAAA with id 42299639
+Chrome Headless 157.0.0.0 (Windows 10): Executed 0 of 27 SUCCESS (0 secs / 0 secs)
+Chrome Headless 157.0.0.0 (Windows 10): Executed 1 of 27 SUCCESS (0 secs / 0.027 secs)
+Chrome Headless 157.0.0.0 (Windows 10): Executed 2 of 27 SUCCESS (0 secs / 0.033 secs)
+Chrome Headless 157.0.0.0 (Windows 10): Executed 3 of 27 SUCCESS (0 secs / 0.037 secs)
+Chrome Headless 157.0.0.0 (Windows 10): Executed 4 of 27 SUCCESS (0 secs / 0.055 secs)
+Chrome Headless 157.0.0.0 (Windows 10): Executed 5 of 27 SUCCESS (0 secs / 0.107 secs)
+Chrome Headless 157.0.0.0 (Windows 10): Executed 6 of 27 SUCCESS (0 secs / 0.114 secs)
+Chrome Headless 157.0.0.0 (Windows 10): Executed 7 of 27 SUCCESS (0 secs / 0.152 secs)
+Chrome Headless 157.0.0.0 (Windows 10): Executed 8 of 27 SUCCESS (0 secs / 0.157 secs)
+Chrome Headless 157.0.0.0 (Windows 10): Executed 9 of 27 SUCCESS (0 secs / 0.166 secs)
+Chrome Headless 157.0.0.0 (Windows 10): Executed 10 of 27 SUCCESS (0 secs / 0.171 secs)
+Chrome Headless 157.0.0.0 (Windows 10): Executed 11 of 27 SUCCESS (0 secs / 0.175 secs)
+Chrome Headless 157.0.0.0 (Windows 10): Executed 12 of 27 SUCCESS (0 secs / 0.235 secs)
+Chrome Headless 157.0.0.0 (Windows 10): Executed 13 of 27 SUCCESS (0 secs / 0.248 secs)
+Chrome Headless 157.0.0.0 (Windows 10): Executed 14 of 27 SUCCESS (0 secs / 0.258 secs)
+Chrome Headless 157.0.0.0 (Windows 10): Executed 15 of 27 SUCCESS (0 secs / 0.266 secs)
+Chrome Headless 157.0.0.0 (Windows 10): Executed 16 of 27 SUCCESS (0 secs / 0.273 secs)
+Chrome Headless 157.0.0.0 (Windows 10): Executed 17 of 27 SUCCESS (0 secs / 0.28 secs)
+Chrome Headless 157.0.0.0 (Windows 10): Executed 18 of 27 SUCCESS (0 secs / 0.285 secs)
+Chrome Headless 157.0.0.0 (Windows 10): Executed 19 of 27 SUCCESS (0 secs / 0.29 secs)
+Chrome Headless 157.0.0.0 (Windows 10): Executed 20 of 27 SUCCESS (0 secs / 0.291 secs)
+Chrome Headless 157.0.0.0 (Windows 10): Executed 21 of 27 SUCCESS (0 secs / 0.291 secs)
+Chrome Headless 157.0.0.0 (Windows 10): Executed 22 of 27 SUCCESS (0 secs / 0.292 secs)
+Chrome Headless 157.0.0.0 (Windows 10): Executed 23 of 27 SUCCESS (0 secs / 0.292 secs)
+Chrome Headless 157.0.0.0 (Windows 10): Executed 24 of 27 SUCCESS (0 secs / 0.292 secs)
+Chrome Headless 157.0.0.0 (Windows 10): Executed 25 of 27 SUCCESS (0 secs / 0.295 secs)
+Chrome Headless 157.0.0.0 (Windows 10): Executed 26 of 27 SUCCESS (0 secs / 0.297 secs)
+Chrome Headless 157.0.0.0 (Windows 10): Executed 27 of 27 SUCCESS (0 secs / 0.299 secs)
+Chrome Headless 157.0.0.0 (Windows 10): Executed 27 of 27 SUCCESS (0.346 secs / 0.299 secs)
+TOTAL: 27 SUCCESS
+
+== Resultado ==
+MODULO_M13_VERIFICADO

@@ -1,0 +1,10 @@
+Fecha: 2026-11-13 17:37
+git version 2.55.0.windows.5
+v24.21.0
+11.19.0
+Angular CLI: 20.3.42
+Package Manager: npm 11.19.0
+Angular: 20.3.35
+java version "23.0.2" 2025-01-21
+Apache Maven 3.9.16 (2bdd9fddda4b155ebf8000e807eb73fd829a51d5)
+Docker version 29.7.2, build a7dcaa6

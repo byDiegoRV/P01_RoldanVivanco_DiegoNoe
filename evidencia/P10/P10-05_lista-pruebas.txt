@@ -1,0 +1,47 @@
+]633;E;{   echo "== Archivos de prueba =="\x3b   find frontend/src -name "*.spec.ts" | sort\x3b   echo\x3b   echo "== Uso de HttpTestingController (pruebas de servicio) =="\x3b   grep -rl "HttpTestingController" frontend/src --include=*.spec.ts\x3b   echo\x3b   echo "== Pruebas (describe/it) =="\x3b   grep -rn --include=*.spec.ts -E "^\\s*(describe|it)\\(" frontend/src/app | sed -E 's#^frontend/src/app/##'\x3b } > evidencia/P10/P10-05_lista-pruebas.txt;a064b2d8-5550-417c-bcc3-b87d97689212]633;C== Archivos de prueba ==
+frontend/src/app/app.spec.ts
+frontend/src/app/catalogo/catalogo.component.spec.ts
+frontend/src/app/servicios/errores-api.spec.ts
+frontend/src/app/servicios/productos.service.spec.ts
+frontend/src/app/servicios/ventas.service.spec.ts
+frontend/src/app/venta/venta.component.spec.ts
+
+== Uso de HttpTestingController (pruebas de servicio) ==
+frontend/src/app/catalogo/catalogo.component.spec.ts
+frontend/src/app/servicios/productos.service.spec.ts
+frontend/src/app/servicios/ventas.service.spec.ts
+
+== Pruebas (describe/it) ==
+app.spec.ts:6:describe('App', () => {
+app.spec.ts:14:  it('crea la aplicación', () => {
+app.spec.ts:19:  it('incluye el contenedor de rutas', () => {
+catalogo/catalogo.component.spec.ts:7:describe('CatalogoComponent', () => {
+catalogo/catalogo.component.spec.ts:25:  it('muestra el estado de carga mientras responde la API', () => {
+catalogo/catalogo.component.spec.ts:30:  it('muestra la lista de productos cuando la API responde', () => {
+catalogo/catalogo.component.spec.ts:44:  it('muestra un mensaje cuando no hay productos', () => {
+catalogo/catalogo.component.spec.ts:51:  it('muestra el mensaje de la API cuando falla y permite reintentar', () => {
+catalogo/catalogo.component.spec.ts:65:  it('indica falta de conexión cuando la API no responde', () => {
+servicios/errores-api.spec.ts:5:describe('aErrorApi', () => {
+servicios/errores-api.spec.ts:6:  it('conserva el error con el formato de la API (409 existencia insuficiente)', () => {
+servicios/errores-api.spec.ts:24:  it('usa una lista vacía de detalles cuando la API no los envía', () => {
+servicios/errores-api.spec.ts:33:  it('convierte la falta de conexión (status 0) en SIN_CONEXION', () => {
+servicios/errores-api.spec.ts:42:  it('convierte una respuesta que no tiene el formato de la API en ERROR_DESCONOCIDO', () => {
+servicios/errores-api.spec.ts:48:  it('no expone detalles internos de un error inesperado', () => {
+servicios/productos.service.spec.ts:8:describe('ProductosService', () => {
+servicios/productos.service.spec.ts:22:  it('lista los productos con GET /api/productos', () => {
+servicios/productos.service.spec.ts:36:  it('convierte un 404 al formato de error de la API', () => {
+servicios/productos.service.spec.ts:56:  it('indica falta de conexión cuando el servidor no responde', () => {
+servicios/ventas.service.spec.ts:8:describe('VentasService', () => {
+servicios/ventas.service.spec.ts:23:  it('registra una venta con POST /api/ventas y devuelve folio y total', () => {
+servicios/ventas.service.spec.ts:42:  it('convierte un 409 de existencia insuficiente al formato de error de la API', () => {
+servicios/ventas.service.spec.ts:62:  it('conserva el detalle por campo de un 400 de validación', () => {
+servicios/ventas.service.spec.ts:80:  it('no expone detalles internos ante una respuesta que no es del formato de la API', () => {
+venta/venta.component.spec.ts:33:describe('VentaComponent', () => {
+venta/venta.component.spec.ts:89:  it('muestra los productos en el selector', () => {
+venta/venta.component.spec.ts:93:  it('agrega un producto al carrito y calcula el total', () => {
+venta/venta.component.spec.ts:101:  it('rechaza una cantidad mayor a la existencia', () => {
+venta/venta.component.spec.ts:109:  it('no permite confirmar con el carrito vacío', () => {
+venta/venta.component.spec.ts:116:  it('rechaza una tarjeta que no tiene 16 dígitos', () => {
+venta/venta.component.spec.ts:127:  it('exige el nombre del titular', () => {
+venta/venta.component.spec.ts:137:  it('registra la venta sin enviar el pago, muestra el folio y borra los datos de pago', () => {
+venta/venta.component.spec.ts:157:  it('muestra el mensaje de la API cuando la venta falla y conserva el carrito', () => {
