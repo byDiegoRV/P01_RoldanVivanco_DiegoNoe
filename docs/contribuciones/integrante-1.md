@@ -63,3 +63,47 @@
 - **VERIFICADO:** compilación, pruebas del cliente y recorrido manual contra la API (puerto 9098). Cobertura medida con `ng test --code-coverage`: Statements X %, Branches X %, Functions X %, Lines X % (`evidencia/P10/P10-05_cobertura.txt`).
 - **NO_VERIFICADO:** análisis de Sonar sobre el código TypeScript (el análisis cubre solo el backend, por la configuración del escáner y la versión de Node); pruebas de extremo a extremo automatizadas (no requeridas por la actividad).
 - **VERIFICADO:** salida de `verify-module.sh M13`, guía de reproducción y registro de errores (a cargo de la otra integrante), pull request, tag o commit de entrega y entrega en Eminus.
+
+## C03 — Integración web (Corte 3, R04)
+
+**Integrante:** Diego Noe Roldán Vivanco (`byDiegoRV`)
+**Rama:** `feature/c03-noe` (un PR para los issues #62, #63 y #64)
+
+### Qué hice
+
+| Issue | Trabajo | Archivos principales | Criterio R04 |
+|---|---|---|---|
+| #62 C03-01 | Reutilización del núcleo: la interfaz Swing deja de armar la venta y usa `VenderProductosUseCase`, el mismo caso de uso de la API | `VentasController.java`, `MainSwing.java`, `VentasControllerPersistenteTest.java`, `docs/reutilizacion-nucleo.md`, `scripts/evidencia-c03-dependencias.sh` | Reutilización del núcleo |
+| #63 C03-02 | Navegación Angular: detalle de producto en `/productos/:id` (carga, éxito, 404 y error con reintento); validación del nombre del titular igual que Swing | `frontend/src/app/producto/`, `app.routes.ts`, `catalogo/`, `venta/venta.component.ts` y sus pruebas | Angular, Errores y validación |
+| #64 C03-03 | Persistencia de extremo a extremo: venta por la API, consulta a PostgreSQL, tres casos de error y prueba tras reiniciar la API | `scripts/evidencia-c03-persistencia.sh` | API, Calidad (evidencia de persistencia) |
+
+### Decisiones técnicas
+
+- **Swing usa el caso de uso compartido.** `construirVenta()` repetía la orquestación de `VenderProductosService` (folio, lectura fresca de existencias, partidas y registro). Se eliminó y el controlador solo convierte el carrito en `ItemVenta`; así API y Swing recorren las mismas reglas del dominio.
+- **Mensaje de producto inexistente.** Ahora lo produce el caso de uso compartido (`ProductoNoEncontradoException`) y es el mismo que ve la API; por eso se actualizó la aserción de una prueba de Swing.
+- **Detalle de producto.** Lee el identificador de la ruta; un identificador no numérico o menor que 1 no consulta la API y se trata como producto inexistente. El 404 no ofrece reintentar; los errores de conexión sí.
+- **Validación del nombre.** Angular usa la misma expresión regular y el mismo mensaje que Swing (solo letras, acentos, ñ y espacios). El pago sigue siendo una simulación de la interfaz y no se envía a la API.
+- **Evidencia de base de datos sin credenciales.** Las consultas se ejecutan con `docker exec` dentro del contenedor usando solo `DB_USER` y `DB_NAME`; la contraseña no se imprime ni se guarda.
+
+### Pruebas
+
+- Backend: 142 pruebas, sin fallos (`mvn clean verify`).
+- Angular: 34 pruebas (27 anteriores, 5 del detalle de producto y 2 de validación del nombre).
+
+### Evidencia
+
+- `evidencia/C03/C03-01_dependencias_antes.txt` y `C03-01_dependencias_despues.txt`
+- `evidencia/C03/C03-03_persistencia.txt` y `C03-03_persistencia_reinicio.txt`
+- `evidencia/C03/capturas/` (pruebas, venta en Swing, detalle de producto en sus tres estados, persistencia)
+
+### Estado
+
+**VERIFICADO:** 142 pruebas del backend; 34 pruebas de Angular; la venta se guarda en PostgreSQL con su partida y baja la existencia; tres casos de error no modifican la base; la venta persiste tras reiniciar la API.
+
+**NO_VERIFICADO:** que no existan otras reglas de negocio duplicadas fuera de las rutas de venta; análisis de Sonar sobre TypeScript.
+
+**PENDIENTE (cierre del corte, a cargo de Xochitl):** índice `evidencia/C03_EQUIPO_06.md`, análisis de Sonar final, reproducción de la guía en el equipo de Xochitl y etiqueta `v0.3-web`.
+
+### Análisis de Sonar previo (C03)
+
+Antes de hacer el commit corrí SonarQube sobre el backend con los cambios de #62, #63 y #64: Quality Gate Passed, 0 issues, cobertura de 91.7% sobre el código nuevo y 0.0% de duplicaciones (detalle y capturas en `evidencia/C03/C03_sonar_previo.md`). Es un análisis previo sobre la copia de trabajo; el análisis final se repite sobre `master` integrado. Sonar no analiza el código TypeScript del cliente.
