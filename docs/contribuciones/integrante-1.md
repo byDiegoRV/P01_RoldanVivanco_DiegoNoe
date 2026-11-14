@@ -40,7 +40,7 @@
 | #53 (P10-02) | Modelos tipados que reflejan `docs/openapi.yaml`, `ProductosService`, `VentasService` y conversión de errores al formato de error de la API (`aErrorApi`) | Pruebas de servicio con `HttpTestingController` | VERIFICADO (`ng test`) |
 | #54 (P10-03) | Catálogo de productos con estados de carga, vacío, error (con "Reintentar") y listado; diseño con la paleta institucional de la UV | Pruebas del componente; revisión en navegador | VERIFICADO (`ng test` y navegador) |
 | #55 (P10-04) | Pantalla de venta: carrito, validación de cantidad contra existencia, pago simulado, registro con `POST /api/ventas`, folio y total, errores visibles y navegación | Pruebas del componente (casos positivos y de error); revisión en navegador | VERIFICADO (`ng test` y navegador) |
-| P10-07 | Soporte de `M13` en `scripts/verify-module.sh` | `./scripts/verify-module.sh M13` | PENDIENTE (hasta ejecutar y obtener `MODULO_M13_VERIFICADO`) |
+| P10-07 | Soporte de `M13` en `scripts/verify-module.sh` | `./scripts/verify-module.sh M13` | VERIFICADO |
 
 ### Decisiones técnicas
 
@@ -55,7 +55,7 @@
 - `evidencia/P10/P10-07_verify-m13.txt`: salida de `./scripts/verify-module.sh M13` (se agrega al ejecutarlo).
 - `evidencia/P10/capturas/`: catálogo, carrito, venta exitosa, cantidad inválida, tarjeta inválida y error sin conexión.
 - `scripts/evidencia-p10.sh`: genera las salidas anteriores sin rutas personales.
-- Calidad (backend): análisis de SonarQube ejecutado el 9 de noviembre de 2026 sobre el proyecto Java. Resultado: _completar con la captura (Quality Gate y número de issues)_.
+- Calidad (backend): análisis de SonarQube ejecutado el 9 de noviembre de 2026 sobre el proyecto Java. Resultado: 84.7% y 0 Issues.
 
 ### Declaración de estado
 
