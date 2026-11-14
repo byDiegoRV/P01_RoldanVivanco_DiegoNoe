@@ -651,3 +651,66 @@ PORT=9098 ./scripts/curl-p09.sh       # demostración manual con curl
 ### Estado
 - **VERIFICADO:** pruebas, `MODULO_M12_VERIFICADO` y la demostración con curl.
 - **VERIFICADO:** reporte final de Sonar.
+
+## Cliente Angular (P10)
+
+Cliente web (Angular 20, componentes standalone) que lista los productos y registra ventas consumiendo la API REST de P09. Código en `frontend/`.
+
+### Arranque
+
+Requisitos: JDK 11, Maven 3.9, Docker, Node 24, npm 11 y Google Chrome (para las pruebas). Versiones probadas: Node 24.11.0 con npm 11.6.2, y Node 24.21.0 con npm 11.19.0; Angular 20.x, con la versión exacta fijada en `frontend/package-lock.json`.
+
+Terminal 1, base de datos y API en el puerto 9098 (desde la raíz del repositorio):
+
+```bash
+docker compose up -d
+set -a; source .env; set +a
+PORT=9098 mvn spring-boot:run
+```
+
+Terminal 2, cliente:
+
+```bash
+cd frontend
+npm ci
+npm start
+```
+
+Abrir `http://localhost:4200`. El servidor de desarrollo reenvía las rutas `/api/...` a `http://localhost:9098` (`frontend/proxy.conf.json`), por lo que no se modificó la API ni se habilitó CORS.
+
+Pantallas:
+
+- **Catálogo** (`/`): lista de productos con estados de carga, vacío y error (con botón Reintentar).
+- **Nueva venta** (`/venta`): carrito con validación de cantidad contra la existencia, pago simulado y registro con `POST /api/ventas`. Muestra folio y total, o el mensaje de error de la API.
+
+### Pruebas y verificación
+
+```bash
+cd frontend
+npx ng build
+npx ng test --watch=false --browsers=ChromeHeadless
+```
+
+Resultado esperado: compilación sin errores y 27 pruebas en SUCCESS (servicios con `HttpTestingController` y componentes, con casos positivos y de error).
+
+Verificación oficial del módulo, desde la raíz del repositorio y sin `npm start` abierto:
+
+```bash
+./scripts/verify-module.sh M13
+```
+
+La última línea debe ser `MODULO_M13_VERIFICADO`.
+
+### Reproducción y evidencia
+
+- Guía paso a paso: `docs/guia-reproduccion-p10.md`.
+- Registro de errores: `docs/registro-errores-p10.md`.
+- Índice de evidencia del equipo: `evidencia/P10_EQUIPO_06.md`.
+- Contribuciones: `docs/contribuciones/integrante-1.md` y `docs/contribuciones/integrante-2.md`.
+
+### Alcance y estado
+
+- El pago de la venta es una **simulación del cliente** (nombre del titular y 16 dígitos): no se envía a la API, no se guarda y se borra al confirmar. La API de P09 no procesa pagos y no se modificó. Las pruebas y capturas usan datos de prueba.
+- El análisis de SonarQube cubre el backend (Java). El código TypeScript del cliente no se analiza con Sonar.
+- No hay pruebas de extremo a extremo automatizadas con navegador; el recorrido completo contra la API se verificó de forma manual.
+- El estado de cada elemento (VERIFICADO, NO_VERIFICADO y PENDIENTE) está en `evidencia/P10_EQUIPO_06.md`.
