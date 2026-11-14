@@ -1,0 +1,52 @@
+# C03-03 Persistencia de extremo a extremo (API -> PostgreSQL)
+API: http://localhost:9098 | Producto: 1 | Cantidad: 1
+
+## 1. Estado inicial en la base
+ id | codigo | nombre | stock 
+----+--------+--------+-------
+  1 | P-001  | Laptop |     7
+(1 row)
+
+Ventas registradas: 2 | Partidas registradas: 3
+
+## 2. Venta válida por la API (POST /api/ventas)
+{"folio":"V-20261114090703479","total":15000.0,"partidas":[{"productoId":1,"nombre":"Laptop","cantidad":1,"precioUnitario":15000.0,"subtotal":15000.0}]}
+HTTP 201
+Folio registrado: V-20261114090703479
+
+## 3. La base refleja la venta
+ id | codigo | nombre | stock 
+----+--------+--------+-------
+  1 | P-001  | Laptop |     6
+(1 row)
+
+        folio        |  total   | producto_id | cantidad | precio_unitario 
+---------------------+----------+-------------+----------+-----------------
+ V-20261114090703479 | 15000.00 |           1 |        1 |        15000.00
+(1 row)
+
+Existencia en la base: 7 -> 6 | Existencia que informa la API: 6
+
+## 4. Casos negativos: no deben cambiar la base
+### 4a. Existencia insuficiente (cantidad mayor a la existencia)
+{"timestamp":"2026-11-14T15:07:08.565867Z","status":409,"code":"EXISTENCIA_INSUFICIENTE","message":"No hay existencia suficiente para el producto con id 1.","path":"/api/ventas","details":[]}
+HTTP 409
+### 4b. Producto inexistente
+{"timestamp":"2026-11-14T15:07:08.823608Z","status":404,"code":"PRODUCTO_NO_ENCONTRADO","message":"No existe el producto con id 999999.","path":"/api/ventas","details":[]}
+HTTP 404
+### 4c. Venta sin partidas (vacía)
+{"timestamp":"2026-11-14T15:07:09.051281700Z","status":400,"code":"VALIDACION_FALLIDA","message":"La petición contiene datos inválidos.","path":"/api/ventas","details":["partidas: debe incluir al menos una partida"]}
+HTTP 400
+Después de los tres rechazos: ventas 3, partidas 4, existencia 6
+
+## 5. Resultado
+VERIFICADO: la venta válida se guardó (una venta y una partida con el folio V-20261114090703479)
+VERIFICADO: la existencia bajó exactamente 1 en la base
+VERIFICADO: la API y la base informan la misma existencia
+VERIFICADO: el total de ventas subió en 1 (de 2 a 3)
+VERIFICADO: existencia insuficiente rechazada con 409 (obtuvo 409)
+VERIFICADO: producto inexistente rechazado con error 4xx (obtuvo 404)
+VERIFICADO: venta vacía rechazada con 400 (obtuvo 400)
+VERIFICADO: los rechazos no cambiaron ventas, partidas ni existencia
+
+PENDIENTE: reinicia la API y ejecuta: bash scripts/evidencia-c03-persistencia.sh reinicio

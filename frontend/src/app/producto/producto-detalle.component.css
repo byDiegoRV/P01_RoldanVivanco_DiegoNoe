@@ -1,0 +1,16 @@
+.detalle { max-width: 40rem; margin: 0 auto; }
+.detalle__volver { display: inline-block; margin-bottom: 1rem; color: #18529d; text-decoration: none; font-weight: 600; }
+.detalle__volver:hover, .detalle__volver:focus-visible { text-decoration: underline; }
+.detalle__estado { padding: 0.75rem 1rem; border-radius: 6px; background: #eef3fa; color: #18529d; }
+.detalle__estado--error { background: #fdecec; color: #8a1c1c; }
+.detalle__tarjeta { border: 1px solid #d5dde8; border-radius: 8px; padding: 1.25rem 1.5rem; background: #fff; }
+.detalle__tarjeta h1 { margin: 0 0 1rem; color: #18529d; font-size: 1.5rem; }
+dl { display: grid; grid-template-columns: 8rem 1fr; gap: 0.5rem 1rem; margin: 0 0 1.25rem; }
+dt { font-weight: 600; color: #444; }
+dd { margin: 0; }
+.detalle__codigo { font-family: ui-monospace, monospace; }
+.detalle__insignia { display: inline-block; padding: 0.1rem 0.6rem; border-radius: 999px; font-size: 0.9rem; font-weight: 600; }
+.detalle__insignia--ok { background: #e3f5ea; color: #176b34; }
+.detalle__insignia--agotado { background: #fdecec; color: #8a1c1c; }
+.detalle__boton { display: inline-block; padding: 0.5rem 1rem; border: 0; border-radius: 6px; background: #176b34; color: #fff; font: inherit; font-weight: 600; text-decoration: none; cursor: pointer; }
+.detalle__boton:hover, .detalle__boton:focus-visible { background: #18529d; }

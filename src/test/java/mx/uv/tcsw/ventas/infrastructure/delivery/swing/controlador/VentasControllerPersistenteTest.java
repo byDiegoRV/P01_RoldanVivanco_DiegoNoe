@@ -28,6 +28,7 @@ import org.junit.jupiter.api.Test;
 import mx.uv.tcsw.ventas.application.ports.out.ProductoRepository;
 import mx.uv.tcsw.ventas.application.ports.out.VentaRepository;
 import mx.uv.tcsw.ventas.application.service.RegistrarVentaService;
+import mx.uv.tcsw.ventas.application.service.VenderProductosService;
 import mx.uv.tcsw.ventas.domain.DetalleVenta;
 import mx.uv.tcsw.ventas.domain.Producto;
 import mx.uv.tcsw.ventas.domain.Venta;
@@ -67,7 +68,7 @@ class VentasControllerPersistenteTest {
         carrito = new CarritoView();
         formulario = new FormularioVentaView();
         SwingUtilities.invokeAndWait(() -> new VentasController(
-                catalogo, carrito, formulario, productosSimulados(), new RegistrarVentaService(ventasSimuladas())));
+                catalogo, carrito, formulario, productosSimulados(), new VenderProductosService(productosSimulados(), new RegistrarVentaService(ventasSimuladas()))));
     }
 
     @AfterEach
@@ -160,7 +161,7 @@ class VentasControllerPersistenteTest {
         esperar(() -> dialogos.stream().anyMatch(d -> d.contains(COMPRA_FALLIDA)));
 
         assertTrue(ventasGuardadas.isEmpty());
-        assertTrue(dialogos.stream().anyMatch(d -> d.contains("ya no existe")));
+        assertTrue(dialogos.stream().anyMatch(d -> d.contains("No existe el producto con id 1")));
     }
 
     @Test

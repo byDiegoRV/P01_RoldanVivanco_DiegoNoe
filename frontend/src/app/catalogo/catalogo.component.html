@@ -37,7 +37,7 @@
           @for (producto of lista(); track producto.id) {
             <tr>
               <td class="codigo">{{ producto.codigo }}</td>
-              <td>{{ producto.nombre }}</td>
+              <td><a [routerLink]="['/productos', producto.id]">{{ producto.nombre }}</a></td>
               <td class="num">{{ producto.precio | currency: 'MXN' : 'symbol-narrow' }}</td>
               <td class="num">
                 @if (producto.existencia === 0) {

@@ -1,0 +1,41 @@
+<section class="detalle">
+  <a routerLink="/" class="detalle__volver">&larr; Volver al catálogo</a>
+
+  @if (estado() === 'cargando') {
+    <p role="status" class="detalle__estado">Cargando producto...</p>
+  }
+
+  @if (estado() === 'no-encontrado') {
+    <div role="alert" class="detalle__estado detalle__estado--error">
+      <p>El producto solicitado no existe.</p>
+    </div>
+  }
+
+  @if (estado() === 'error') {
+    <div role="alert" class="detalle__estado detalle__estado--error">
+      <p>{{ error()?.message }}</p>
+      <button type="button" class="detalle__boton" (click)="cargar()">Reintentar</button>
+    </div>
+  }
+
+  @if (producto(); as p) {
+    <article class="detalle__tarjeta">
+      <h1>{{ p.nombre }}</h1>
+      <dl>
+        <dt>Código</dt>
+        <dd class="detalle__codigo">{{ p.codigo }}</dd>
+        <dt>Precio</dt>
+        <dd>{{ p.precio | currency: 'MXN' : 'symbol-narrow' }}</dd>
+        <dt>Existencia</dt>
+        <dd>
+          @if (p.existencia === 0) {
+            <span class="detalle__insignia detalle__insignia--agotado">Agotado</span>
+          } @else {
+            <span class="detalle__insignia detalle__insignia--ok">{{ p.existencia }} pieza(s)</span>
+          }
+        </dd>
+      </dl>
+      <a routerLink="/venta" class="detalle__boton">Ir a nueva venta</a>
+    </article>
+  }
+</section>

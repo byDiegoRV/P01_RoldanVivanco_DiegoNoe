@@ -3,6 +3,7 @@ import { HttpTestingController, provideHttpClientTesting } from '@angular/common
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CatalogoComponent } from './catalogo.component';
+import { provideRouter } from '@angular/router';
 
 describe('CatalogoComponent', () => {
   let fixture: ComponentFixture<CatalogoComponent>;
@@ -13,7 +14,7 @@ describe('CatalogoComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [CatalogoComponent],
-      providers: [provideHttpClient(), provideHttpClientTesting()],
+      providers: [provideHttpClient(), provideHttpClientTesting(), provideRouter([])],
     }).compileComponents();
     fixture = TestBed.createComponent(CatalogoComponent);
     http = TestBed.inject(HttpTestingController);
