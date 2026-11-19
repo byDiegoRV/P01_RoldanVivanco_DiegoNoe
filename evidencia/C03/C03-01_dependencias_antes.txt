@@ -1,0 +1,45 @@
+# C03-01 Dependencias de las interfaces hacia el núcleo (antes del refactor)
+
+## delivery/rest: imports de application y domain
+mx.uv.tcsw.ventas.application.exception.ProductoNoEncontradoException
+mx.uv.tcsw.ventas.application.ports.in.ConsultarProductosUseCase
+mx.uv.tcsw.ventas.application.ports.in.ItemVenta
+mx.uv.tcsw.ventas.application.ports.in.RegistrarVentaUseCase
+mx.uv.tcsw.ventas.application.ports.in.VenderProductosUseCase
+mx.uv.tcsw.ventas.application.ports.out.ProductoRepository
+mx.uv.tcsw.ventas.application.ports.out.VentaRepository
+mx.uv.tcsw.ventas.application.service.ConsultarProductosService
+mx.uv.tcsw.ventas.application.service.RegistrarVentaService
+mx.uv.tcsw.ventas.application.service.VenderProductosService
+mx.uv.tcsw.ventas.domain.DetalleVenta
+mx.uv.tcsw.ventas.domain.ExistenciaInsuficienteException
+mx.uv.tcsw.ventas.domain.Producto
+mx.uv.tcsw.ventas.domain.Venta
+
+## delivery/swing: imports de application y domain
+mx.uv.tcsw.ventas.application.ports.in.RegistrarVentaUseCase
+mx.uv.tcsw.ventas.application.ports.out.ProductoRepository
+mx.uv.tcsw.ventas.application.ports.out.VentaRepository
+mx.uv.tcsw.ventas.application.service.RegistrarVentaService
+mx.uv.tcsw.ventas.domain.Producto
+mx.uv.tcsw.ventas.domain.Venta
+
+## Puertos de entrada (application.ports.in) usados por AMBAS interfaces
+mx.uv.tcsw.ventas.application.ports.in.RegistrarVentaUseCase
+
+## Puertos de salida (application.ports.out) usados directamente por cada interfaz
+- rest:
+    mx.uv.tcsw.ventas.application.ports.out.ProductoRepository
+    mx.uv.tcsw.ventas.application.ports.out.VentaRepository
+- swing:
+    mx.uv.tcsw.ventas.application.ports.out.ProductoRepository
+    mx.uv.tcsw.ventas.application.ports.out.VentaRepository
+
+## Dónde se arma una venta en el código de producción (agregarPartida y formato de folio)
+src/main/java/mx/uv/tcsw/ventas/application/service/VenderProductosService.java:23:    private static final DateTimeFormatter FORMATO_FOLIO = DateTime
+src/main/java/mx/uv/tcsw/ventas/application/service/VenderProductosService.java:46:        Venta venta = new Venta("V-" + LocalDateTime.now(reloj).for
+src/main/java/mx/uv/tcsw/ventas/application/service/VenderProductosService.java:50:            venta.agregarPartida(producto, item.getCantidad());
+src/main/java/mx/uv/tcsw/ventas/domain/Venta.java:70:    public void agregarPartida(Producto producto, int cantidad) {
+src/main/java/mx/uv/tcsw/ventas/infrastructure/delivery/swing/controlador/VentasController.java:28:    private static final DateTimeFormatter FORMATO_
+src/main/java/mx/uv/tcsw/ventas/infrastructure/delivery/swing/controlador/VentasController.java:201:        Venta venta = new Venta("V-" + LocalDateTi
+src/main/java/mx/uv/tcsw/ventas/infrastructure/delivery/swing/controlador/VentasController.java:206:            venta.agregarPartida(fresco, item.getC

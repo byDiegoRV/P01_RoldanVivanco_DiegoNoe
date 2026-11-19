@@ -11,6 +11,7 @@ import org.hibernate.SessionFactory;
 import mx.uv.tcsw.ventas.application.ports.out.ProductoRepository;
 import mx.uv.tcsw.ventas.application.ports.out.VentaRepository;
 import mx.uv.tcsw.ventas.application.service.RegistrarVentaService;
+import mx.uv.tcsw.ventas.application.service.VenderProductosService;
 import mx.uv.tcsw.ventas.infrastructure.delivery.swing.controlador.VentasController;
 import mx.uv.tcsw.ventas.infrastructure.delivery.swing.vista.CarritoView;
 import mx.uv.tcsw.ventas.infrastructure.delivery.swing.vista.CatalogoView;
@@ -61,7 +62,7 @@ public class MainSwing {
         CarritoView carrito = new CarritoView();
         FormularioVentaView formulario = new FormularioVentaView();
 
-        new VentasController(catalogo, carrito, formulario, productos, new RegistrarVentaService(ventas));
+        new VentasController(catalogo, carrito, formulario, productos, new VenderProductosService(productos, new RegistrarVentaService(ventas)));
 
         catalogo.setVisible(true);
     }

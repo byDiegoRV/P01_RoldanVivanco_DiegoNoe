@@ -134,6 +134,26 @@ describe('VentaComponent', () => {
     expect(ventas.registrar).not.toHaveBeenCalled();
   });
 
+  it('rechaza un nombre con números, igual que la versión de escritorio', () => {
+    elegir('1', 1);
+    agregar();
+    pagar('Ana123', TARJETA_PRUEBA);
+    confirmar();
+
+    expect(raiz().querySelector('.error-pago')?.textContent).toContain('solo letras');
+    expect(ventas.registrar).not.toHaveBeenCalled();
+  });
+
+  it('acepta nombres con acentos, eñes y espacios', () => {
+    ventas.registrar.and.returnValue(of(RECIBO));
+    elegir('1', 1);
+    agregar();
+    pagar('María Núñez', TARJETA_PRUEBA);
+    confirmar();
+
+    expect(ventas.registrar).toHaveBeenCalled();
+  });
+
   it('registra la venta sin enviar el pago, muestra el folio y borra los datos de pago', () => {
     ventas.registrar.and.returnValue(of(RECIBO));
     elegir('1', 1);

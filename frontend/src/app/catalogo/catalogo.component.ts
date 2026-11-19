@@ -1,5 +1,6 @@
 import { CurrencyPipe } from '@angular/common';
 import { Component, OnInit, inject, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 import { ErrorApi, Producto } from '../modelos/api.modelos';
 import { ProductosService } from '../servicios/productos.service';
@@ -8,7 +9,7 @@ export type EstadoCatalogo = 'cargando' | 'listo' | 'vacio' | 'error';
 
 @Component({
   selector: 'app-catalogo',
-  imports: [CurrencyPipe],
+  imports: [CurrencyPipe, RouterLink],
   templateUrl: './catalogo.component.html',
   styleUrl: './catalogo.component.css',
 })

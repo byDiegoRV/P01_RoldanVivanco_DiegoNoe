@@ -1,0 +1,17 @@
+# C03-03 Persistencia tras reiniciar la API
+API: http://localhost:9098 | Folio de la venta anterior: V-20261114090703479
+
+## La venta sigue en la base
+        folio        |  total   | producto_id | cantidad | precio_unitario 
+---------------------+----------+-------------+----------+-----------------
+ V-20261114090703479 | 15000.00 |           1 |        1 |        15000.00
+(1 row)
+
+
+## La API (ya reiniciada) informa la existencia guardada
+{"id":1,"codigo":"P-001","nombre":"Laptop","precio":15000.0,"existencia":6}
+Existencia en la base: 6 | Existencia que informa la API: 6
+
+## Resultado
+VERIFICADO: la venta V-20261114090703479 persiste después de reiniciar la API
+VERIFICADO: la API informa la misma existencia que la base

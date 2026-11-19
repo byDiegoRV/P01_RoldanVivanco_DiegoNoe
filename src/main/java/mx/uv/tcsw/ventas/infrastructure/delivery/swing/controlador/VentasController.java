@@ -2,8 +2,7 @@ package mx.uv.tcsw.ventas.infrastructure.delivery.swing.controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,10 +13,10 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 
-import mx.uv.tcsw.ventas.application.ports.in.RegistrarVentaUseCase;
+import mx.uv.tcsw.ventas.application.ports.in.ItemVenta;
+import mx.uv.tcsw.ventas.application.ports.in.VenderProductosUseCase;
 import mx.uv.tcsw.ventas.application.ports.out.ProductoRepository;
 import mx.uv.tcsw.ventas.domain.Producto;
-import mx.uv.tcsw.ventas.domain.Venta;
 import mx.uv.tcsw.ventas.infrastructure.delivery.swing.modelo.CarritoViewModel;
 import mx.uv.tcsw.ventas.infrastructure.delivery.swing.vista.CarritoView;
 import mx.uv.tcsw.ventas.infrastructure.delivery.swing.vista.CatalogoView;
@@ -25,7 +24,6 @@ import mx.uv.tcsw.ventas.infrastructure.delivery.swing.vista.FormularioVentaView
 
 public class VentasController implements ActionListener {
     private static final Logger LOGGER = Logger.getLogger(VentasController.class.getName());
-    private static final DateTimeFormatter FORMATO_FOLIO = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS");
     private static final String TITULO_AVISO = "Aviso";
 
     private final CatalogoView catalogoView;
@@ -34,7 +32,7 @@ public class VentasController implements ActionListener {
 
     // Puertos de salida/entrada. Si son null, el controlador funciona en modo demostración (sin base de datos).
     private final ProductoRepository productoRepository;
-    private final RegistrarVentaUseCase registrarVenta;
+    private final VenderProductosUseCase venderProductos;
     private final Map<Integer, Producto> productosPorId = new HashMap<>();
 
     /** Modo demostración: catálogo fijo y compra simulada (se conserva para las pruebas de la capa de vista). */
@@ -44,18 +42,18 @@ public class VentasController implements ActionListener {
 
     /** Modo persistente: el catálogo se lee del repositorio y la compra se registra con el caso de uso. */
     public VentasController(CatalogoView catalogoView, CarritoView carritoView, FormularioVentaView formularioView,
-            ProductoRepository productoRepository, RegistrarVentaUseCase registrarVenta) {
+            ProductoRepository productoRepository, VenderProductosUseCase venderProductos) {
         this.catalogoView = catalogoView;
         this.carritoView = carritoView;
         this.formularioView = formularioView;
         this.productoRepository = productoRepository;
-        this.registrarVenta = registrarVenta;
+        this.venderProductos = venderProductos;
         inicializarEventos();
         cargarCatalogo();
     }
 
     private boolean modoPersistente() {
-        return productoRepository != null && registrarVenta != null;
+        return productoRepository != null && venderProductos != null;
     }
 
     private void cargarCatalogo() {
@@ -171,7 +169,7 @@ public class VentasController implements ActionListener {
             @Override
             protected Void doInBackground() throws Exception {
                 if (modoPersistente()) {
-                    registrarVenta.ejecutar(construirVenta());
+                    venderProductos.ejecutar(construirItems());
                 } else {
                     Thread.sleep(2000); // modo demostración
                 }
@@ -196,16 +194,13 @@ public class VentasController implements ActionListener {
         operacionBackground.execute();
     }
 
-    /** Arma la venta con datos frescos de la base: el stock se valida contra el estado real, no contra el catálogo en pantalla. */
-    private Venta construirVenta() {
-        Venta venta = new Venta("V-" + LocalDateTime.now().format(FORMATO_FOLIO));
+    /** Convierte el carrito en partidas (producto y cantidad). El folio, la lectura fresca de existencias y el registro los hace el caso de uso, igual que en la API. */
+    private List<ItemVenta> construirItems() {
+        List<ItemVenta> items = new ArrayList<>();
         for (CarritoViewModel item : carritoView.getItems()) {
-            Producto fresco = productoRepository.buscarPorId(item.getProducto().getId())
-                    .orElseThrow(() -> new IllegalStateException(
-                            "El producto " + item.getProducto().getNombre() + " ya no existe en el catálogo."));
-            venta.agregarPartida(fresco, item.getCantidad());
+            items.add(new ItemVenta(item.getProducto().getId(), item.getCantidad()));
         }
-        return venta;
+        return items;
     }
 
     private void compraExitosa(double total) {
