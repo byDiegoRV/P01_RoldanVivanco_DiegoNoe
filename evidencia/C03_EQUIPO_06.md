@@ -26,17 +26,17 @@ Integración de las tres entradas del sistema sobre el mismo núcleo: API REST (
 | Criterio | Peso | Qué se entrega | Dónde está la evidencia | Estado |
 |---|---|---|---|---|
 | API | 1.5 | Contrato `docs/openapi.yaml`; endpoints de productos y ventas funcionando; ventas guardadas en PostgreSQL | `docs/openapi.yaml`; `evidencia/C03/C03-04_curl-p09_xochitl.txt`; `evidencia/C03/C03-03_persistencia.txt`; `evidencia/C03/C03-04_backend_xochitl.txt` | VERIFICADO |
-| Angular | 1.5 | Consumo de la API, navegación catálogo, detalle y venta, estados de carga, éxito, vacío y error | `frontend/src/app/producto/`; `frontend/src/app/catalogo/`; `frontend/src/app/venta/`; `frontend/src/app/app.routes.ts`; `evidencia/C03/C03-04_angular_xochitl.txt`; `evidencia/C03/capturas/C03-04_exito_detalle_xochitl.png`; `evidencia/C03/capturas/C03-04_exito_venta_xochitl.png`; `evidencia/C03/capturas/C03-04_vacio_xochitl.png` | VERIFICADO |
+| Angular | 1.5 | Consumo de la API, navegación catálogo, detalle y venta, estados de carga, éxito, vacío y error | `frontend/src/app/producto/`; `frontend/src/app/catalogo/`; `frontend/src/app/venta/`; `frontend/src/app/app.routes.ts`; `evidencia/C03/C03-04_angular_xochitl.txt`; `evidencia/C03/capturas/C03-04_exito_detalle_xochitl.png`; `evidencia/C03/capturas/C03-02_venta_ok.png`; `evidencia/C03/capturas/C03-04_vacio_xochitl.png` | VERIFICADO |
 | Reutilización del núcleo | 1 | Swing y la API ejecutan el mismo caso de uso (`VenderProductosUseCase`); se eliminó la orquestación duplicada | `docs/reutilizacion-nucleo.md`; `evidencia/C03/C03-01_dependencias_antes.txt`; `evidencia/C03/C03-01_dependencias_despues.txt`; `evidencia/C03/capturas/01_swing_venta.png`; `evidencia/C03/capturas/01_api_existencia.png` | VERIFICADO |
-| Errores y validación | 0.5 | 409 por existencia insuficiente, 404 por producto inexistente, 400 por venta vacía; validación del nombre y de la tarjeta en las dos interfaces; mensajes de error visibles | `evidencia/C03/C03-04_persistencia_xochitl.txt`; `evidencia/C03/capturas/C03-04_error_404_xochitl.png`; `evidencia/C03/capturas/C03-04_error_nombre_xochitl.png`; `evidencia/C03/capturas/C03-04_error_sin_conexion_xochitl.png`; `docs/registro-errores-c03.md` | VERIFICADO |
-| Calidad | 0.5 | 142 pruebas de backend y 34 de Angular; análisis de SonarQube del backend; issues, PR y contribuciones ligados | `evidencia/C03/C03-04_backend_xochitl.txt`; `evidencia/C03/C03-04_angular_xochitl.txt`; `evidencia/C03/C03_sonar_previo.md`; `evidencia/C03/C03_sonar_final.md`; `docs/contribuciones/integrante-1.md`; `docs/contribuciones/integrante-2.md` | VERIFICADO (backend); NO_VERIFICADO (TypeScript) |
+| Errores y validación | 0.5 | 409 por existencia insuficiente, 404 por producto inexistente, 400 por venta vacía; validación del nombre y de la tarjeta en las dos interfaces; mensajes de error visibles | `evidencia/C03/C03-04_persistencia_xochitl.txt`; `evidencia/C03/capturas/C03-02_detalle_404.png`; `evidencia/C03/capturas/C03-04_error_nombre_xochitl.png`; `evidencia/C03/capturas/C03-02_detalle_sin_conexion.png`; `docs/registro-errores-c03.md` | VERIFICADO |
+| Calidad | 0.5 | 142 pruebas de backend y 34 de Angular; análisis de SonarQube del backend; issues, PR y contribuciones ligados | `evidencia/C03/C03-04_backend_xochitl.txt`; `evidencia/C03/C03-04_angular_xochitl.txt`; `evidencia/C03/C03_sonar_previo.md`; `evidencia/C03/capturas/C03_sonar_final_resumen.png`; `evidencia/C03/capturas/C03_sonar_final_issues.png`; `docs/contribuciones/integrante-1.md`; `docs/contribuciones/integrante-2.md` | VERIFICADO (backend); NO_VERIFICADO (TypeScript) |
 
 ## 4. Reproducción
 
 - Guía: `docs/guia-reproduccion-c03.md`.
 - Bitácora de errores: `docs/registro-errores-c03.md`.
 - Versiones del segundo equipo: `evidencia/C03/C03-04_versiones_xochitl.txt`.
-- Los scripts `scripts/evidencia-c03-dependencias.sh`, `scripts/evidencia-c03-persistencia.sh`, `scripts/evidencia-c03-pruebas.sh` y `scripts/evidencia-c03-sonar.sh` generan las salidas sin credenciales ni rutas personales.
+- Los scripts `scripts/evidencia-c03-dependencias.sh`, `scripts/evidencia-c03-persistencia.sh` y `scripts/evidencia-c03-pruebas.sh` generan las salidas sin credenciales ni rutas personales.
 
 ## 5. Issues y responsables
 
@@ -46,7 +46,7 @@ Integración de las tres entradas del sistema sobre el mismo núcleo: API REST (
 | #63 | Navegación Angular: detalle de producto y validación del nombre | Noe |
 | #64 | Persistencia de extremo a extremo | Noe |
 | #65 | Pruebas y casos de éxito, vacío y error en un segundo equipo | Xochitl |
-| #66 | Cierre del corte | Xochitl |
+| #66 | Cierre del corte | Noe (asumido por falta de disponibilidad de Xochitl) |
 
 ## 6. Estado
 
@@ -62,6 +62,7 @@ Integración de las tres entradas del sistema sobre el mismo núcleo: API REST (
 - Pruebas de extremo a extremo automatizadas con navegador.
 - Que no existan otras reglas de negocio duplicadas fuera de las rutas de venta.
 - Reproducción en un clon nuevo desde cero (se usaron clones existentes con instalación limpia de dependencias).
+- Venta con folio, producto inexistente (404) y error sin conexión: las capturas son del equipo de Noe; en el equipo de Xochitl no hay captura propia de esos tres casos (sí están sus resultados de pruebas y de persistencia).
 
 **PENDIENTE**
 - Etiqueta `v0.3-web` y entrega en Eminus, que se realizan al integrar este archivo.

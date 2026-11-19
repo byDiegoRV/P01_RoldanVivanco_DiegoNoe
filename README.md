@@ -714,3 +714,21 @@ La última línea debe ser `MODULO_M13_VERIFICADO`.
 - El análisis de SonarQube cubre el backend (Java). El código TypeScript del cliente no se analiza con Sonar.
 - No hay pruebas de extremo a extremo automatizadas con navegador; el recorrido completo contra la API se verificó de forma manual.
 - El estado de cada elemento (VERIFICADO, NO_VERIFICADO y PENDIENTE) está en `evidencia/P10_EQUIPO_06.md`.
+
+## Corte 3: integración web (C03)
+
+El mismo núcleo atiende a la API REST, al cliente Angular y a la interfaz Swing. Swing ejecuta `VenderProductosUseCase`, igual que la API, y el cliente Angular suma la pantalla de **detalle de producto** (`/productos/:id`).
+
+- Guía de reproducción: `docs/guia-reproduccion-c03.md`.
+- Reutilización del núcleo: `docs/reutilizacion-nucleo.md`.
+- Registro de errores: `docs/registro-errores-c03.md`.
+- Índice de evidencia (ligado a R04): `evidencia/C03_EQUIPO_06.md`.
+
+Verificación desde la raíz, con la base arriba:
+
+```bash
+bash scripts/evidencia-c03-pruebas.sh <etiqueta>      # backend (142), Angular (34) y M13
+bash scripts/evidencia-c03-persistencia.sh            # venta, base de datos y casos de error
+```
+
+Alcance: el pago es una simulación de la interfaz; Sonar analiza el backend; la etiqueta del corte es `v0.3-web`. El estado de cada elemento (VERIFICADO, NO_VERIFICADO y PENDIENTE) está en `evidencia/C03_EQUIPO_06.md`.
