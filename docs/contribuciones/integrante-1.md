@@ -102,8 +102,23 @@
 
 **NO_VERIFICADO:** que no existan otras reglas de negocio duplicadas fuera de las rutas de venta; análisis de Sonar sobre TypeScript.
 
-**PENDIENTE (cierre del corte, a cargo de Xochitl):** índice `evidencia/C03_EQUIPO_06.md`, análisis de Sonar final, reproducción de la guía en el equipo de Xochitl y etiqueta `v0.3-web`.
+**PENDIENTE:** etiqueta `v0.3-web` y entrega en Eminus, que se realizan al integrar el PR de cierre (#66).
 
 ### Análisis de Sonar previo (C03)
 
 Antes de hacer el commit corrí SonarQube sobre el backend con los cambios de #62, #63 y #64: Quality Gate Passed, 0 issues, cobertura de 91.7% sobre el código nuevo y 0.0% de duplicaciones (detalle y capturas en `evidencia/C03/C03_sonar_previo.md`). Es un análisis previo sobre la copia de trabajo; el análisis final se repite sobre `master` integrado. Sonar no analiza el código TypeScript del cliente.
+
+### Cierre del Corte 3 (issue #66)
+
+Por falta de disponibilidad de tiempo de Xochitl, el cierre del corte lo realicé yo. Rama `feature/c03-cierre`.
+
+| Trabajo | Archivos |
+|---|---|
+| Índice de evidencia ligado a los criterios de R04, con VERIFICADO, NO_VERIFICADO y PENDIENTE por separado | `evidencia/C03_EQUIPO_06.md` |
+| Guía de reproducción del corte | `docs/guia-reproduccion-c03.md` |
+| Sección del Corte 3 en el README | `README.md` |
+| Análisis de SonarQube final del backend sobre `master` integrado (con reporte generado desde la API de SonarQube, sin credenciales) | `evidencia/C03/capturas/C03_sonar_final_resumen.png`, `evidencia/C03/capturas/C03_sonar_final_issues.png` |
+| Verificación del índice antes del commit (rutas, marcadores y datos personales) | `scripts/c03-verificar.sh` |
+| Etiqueta del corte | `v0.3-web` |
+
+La evidencia de reproducción en un segundo equipo (issue #65) es de Xochitl (`docs/contribuciones/integrante-2.md`).
