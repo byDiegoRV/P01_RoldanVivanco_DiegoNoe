@@ -15,8 +15,10 @@ info:
     - La API no recibe ni registra datos de tarjeta ni datos personales del cliente.
     - El folio de la venta lo genera el servidor.
 servers:
-  - url: http://localhost:8080
-    description: Ejecución local
+  - url: http://localhost:9098
+    description: API directa (ejecución local o contenedor)
+  - url: http://localhost:9095
+    description: Cliente web con nginx (contenedores); reenvía /api a la API
 tags:
   - name: Productos
     description: Consulta del catálogo

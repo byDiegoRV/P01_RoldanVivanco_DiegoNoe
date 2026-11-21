@@ -1,0 +1,78 @@
+diff --git a/scripts/verify-module.sh b/scripts/verify-module.sh
+index a576613..b2a12ed 100644
+--- a/scripts/verify-module.sh
++++ b/scripts/verify-module.sh
+@@ -4,6 +4,7 @@
+ #      ./scripts/verify-module.sh M02
+ #      ./scripts/verify-module.sh M11   (requiere Docker y variables DB_*)
+ #      ./scripts/verify-module.sh M13   (cliente Angular; requiere Node, npm y Chrome)
++#      ./scripts/verify-module.sh M14   (pila completa; requiere Docker y archivo .env)
+ #
+ # Comprobacion reproducible de un modulo del curso (P01/M01, P02/M02, ...):
+ #   1) Registra las versiones efectivas de java, javac y Maven (los tres
+@@ -22,6 +23,13 @@
+ # Chrome sin interfaz. El paso 4 es igual. No levanta la API ni la BD: las
+ # pruebas del cliente usan servicios simulados.
+ #
++# M14 (integracion de la pila): ejecuta scripts/verify-stack.sh (construye y
++# levanta PostgreSQL + API + cliente en contenedores, comprobaciones positivas y
++# negativas) y scripts/verify-recorrido.sh (venta completa por el cliente web,
++# contrato OpenAPI y efecto persistido en PostgreSQL). Si ambos pasan imprime
++# STACK_VERIFICADO y despues MODULO_M14_VERIFICADO. No ejecuta "mvn test": esas
++# pruebas recrean datos de la BD y se reportan aparte (C04-05).
++#
+ # Requiere: JDK y Maven en el PATH, con acceso al repositorio configurado
+ # (por defecto, Maven Central). Para M11 ademas: Docker en ejecucion y las
+ # variables de entorno DB_USER, DB_PASSWORD, DB_NAME y DB_PORT. Para M13:
+@@ -29,7 +37,7 @@
+ 
+ set -euo pipefail
+ 
+-MODULOS_VALIDOS=("M01" "M02" "M03" "M04" "M05" "M06" "M07" "M08" "M09" "M10" "M11" "M12" "M13")
++MODULOS_VALIDOS=("M01" "M02" "M03" "M04" "M05" "M06" "M07" "M08" "M09" "M10" "M11" "M12" "M13" "M14")
+ MODULO="${1:-}"
+ 
+ modulo_valido=false
+@@ -151,6 +159,42 @@ fallo_modulo() {
+   exit 1
+ }
+ 
++# Verifica la pila completa (M14). Cada script imprime su propia marca final.
++verificar_pila_m14() {
++  [[ -f scripts/verify-stack.sh && -f scripts/verify-recorrido.sh ]] || {
++    echo "ERROR: faltan scripts/verify-stack.sh o scripts/verify-recorrido.sh" >&2; return 1; }
++  local log; log="$(mktemp)"
++
++  echo "-- docker --"
++  docker --version || return 1
++  docker compose version || return 1
++
++  echo ""
++  echo "== [1/2] Pila: contenedores, API, BD y cliente (verify-stack) =="
++  bash scripts/verify-stack.sh 2>&1 | tee "$log"
++  grep -q "^STACK_C04_VERIFICADO" "$log" || { rm -f "$log"; return 1; }
++
++  echo ""
++  echo "== [2/2] Recorrido de la venta, contrato y efecto persistido (verify-recorrido) =="
++  bash scripts/verify-recorrido.sh 2>&1 | tee "$log"
++  grep -q "^RECORRIDO_VERIFICADO" "$log" || { rm -f "$log"; return 1; }
++
++  rm -f "$log"
++  echo ""
++  echo "STACK_VERIFICADO"
++}
++
++if [[ "$MODULO" == "M14" ]]; then
++  echo "== Registro de versiones efectivas (pila completa) =="
++  if verificar_pila_m14; then
++    echo ""
++    echo "== Resultado =="
++    echo "MODULO_${MODULO}_VERIFICADO"
++    exit 0
++  fi
++  fallo_modulo
++fi
++
+ if [[ "$MODULO" == "M13" ]]; then
+   echo "== Registro de versiones efectivas (cliente Angular) =="
+   if verificar_cliente_angular; then

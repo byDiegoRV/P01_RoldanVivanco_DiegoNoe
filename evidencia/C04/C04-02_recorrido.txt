@@ -1,0 +1,25 @@
+== C04 verify-recorrido  2026-11-20 22:27:11  cliente: http://localhost:9095 ==
+Producto de prueba: id=1
+
+== [A] Positivo: la venta recorre cliente -> API -> PostgreSQL ==
+VERIFICADO: GET producto = 200 y existencia de la API (7) = stock en PostgreSQL (7) [contrato: existencia]
+VERIFICADO: POST /api/ventas = 201 con folio generado por el servidor (V-20261121042715187)
+VERIFICADO: PostgreSQL: existe 1 fila en ventas con ese folio
+VERIFICADO: PostgreSQL: detalle_venta tiene la partida (producto 1, cantidad 1)
+VERIFICADO: PostgreSQL: existencia 7 -> 6 (descuento aplicado)
+VERIFICADO: Retest vertical: el catalogo (API via nginx) ya muestra la existencia nueva
+
+== [B] Negativos del contrato (todos via nginx) y atomicidad ==
+VERIFICADO: Existencia insuficiente -> 409 EXISTENCIA_INSUFICIENTE (sin trazas ni detalles internos)
+VERIFICADO: Cantidad invalida -> 400 VALIDACION_FALLIDA (sin trazas ni detalles internos)
+VERIFICADO: Producto inexistente en la venta -> 404 PRODUCTO_NO_ENCONTRADO (sin trazas ni detalles internos)
+VERIFICADO: Campo no permitido (datos de tarjeta) -> 400 SOLICITUD_INVALIDA (sin trazas ni detalles internos)
+VERIFICADO: JSON mal formado -> 400 SOLICITUD_INVALIDA (sin trazas ni detalles internos)
+VERIFICADO: Id no numerico -> 400 SOLICITUD_INVALIDA (sin trazas ni detalles internos)
+VERIFICADO: Producto inexistente -> 404 PRODUCTO_NO_ENCONTRADO (sin trazas ni detalles internos)
+VERIFICADO: Metodo no permitido -> 405 METODO_NO_PERMITIDO (sin trazas ni detalles internos)
+VERIFICADO: Ruta inexistente -> 404 RECURSO_NO_ENCONTRADO (sin trazas ni detalles internos)
+VERIFICADO: Atomicidad: las peticiones rechazadas no crearon ventas ni cambiaron existencias en PostgreSQL
+
+== Resultado ==
+RECORRIDO_VERIFICADO
