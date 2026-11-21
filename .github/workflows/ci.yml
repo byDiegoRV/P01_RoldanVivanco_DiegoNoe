@@ -29,6 +29,7 @@ jobs:
   backend:
     name: Backend (Java 11 + PostgreSQL 16)
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     services:
       postgres:
         image: postgres:16
@@ -61,7 +62,16 @@ jobs:
       - name: Instalar Xvfb (pruebas Swing sin pantalla)
         run: sudo apt-get update -qq && sudo apt-get install -y -qq xvfb
       - name: Pruebas y cobertura (mvn verify)
-        run: xvfb-run --auto-servernum mvn -B verify
+        run: |
+          mkdir -p target
+          # Si las pruebas se quedan colgadas, a los 10 min se guarda un volcado de hilos como evidencia
+          ( sleep 600; for p in $(pgrep -f surefire); do jstack "$p" > "target/jstack-$p.txt" 2>&1 || true; done ) &
+          VIGILANTE=$!
+          set +e
+          xvfb-run --auto-servernum mvn -B verify
+          RC=$?
+          kill "$VIGILANTE" 2>/dev/null
+          exit $RC
       - name: Resumen de pruebas
         if: always()
         run: |
@@ -74,6 +84,7 @@ jobs:
           path: |
             target/surefire-reports
             target/site/jacoco
+            target/jstack-*.txt
           if-no-files-found: warn
       - uses: actions/upload-artifact@v4
         with:
@@ -84,6 +95,7 @@ jobs:
   frontend:
     name: Frontend (Node 24 + Angular 20)
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     defaults:
       run:
         working-directory: frontend
@@ -111,6 +123,7 @@ jobs:
     name: Pila completa (Docker Compose)
     runs-on: ubuntu-latest
     needs: [backend, frontend]
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
       - name: Crear .env de CI (sin secretos reales)
