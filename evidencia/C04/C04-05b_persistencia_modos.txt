@@ -1,0 +1,70 @@
+== C04-05b Persistencia por modo  2026-11-21 12:56:18 ==
+commit: 45c6c94
+
+=================== PERSISTENCIA=hibernate ===================
+VERIFICADO: API arriba con PERSISTENCIA=hibernate
+VERIFICADO: la variable llego al contenedor (PERSISTENCIA=hibernate)
+informativo: lineas de arranque de Hibernate (HHH...) en el log de la API: 10
+== C04 verify-recorrido  2026-11-21 12:56:36  cliente: http://localhost:9095 ==
+Producto de prueba: id=1
+
+== [A] Positivo: la venta recorre cliente -> API -> PostgreSQL ==
+VERIFICADO: GET producto = 200 y existencia de la API (8) = stock en PostgreSQL (8) [contrato: existencia]
+VERIFICADO: POST /api/ventas = 201 con folio generado por el servidor (V-20261121185639797)
+VERIFICADO: PostgreSQL: existe 1 fila en ventas con ese folio
+VERIFICADO: PostgreSQL: detalle_venta tiene la partida (producto 1, cantidad 1)
+VERIFICADO: PostgreSQL: existencia 8 -> 7 (descuento aplicado)
+VERIFICADO: Retest vertical: el catalogo (API via nginx) ya muestra la existencia nueva
+
+== [B] Negativos del contrato (todos via nginx) y atomicidad ==
+VERIFICADO: Existencia insuficiente -> 409 EXISTENCIA_INSUFICIENTE (sin trazas ni detalles internos)
+VERIFICADO: Cantidad invalida -> 400 VALIDACION_FALLIDA (sin trazas ni detalles internos)
+VERIFICADO: Producto inexistente en la venta -> 404 PRODUCTO_NO_ENCONTRADO (sin trazas ni detalles internos)
+VERIFICADO: Campo no permitido (datos de tarjeta) -> 400 SOLICITUD_INVALIDA (sin trazas ni detalles internos)
+VERIFICADO: JSON mal formado -> 400 SOLICITUD_INVALIDA (sin trazas ni detalles internos)
+VERIFICADO: Id no numerico -> 400 SOLICITUD_INVALIDA (sin trazas ni detalles internos)
+VERIFICADO: Producto inexistente -> 404 PRODUCTO_NO_ENCONTRADO (sin trazas ni detalles internos)
+VERIFICADO: Metodo no permitido -> 405 METODO_NO_PERMITIDO (sin trazas ni detalles internos)
+VERIFICADO: Ruta inexistente -> 404 RECURSO_NO_ENCONTRADO (sin trazas ni detalles internos)
+VERIFICADO: Atomicidad: las peticiones rechazadas no crearon ventas ni cambiaron existencias en PostgreSQL
+
+== Resultado ==
+RECORRIDO_VERIFICADO
+VERIFICADO: recorrido completo con PERSISTENCIA=hibernate
+
+=================== PERSISTENCIA=jdbc ===================
+VERIFICADO: API arriba con PERSISTENCIA=jdbc
+VERIFICADO: la variable llego al contenedor (PERSISTENCIA=jdbc)
+informativo: lineas de arranque de Hibernate (HHH...) en el log de la API: 0
+== C04 verify-recorrido  2026-11-21 12:57:03  cliente: http://localhost:9095 ==
+Producto de prueba: id=1
+
+== [A] Positivo: la venta recorre cliente -> API -> PostgreSQL ==
+VERIFICADO: GET producto = 200 y existencia de la API (7) = stock en PostgreSQL (7) [contrato: existencia]
+VERIFICADO: POST /api/ventas = 201 con folio generado por el servidor (V-20261121185706596)
+VERIFICADO: PostgreSQL: existe 1 fila en ventas con ese folio
+VERIFICADO: PostgreSQL: detalle_venta tiene la partida (producto 1, cantidad 1)
+VERIFICADO: PostgreSQL: existencia 7 -> 6 (descuento aplicado)
+VERIFICADO: Retest vertical: el catalogo (API via nginx) ya muestra la existencia nueva
+
+== [B] Negativos del contrato (todos via nginx) y atomicidad ==
+VERIFICADO: Existencia insuficiente -> 409 EXISTENCIA_INSUFICIENTE (sin trazas ni detalles internos)
+VERIFICADO: Cantidad invalida -> 400 VALIDACION_FALLIDA (sin trazas ni detalles internos)
+VERIFICADO: Producto inexistente en la venta -> 404 PRODUCTO_NO_ENCONTRADO (sin trazas ni detalles internos)
+VERIFICADO: Campo no permitido (datos de tarjeta) -> 400 SOLICITUD_INVALIDA (sin trazas ni detalles internos)
+VERIFICADO: JSON mal formado -> 400 SOLICITUD_INVALIDA (sin trazas ni detalles internos)
+VERIFICADO: Id no numerico -> 400 SOLICITUD_INVALIDA (sin trazas ni detalles internos)
+VERIFICADO: Producto inexistente -> 404 PRODUCTO_NO_ENCONTRADO (sin trazas ni detalles internos)
+VERIFICADO: Metodo no permitido -> 405 METODO_NO_PERMITIDO (sin trazas ni detalles internos)
+VERIFICADO: Ruta inexistente -> 404 RECURSO_NO_ENCONTRADO (sin trazas ni detalles internos)
+VERIFICADO: Atomicidad: las peticiones rechazadas no crearon ventas ni cambiaron existencias en PostgreSQL
+
+== Resultado ==
+RECORRIDO_VERIFICADO
+VERIFICADO: recorrido completo con PERSISTENCIA=jdbc
+
+== Restaurando la pila al modo por defecto (hibernate) ==
+VERIFICADO: pila restaurada
+
+== Resultado ==
+PERSISTENCIA_VERIFICADA

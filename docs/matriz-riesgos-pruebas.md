@@ -42,7 +42,7 @@ Cobertura del backend por paquete (JaCoCo, líneas / ramas):
 | R13 | Dos ventas simultáneas sobre la misma existencia (concurrencia) | Persistencia | no hay prueba | PENDIENTE | Causa: no se diseñó una prueba de concurrencia. Plan: prueba con dos peticiones paralelas y comprobar que la existencia no queda negativa |
 | R14 | Cobro real con tarjeta | Aplicación | — | LÍMITE | El pago es simulado en el cliente; la API no recibe datos de tarjeta (R4 lo comprueba) |
 | R15 | Rendimiento y carga | Todas | no medido | LÍMITE | Fuera de alcance del curso en este corte |
-| R16 | La variante `PERSISTENCIA=jdbc` no funciona en la pila real | Aplicación / Persistencia | adaptadores JDBC con pruebas propias (`PostgresProductoAdapterTest`, `VentaJdbcRepositoryTest`); no hay recorrido completo con JDBC | PENDIENTE | La pila en contenedores usa Hibernate por defecto; no se verificó el recorrido con `PERSISTENCIA=jdbc` |
+| R16 | La variante `PERSISTENCIA=jdbc` no funciona en la pila real | Aplicación / Persistencia | `scripts/verify-persistencia.sh`: recorrido completo (`verify-recorrido.sh`) con `PERSISTENCIA=hibernate` y con `PERSISTENCIA=jdbc`; adaptadores JDBC con pruebas propias | VERIFICADO | La variable llega al contenedor y el recorrido pasa en ambos modos; el log de arranque de Hibernate es informativo, no prueba por sí solo qué adaptador atendió |
 
 ## 3. Interpretación de la cobertura
 - **Núcleo de negocio y persistencia bien cubiertos:** servicios de aplicación (96,5 %), dominio (91,1 %), controlador Swing (94,3 %) y adaptadores JDBC e Hibernate (88–89 %).
