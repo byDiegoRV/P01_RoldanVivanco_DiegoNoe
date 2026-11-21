@@ -18,8 +18,9 @@ Archivo: `.github/workflows/ci.yml` (GitHub Actions). Se ejecuta en cada `push` 
 3. Resumen de pruebas en el *Summary* del job `backend`.
 
 ## Registro de ejecuciones
-| Fecha | Commit | Resultado | Observación |
-|---|---|---|---|
-| (completar) | (completar) | (completar) | (completar: primera ejecución, fallos y corrección, o "sin fallos") |
-
-Enlace a la ejecución verde: (completar con la URL de Actions).
+| Ejecución | Commit | Resultado | Observación |
+| :--- | :--- | :--- | :--- |
+| #1 | (commit del primer push) | Cancelada a los 26 min | Bloqueo en `VentasControllerTest` por diálogos modales (H-03) |
+| #2 | (commit de la corrección de diálogos) | `pila` falló | `Permission denied`: faltaba el bit de ejecución en Git |
+| #3 | `ad11bcb` | Verde, 2 min 33 s | 142 pruebas, 0 fallos; 2 artefactos |
+Enlace a la ejecución verde: https://github.com/byDiegoRV/P01_RoldanVivanco_DiegoNoe/actions/runs/44871294470
