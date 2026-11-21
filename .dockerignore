@@ -1,0 +1,10 @@
+.git
+.github
+.vscode
+.env
+target
+frontend
+docs
+evidencia
+scripts
+*.md

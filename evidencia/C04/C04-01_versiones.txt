@@ -1,0 +1,45 @@
+== Versiones efectivas  2026-11-20 22:03:51 ==
+-- commit --
+02ee70b
+feature/c04-contenedores
+-- java --
+java version "11.0.32" 2026-07-21 LTS
+Java(TM) SE Runtime Environment 18.9 (build 11.0.32+7-LTS-196)
+Java HotSpot(TM) 64-Bit Server VM 18.9 (build 11.0.32+7-LTS-196, mixed mode)
+-- mvn --
+Apache Maven 3.9.13 (39d686bd50d8e054301e3a68ad44781df6f80dda)
+Maven home: C:\Users\vivar\Downloads\apache-maven-3.9.13-bin\apache-maven-3.9.13
+Java version: 11.0.32, vendor: Oracle Corporation, runtime: C:\Program Files\Java\jdk-11.0.32
+-- node / npm --
+v24.11.0
+11.6.2
+-- docker --
+Docker version 28.3.2, build 578ccf6
+Docker Compose version v2.39.1-desktop.1
+-- pom.xml: version del proyecto y Spring Boot --
+10:    <version>1.0.0</version>
+17:        <maven.compiler.source>11</maven.compiler.source>
+18:        <maven.compiler.target>11</maven.compiler.target>
+21:        <spring-boot.version>2.7.18</spring-boot.version>
+57:            <version>${spring-boot.version}</version>
+63:            <version>${spring-boot.version}</version>
+-- frontend: version resuelta (package-lock) --
+frontend@0.0.0 C:\Users\vivar\tcsw-ventas\frontend
+├── @angular/cli@20.3.42
+├── @angular/core@20.3.35
+└── typescript@5.9.3
+
+-- imagenes base declaradas --
+FROM maven:3.9-eclipse-temurin-11 AS build
+FROM eclipse-temurin:11-jre-alpine
+FROM node:24-alpine AS build
+FROM nginx:1.27-alpine
+7:    image: postgres:16
+-- imagenes locales (si ya se construyo) --
+tcsw-ventas-api:latest  b544460102c0
+tcsw-ventas-web:latest  8b68d1b9f1e9
+postgres:16-alpine  6a2e324ebe59
+postgres:16  275447c94b11
+postgres:18.4  4b87d5343a0e
+postgres:17  f7b934223918
+postgres:15  b3d48187cc8a
