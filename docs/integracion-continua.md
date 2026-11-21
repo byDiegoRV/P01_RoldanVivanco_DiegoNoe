@@ -24,3 +24,4 @@ Archivo: `.github/workflows/ci.yml` (GitHub Actions). Se ejecuta en cada `push` 
 | #2 | (commit de la corrección de diálogos) | `pila` falló | `Permission denied`: faltaba el bit de ejecución en Git |
 | #3 | `ad11bcb` | Verde, 2 min 33 s | 142 pruebas, 0 fallos; 2 artefactos |
 Enlace a la ejecución verde: https://github.com/byDiegoRV/P01_RoldanVivanco_DiegoNoe/actions/runs/44871294470
+| #12 | 480a32e | Verde (2m57s) | Estado final de la rama antes del PR a master |
