@@ -8,7 +8,7 @@ Java(TM) SE Runtime Environment 18.9 (build 11.0.32+7-LTS-196)
 Java HotSpot(TM) 64-Bit Server VM 18.9 (build 11.0.32+7-LTS-196, mixed mode)
 -- mvn --
 Apache Maven 3.9.13 (39d686bd50d8e054301e3a68ad44781df6f80dda)
-Maven home: C:\Users\vivar\Downloads\apache-maven-3.9.13-bin\apache-maven-3.9.13
+Maven home: <ruta-oculta>\apache-maven-3.9.13
 Java version: 11.0.32, vendor: Oracle Corporation, runtime: C:\Program Files\Java\jdk-11.0.32
 -- node / npm --
 v24.11.0
@@ -24,7 +24,7 @@ Docker Compose version v2.39.1-desktop.1
 57:            <version>${spring-boot.version}</version>
 63:            <version>${spring-boot.version}</version>
 -- frontend: version resuelta (package-lock) --
-frontend@0.0.0 C:\Users\vivar\tcsw-ventas\frontend
+frontend@0.0.0 <repo>\frontend
 ├── @angular/cli@20.3.42
 ├── @angular/core@20.3.35
 └── typescript@5.9.3
