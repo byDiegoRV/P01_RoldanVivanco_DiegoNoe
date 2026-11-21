@@ -10,3 +10,4 @@ target/
 
 # Archivos temporales del escaner de SonarQube
 .scannerwork/
+backups/
