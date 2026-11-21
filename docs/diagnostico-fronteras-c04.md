@@ -49,3 +49,5 @@ Regla de red vs backend: estado **0** = el navegador no llegó al servidor (red,
 | Ningún error expone trazas, SQL ni credenciales | cuerpo sin `Exception`, `SQLException`, `password` | [B] |
 
 **Límites declarados:** el pago con tarjeta es simulado en el cliente (la API no lo recibe); el estado 0 se prueba en el cliente con servicios simulados y, en la pila real, con la BD caída (`--con-caida`), no apagando el contenedor `api`.
+
+Un contenedor del cliente aparecía unhealthy desde hacía horas aunque la pila funcionaba. Se descartó un fallo de la aplicación y se aisló la causa con una prueba que distingue la hipótesis: el chequeo de salud usaba localhost, que en Alpine resuelve a IPv6, y nginx escucha solo en IPv4. Se corrigió usando 127.0.0.1 y se verificó con el estado de salud del contenedor y con el recorrido completo de la venta.
