@@ -1,6 +1,6 @@
-== Versiones efectivas  2026-11-20 22:03:51 ==
+== Versiones efectivas  2026-11-21 09:17:45 ==
 -- commit --
-02ee70b
+68741bb
 feature/c04-contenedores
 -- java --
 java version "11.0.32" 2026-07-21 LTS
@@ -8,7 +8,7 @@ Java(TM) SE Runtime Environment 18.9 (build 11.0.32+7-LTS-196)
 Java HotSpot(TM) 64-Bit Server VM 18.9 (build 11.0.32+7-LTS-196, mixed mode)
 -- mvn --
 Apache Maven 3.9.13 (39d686bd50d8e054301e3a68ad44781df6f80dda)
-Maven home: <ruta-oculta>\apache-maven-3.9.13
+Maven home: <ruta-local>
 Java version: 11.0.32, vendor: Oracle Corporation, runtime: C:\Program Files\Java\jdk-11.0.32
 -- node / npm --
 v24.11.0
@@ -24,7 +24,7 @@ Docker Compose version v2.39.1-desktop.1
 57:            <version>${spring-boot.version}</version>
 63:            <version>${spring-boot.version}</version>
 -- frontend: version resuelta (package-lock) --
-frontend@0.0.0 <repo>\frontend
+frontend@0.0.0 <ruta-local>
 ├── @angular/cli@20.3.42
 ├── @angular/core@20.3.35
 └── typescript@5.9.3
@@ -36,8 +36,8 @@ FROM node:24-alpine AS build
 FROM nginx:1.27-alpine
 7:    image: postgres:16
 -- imagenes locales (si ya se construyo) --
-tcsw-ventas-api:latest  b544460102c0
-tcsw-ventas-web:latest  8b68d1b9f1e9
+tcsw-ventas-api:latest  1a4a50bd9d4f
+tcsw-ventas-web:latest  0760cbf3211e
 postgres:16-alpine  6a2e324ebe59
 postgres:16  275447c94b11
 postgres:18.4  4b87d5343a0e
