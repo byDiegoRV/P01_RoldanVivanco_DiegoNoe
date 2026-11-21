@@ -1,6 +1,6 @@
 # Plan de reversa — candidato v1.0-rc → v0.3-web
 
-Estado del ensayo: **PENDIENTE** hasta ejecutar `scripts/ensayo-reversa.sh` (ver sección 6; se actualiza con el resultado real).
+Estado del ensayo: **VERIFICADO** (intento 2, ver sección 6).
 
 ## 1. Alcance
 - Volver el sistema (cliente Angular + API + BD en contenedores) de `v1.0-rc` a la versión estable anterior `v0.3-web` (commit `02ee70b`, cierre de C03) y poder regresar al candidato.
@@ -39,18 +39,18 @@ El ensayo completo y automatizado de estos pasos es `scripts/ensayo-reversa.sh`.
 ## 6. Resultado del ensayo
 | Concepto | Resultado |
 |---|---|
-| Fecha y commit del candidato | (completar) |
-| Respaldo generado | (completar: bytes) |
-| Datos restaurados = datos previos | (completar) |
-| Verificación de pila en v0.3-web | (completar) |
-| Frontend distinto al del candidato | (completar: styles-XXXX.css vs styles-YYYY.css) |
-| Regreso al candidato + recorrido | (completar) |
-| Tiempo total del ensayo / de la reversa | (completar) |
-| Estado | PENDIENTE / VERIFICADO / NO_VERIFICADO |
+| Fecha y commit del candidato | 2026-11-21 13:27:16, commit 1d4b29b |
+| Respaldo generado | 7704 bytes (pg_dump, fuera del repositorio) |
+| Datos restaurados = datos previos | Sí: filas y md5 idénticos en productos, ventas y detalle_venta |
+| Verificación de pila en v0.3-web | STACK_C04_VERIFICADO en v0.3-web |
+| Frontend distinto al del candidato | Candidato styles-GYMJ7Z7U.css vs v0.3-web styles-LUTW3MCZ.css |
+| Regreso al candidato + recorrido | Sí: mismos datos y RECORRIDO_VERIFICADO |
+| Tiempo total del ensayo / de la reversa | 105 s (ensayo completo, incluye reconstrucción de imágenes) |
+| Estado | VERIFICADO |
 
 ## 7. Límites declarados
 - El respaldo es lógico (pg_dump) y puntual: las ventas hechas después del respaldo y antes de la reversa se pierden si no se respalda justo antes.
 - La reversa usa el **código** de `v0.3-web` con la **definición de despliegue** del candidato; el `docker-compose.yml`/`Dockerfile` originales del tag son anteriores y no incluyen el cliente en contenedor.
 - El ensayo se hizo en un entorno local (Docker Desktop, una máquina); no se probó en otro entorno.
 - Existen tags de prácticas anteriores (`v0.3.0`, `v0.4.0`, `v1.0.0`) que no forman parte de la línea de este candidato; `v1.0.0` corresponde a C02 y no debe confundirse con `v1.0-rc`.
-- Hallazgo H-05 (ensayo de reversa, intento 1). La comprobación de "frontend distinto" falló porque la imagen web del candidato llevaba 5 horas sin reconstruirse: docker compose restart reinicia el contenedor pero no regenera la imagen, por lo que servía un frontend anterior a las correcciones de Sonar, idéntico al de v0.3-web. Los datos y el recorrido sí pasaron. Corrección: el ensayo ejecuta docker compose up -d --build antes de medir la línea de base y la guía de despliegue indica reconstruir siempre. Retest: intento 2 (completar).
+- Hallazgo H-05 (ensayo de reversa, intento 1). La comprobación de "frontend distinto" falló porque la imagen web del candidato llevaba 5 horas sin reconstruirse: docker compose restart reinicia el contenedor pero no regenera la imagen, por lo que servía un frontend anterior a las correcciones de Sonar, idéntico al de v0.3-web. Los datos y el recorrido sí pasaron. Corrección: el ensayo ejecuta docker compose up -d --build antes de medir la línea de base y la guía de despliegue indica reconstruir siempre. Retest: intento 2 ROLLBACK_VERIFICADO..
