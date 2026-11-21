@@ -18,10 +18,20 @@ Archivo: `.github/workflows/ci.yml` (GitHub Actions). Se ejecuta en cada `push` 
 3. Resumen de pruebas en el *Summary* del job `backend`.
 
 ## Registro de ejecuciones
+## Registro de ejecuciones
 | Ejecución | Commit | Resultado | Observación |
 | :--- | :--- | :--- | :--- |
-| #1 | (commit del primer push) | Cancelada a los 26 min | Bloqueo en `VentasControllerTest` por diálogos modales (H-03) |
-| #2 | (commit de la corrección de diálogos) | `pila` falló | `Permission denied`: faltaba el bit de ejecución en Git |
+| #1 | `cf6c9cf` | Cancelada a los 29 min | Bloqueo en `VentasControllerTest` por diálogos modales (H-03) |
+| #2 | `66616ae` | Fallida | `pila` falló: `Permission denied`, faltaba el bit de ejecución en Git |
 | #3 | `ad11bcb` | Verde, 2 min 33 s | 142 pruebas, 0 fallos; 2 artefactos |
+| #4 | `28408d7` | Verde, 2 min 26 s | Registro de ejecuciones y evidencia |
+| #5 | `edb14b8` | Cancelada (2 min 4 s) | Probablemente interrumpida por un push posterior (no verificado) |
+| #6 | `5a1b061` | Cancelada (1 min 20 s) | Probablemente interrumpida por un push posterior (no verificado) |
+| #7 | `679fbda` | Verde, 2 min 36 s | Versiones efectivas con rutas ocultas |
+| #8 | `e6498e3` | Verde, 2 min 15 s | Análisis final de Sonar |
+| #9 | `45c6c94` | Verde, 2 min 20 s | Capturas de C04-05 |
+| #10 | `e1a5d73` | Verde, 2 min 29 s | Verificación de persistencia por modo |
+| #11 | `f062563` | Verde, 2 min 19 s | Ensayo de reversa ejecutado |
+| #12 | `480a32e` | Verde, 2 min 57 s | Estado final de la rama antes del PR a `master` |
+
 Enlace a la ejecución verde: https://github.com/byDiegoRV/P01_RoldanVivanco_DiegoNoe/actions/runs/44871294470
-| #12 | 480a32e | Verde (2m57s) | Estado final de la rama antes del PR a master |
