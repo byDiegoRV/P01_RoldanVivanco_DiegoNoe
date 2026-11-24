@@ -1,0 +1,22 @@
+# Dockerfile.api - API REST de tcsw-ventas (Spring Boot 2.7.18, Java 11)
+# Construye el jar SIN ejecutar pruebas (las pruebas necesitan PostgreSQL y
+# se ejecutan aparte: scripts/verify-module.sh y el flujo de CI).
+# Version congelada de la imagen base: ver docs/versiones-congeladas.md
+
+FROM maven:3.9-eclipse-temurin-11 AS build
+WORKDIR /workspace
+COPY pom.xml .
+COPY src ./src
+# El pom no repackagea por defecto: se invoca spring-boot:repackage para obtener un jar ejecutable
+RUN mvn -B -DskipTests clean package spring-boot:repackage
+
+FROM eclipse-temurin:11-jre-alpine
+WORKDIR /app
+RUN addgroup -S app && adduser -S app -G app
+COPY --from=build /workspace/target/tcsw-ventas.jar /app/tcsw-ventas.jar
+USER app
+ENV PORT=9098
+EXPOSE 9098
+HEALTHCHECK --interval=10s --timeout=5s --start-period=40s --retries=6 \
+  CMD wget -qO- http://localhost:9098/api/productos >/dev/null || exit 1
+ENTRYPOINT ["java", "-jar", "/app/tcsw-ventas.jar"]

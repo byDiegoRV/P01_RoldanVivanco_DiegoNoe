@@ -1,0 +1,78 @@
+== C04-06 Ensayo de reversa  2026-11-21 13:10:08 ==
+candidato: rama feature/c04-contenedores @ e1a5d73
+destino de reversa: v0.3-web @ 02ee70b
+AVISO: hay cambios sin commit; el ensayo usa los archivos de infraestructura del arbol de trabajo
+
+== [1] Estado del candidato y respaldo ==
+[t+2s] inicio
+VERIFICADO: el candidato responde antes de empezar
+frontend del candidato sirve: styles-LUTW3MCZ.css
+productos: filas=2 md5=8f419a62fc7ae63fb5f3fe0f6309f9b5
+ventas: filas=3 md5=989d1ea1b354f05bc4ba7092f9edb68f
+detalle_venta: filas=4 md5=021e01bcec4436df800695d99935d690
+VERIFICADO: respaldo logico generado (7629 bytes, fuera del repositorio: backups/)
+
+== [2] Bajando el candidato (el volumen de datos se conserva) ==
+[t+9s] down candidato
+VERIFICADO: pila del candidato detenida (sin -v)
+
+== [3] Levantando v0.3-web ==
+[t+12s] worktree
+VERIFICADO: copia del tag en tcsw-ventas-rollback
+version en la copia: v0.3-web
+VERIFICADO: PostgreSQL de la version anterior listo (volumen nuevo y vacio)
+
+== [4] Restaurando el respaldo ==
+[t+19s] restore
+VERIFICADO: respaldo restaurado
+productos: filas=2 md5=8f419a62fc7ae63fb5f3fe0f6309f9b5
+ventas: filas=3 md5=989d1ea1b354f05bc4ba7092f9edb68f
+detalle_venta: filas=4 md5=021e01bcec4436df800695d99935d690
+VERIFICADO: los datos restaurados coinciden con los del candidato (filas y md5 por tabla)
+
+== [5] Verificando v0.3-web ==
+[t+25s] verify-stack
+ Container tcsw-rollback-api-1  Starting
+ Container tcsw-rollback-api-1  Started
+ Container tcsw-rollback-api-1  Waiting
+ Container tcsw-rollback-api-1  Healthy
+ Container tcsw-rollback-web-1  Starting
+ Container tcsw-rollback-web-1  Started
+VERIFICADO: docker compose up termino sin error
+
+== [2] Esperando servicios (maximo 150 s) ==
+VERIFICADO: API responde en http://localhost:9098
+VERIFICADO: Frontend (nginx) responde en http://localhost:9095
+
+== [3] Comprobaciones positivas ==
+VERIFICADO: GET /api/productos directo a la API = 200
+VERIFICADO: El HTML servido contiene <app-root> (Angular)
+VERIFICADO: GET /api/productos via nginx (frontend -> API -> BD) = 200
+productos en PostgreSQL: 2 | productos que entrega la API via nginx: 2
+VERIFICADO: El catalogo de la API coincide con la tabla productos
+
+== [4] Comprobaciones negativas ==
+VERIFICADO: Producto inexistente via nginx = 404
+VERIFICADO: Ruta inexistente via nginx = 404 (formato unico de error)
+
+== Resultado ==
+STACK_C04_VERIFICADO
+VERIFICADO: la version anterior pasa la verificacion de pila
+frontend de v0.3-web sirve: styles-LUTW3MCZ.css
+NO_VERIFICADO: el frontend servido es el mismo que el del candidato; no hay prueba de cambio de version
+VERIFICADO: datos intactos en la version anterior
+
+== [6] Regresando al candidato ==
+[t+67s] down rollback
+VERIFICADO: pila de v0.3-web eliminada (proyecto tcsw-rollback, con su volumen de ensayo)
+VERIFICADO: copia del tag eliminada
+VERIFICADO: el candidato volvio a responder
+NO_VERIFICADO: el frontend servido no es el del candidato (styles-GYMJ7Z7U.css)
+VERIFICADO: datos del candidato intactos tras el ensayo
+
+== Resultado ==
+RECORRIDO_VERIFICADO
+[t+125s] fin
+
+== Resultado ==
+ROLLBACK_NO_VERIFICADO (2 comprobaciones fallidas)

@@ -1,0 +1,41 @@
+== C04 verify-stack  2026-11-20 22:05:00 ==
+-- docker --
+Docker version 28.3.2, build 578ccf6
+Docker Compose version v2.39.1-desktop.1
+
+== [1] Levantando la pila (docker compose up -d ) ==
+ Container postgres_ventas  Running
+ Container tcsw-ventas-api-1  Running
+ Container tcsw-ventas-web-1  Running
+ Container postgres_ventas  Waiting
+ Container postgres_ventas  Healthy
+ Container tcsw-ventas-api-1  Waiting
+ Container tcsw-ventas-api-1  Healthy
+VERIFICADO: docker compose up termino sin error
+
+== [2] Esperando servicios (maximo 150 s) ==
+VERIFICADO: API responde en http://localhost:9098
+VERIFICADO: Frontend (nginx) responde en http://localhost:9095
+
+== [3] Comprobaciones positivas ==
+VERIFICADO: GET /api/productos directo a la API = 200
+VERIFICADO: El HTML servido contiene <app-root> (Angular)
+VERIFICADO: GET /api/productos via nginx (frontend -> API -> BD) = 200
+productos en PostgreSQL: 2 | productos que entrega la API via nginx: 2
+VERIFICADO: El catalogo de la API coincide con la tabla productos
+
+== [4] Comprobaciones negativas ==
+VERIFICADO: Producto inexistente via nginx = 404
+VERIFICADO: Ruta inexistente via nginx = 404 (formato unico de error)
+
+== [5] Limite: BD caida y recuperacion ==
+ Container postgres_ventas  Stopping
+ Container postgres_ventas  Stopped
+con la BD detenida, GET /api/productos via nginx = 500
+VERIFICADO: Con la BD caida la API responde error controlado (500), no 200
+ Container postgres_ventas  Starting
+ Container postgres_ventas  Started
+VERIFICADO: Tras reiniciar la BD el sistema se recupera (200)
+
+== Resultado ==
+STACK_C04_VERIFICADO

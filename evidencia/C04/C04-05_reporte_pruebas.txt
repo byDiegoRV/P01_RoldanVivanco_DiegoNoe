@@ -1,0 +1,74 @@
+== C04-05 Reporte de pruebas y cobertura  2026-11-21 09:31:18 ==
+commit: e6498e3  rama: feature/c04-contenedores
+
+== [1] Backend: mvn verify ==
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, in mx.uv.tcsw.ventas.application.service.CalculadorDescuentoTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, in mx.uv.tcsw.ventas.application.service.ConsultarProductosServiceTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, in mx.uv.tcsw.ventas.application.service.DescuentoSinPromoTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, in mx.uv.tcsw.ventas.application.service.DescuentoVIPTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, in mx.uv.tcsw.ventas.application.service.PagoEfectivoTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, in mx.uv.tcsw.ventas.application.service.PagoFactoryTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, in mx.uv.tcsw.ventas.application.service.RegistrarVentaServiceTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, in mx.uv.tcsw.ventas.application.service.VenderProductosServiceTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, in mx.uv.tcsw.ventas.DetalleVentaTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, in mx.uv.tcsw.ventas.infrastructure.delivery.rest.ManejadorErroresTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, in mx.uv.tcsw.ventas.infrastructure.delivery.rest.ProductosListaVaciaTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, in mx.uv.tcsw.ventas.infrastructure.delivery.rest.ProductosRestControllerTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, in mx.uv.tcsw.ventas.infrastructure.delivery.rest.VentasRestControllerTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, in mx.uv.tcsw.ventas.infrastructure.delivery.swing.controlador.VentasControllerPersistenteTest
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, in mx.uv.tcsw.ventas.infrastructure.delivery.swing.controlador.VentasControllerTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, in mx.uv.tcsw.ventas.infrastructure.delivery.swing.modelo.CarritoViewModelTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, in mx.uv.tcsw.ventas.infrastructure.delivery.swing.modelo.ProductoViewModelTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, in mx.uv.tcsw.ventas.infrastructure.delivery.swing.VentaFrameTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, in mx.uv.tcsw.ventas.infrastructure.delivery.swing.vista.CarritoViewTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, in mx.uv.tcsw.ventas.infrastructure.delivery.swing.vista.CatalogoViewTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, in mx.uv.tcsw.ventas.infrastructure.delivery.swing.vista.FormularioVentaViewTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, in mx.uv.tcsw.ventas.infrastructure.persistence.hibernate.HibernateProductoAdapterTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, in mx.uv.tcsw.ventas.infrastructure.persistence.hibernate.HibernateVentaAdapterTest
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, in mx.uv.tcsw.ventas.infrastructure.persistence.jdbc.PostgresProductoAdapterTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, in mx.uv.tcsw.ventas.infrastructure.persistence.jdbc.VentaJdbcRepositoryTest
+[INFO] Tests run: 23, Failures: 0, Errors: 0, Skipped: 0, in mx.uv.tcsw.ventas.ProductoTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, in mx.uv.tcsw.ventas.VentaFrameTest
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, in mx.uv.tcsw.ventas.VentaTest
+[INFO] Tests run: 142, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD SUCCESS
+
+== [2] Cobertura del backend por paquete (JaCoCo) ==
+mx.uv.tcsw.ventas.adapter.in.swing                             lineas  42.5% (17/40)  ramas 0.0% (0/4)
+mx.uv.tcsw.ventas.adapter.out.persistence                      lineas 100.0% (6/6)  ramas 50.0% (1/2)
+mx.uv.tcsw.ventas.application.exception                        lineas 100.0% (4/4)  ramas n/a
+mx.uv.tcsw.ventas.application.ports.in                         lineas 100.0% (6/6)  ramas n/a
+mx.uv.tcsw.ventas.application.service                          lineas  96.5% (55/57)  ramas 86.4% (19/22)
+mx.uv.tcsw.ventas.domain                                       lineas  91.1% (112/123)  ramas 81.0% (47/58)
+mx.uv.tcsw.ventas.infrastructure.delivery.rest                 lineas  64.8% (57/88)  ramas 54.2% (13/24)
+mx.uv.tcsw.ventas.infrastructure.delivery.rest.dto             lineas 100.0% (65/65)  ramas n/a
+mx.uv.tcsw.ventas.infrastructure.delivery.swing                lineas  70.4% (19/27)  ramas 50.0% (1/2)
+mx.uv.tcsw.ventas.infrastructure.delivery.swing.controlador    lineas  94.3% (116/123)  ramas 88.1% (37/42)
+mx.uv.tcsw.ventas.infrastructure.delivery.swing.modelo         lineas 100.0% (21/21)  ramas n/a
+mx.uv.tcsw.ventas.infrastructure.delivery.swing.vista          lineas  95.8% (160/167)  ramas 62.5% (20/32)
+mx.uv.tcsw.ventas.infrastructure.persistence                   lineas  85.7% (6/7)  ramas 50.0% (1/2)
+mx.uv.tcsw.ventas.infrastructure.persistence.hibernate         lineas  88.2% (82/93)  ramas 50.0% (9/18)
+mx.uv.tcsw.ventas.infrastructure.persistence.hibernate.entidad lineas  81.4% (35/43)  ramas n/a
+mx.uv.tcsw.ventas.infrastructure.persistence.jdbc              lineas  89.0% (146/164)  ramas 67.9% (19/28)
+TOTAL lineas 87.7% (907/1034)  ramas 71.4% (167/234)
+
+== [3] Clases con menos de 70 % de lineas cubiertas (donde hay riesgo sin medir por pruebas unitarias) ==
+mx.uv.tcsw.ventas.adapter.in.swing.VentaFrame                                   42.5% (17/40)
+mx.uv.tcsw.ventas.infrastructure.delivery.rest.ApiApplication                   33.3% (1/3)
+mx.uv.tcsw.ventas.infrastructure.delivery.rest.ConfiguracionApi                  0.0% (0/14)
+mx.uv.tcsw.ventas.infrastructure.delivery.rest.ConfiguracionApi.Persistencia     0.0% (0/10)
+mx.uv.tcsw.ventas.infrastructure.delivery.swing.vista.CatalogoView.new DefaultTableModel() {...}  50.0% (1/2)
+mx.uv.tcsw.ventas.infrastructure.persistence.hibernate.entidad.DetalleVentaEntity  61.5% (8/13)
+mx.uv.tcsw.ventas.infrastructure.persistence.hibernate.entidad.VentaEntity      66.7% (6/9)
+
+== [4] Frontend: ng test con cobertura ==
+Chrome Headless 157.0.0.0 (Windows 10): Executed 33 of 34 SUCCESS (0 secs / 0.493 secs)
+Chrome Headless 157.0.0.0 (Windows 10): Executed 34 of 34 SUCCESS (0 secs / 0.497 secs)
+Chrome Headless 157.0.0.0 (Windows 10): Executed 34 of 34 SUCCESS (0.534 secs / 0.497 secs)
+TOTAL: 34 SUCCESS
+Statements   : 93.58% ( 146/156 )
+Branches     : 84.21% ( 32/38 )
+Functions    : 85.71% ( 36/42 )
+Lines        : 95.07% ( 135/142 )
+
+== Fin ==

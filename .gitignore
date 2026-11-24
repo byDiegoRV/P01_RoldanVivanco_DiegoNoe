@@ -7,3 +7,7 @@ target/
 .DS_Store
 .env
 .env
+
+# Archivos temporales del escaner de SonarQube
+.scannerwork/
+backups/

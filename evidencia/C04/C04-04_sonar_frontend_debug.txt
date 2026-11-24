@@ -1,0 +1,308 @@
+14:50:45.897 INFO: Scanner configuration file: /opt/sonar-scanner/conf/sonar-scanner.properties
+14:50:45.926 INFO: Project root configuration file: NONE
+14:50:46.000 INFO: SonarScanner 5.0.1.3006
+14:50:46.001 INFO: Java 17.0.10 Alpine (64-bit)
+14:50:46.001 INFO: Linux 6.6.87.2-microsoft-standard-WSL2 amd64
+14:50:46.218 DEBUG: keyStore is : 
+14:50:46.219 DEBUG: keyStore type is : pkcs12
+14:50:46.219 DEBUG: keyStore provider is : 
+14:50:46.219 DEBUG: init keystore
+14:50:46.220 DEBUG: init keymanager of type SunX509
+14:50:46.344 DEBUG: Create: /opt/sonar-scanner/.sonar/cache
+14:50:46.346 INFO: User cache: /opt/sonar-scanner/.sonar/cache
+14:50:46.346 DEBUG: Create: /opt/sonar-scanner/.sonar/cache/_tmp
+14:50:46.351 DEBUG: Extract sonar-scanner-api-batch in temp...
+14:50:46.355 DEBUG: Get bootstrap index...
+14:50:46.355 DEBUG: Download: http://host.docker.internal:9000/batch/index
+14:50:46.456 DEBUG: Get bootstrap completed
+14:50:46.460 DEBUG: Download http://host.docker.internal:9000/batch/file?name=sonar-scanner-engine-shaded-9.9.8.100196-all.jar to /opt/sonar-scanner/.sonar/cache/_tmp/fileCache10238239238992776433.tmp
+14:50:47.605 DEBUG: Create isolated classloader...
+14:50:47.616 DEBUG: Start temp cleaning...
+14:50:47.619 DEBUG: Temp cleaning done
+14:50:47.620 DEBUG: Execution getVersion
+14:50:47.643 INFO: Analyzing on SonarQube server 9.9.8.100196
+14:50:47.643 INFO: Default locale: "en_US", source code encoding: "UTF-8"
+14:50:47.646 DEBUG: Work directory: /usr/src/.scannerwork
+14:50:47.648 DEBUG: Execution execute
+14:50:47.986 DEBUG: Community 9.9.8.100196
+14:50:48.292 INFO: Load global settings
+14:50:48.404 DEBUG: GET 200 http://host.docker.internal:9000/api/settings/values.protobuf | time=110ms
+14:50:48.454 INFO: Load global settings (done) | time=162ms
+14:50:48.456 INFO: Server id: 147B411E-AaA6Pa9AbBvizXbjEyYU
+14:50:48.460 DEBUG: Create : /opt/sonar-scanner/.sonar/_tmp
+14:50:48.460 INFO: User cache: /opt/sonar-scanner/.sonar/cache
+14:50:48.464 INFO: Load/download plugins
+14:50:48.464 INFO: Load plugins index
+14:50:48.479 DEBUG: GET 200 http://host.docker.internal:9000/api/plugins/installed | time=15ms
+14:50:48.535 INFO: Load plugins index (done) | time=71ms
+14:50:48.537 DEBUG: Download plugin 'csharp' to '/opt/sonar-scanner/.sonar/_tmp/fileCache13351351879039749534.tmp'
+14:50:48.551 DEBUG: GET 200 http://host.docker.internal:9000/api/plugins/download?plugin=csharp | time=14ms
+14:50:48.744 DEBUG: Download plugin 'config' to '/opt/sonar-scanner/.sonar/_tmp/fileCache16873284456002926184.tmp'
+14:50:48.756 DEBUG: GET 200 http://host.docker.internal:9000/api/plugins/download?plugin=config | time=12ms
+14:50:48.765 DEBUG: Download plugin 'flex' to '/opt/sonar-scanner/.sonar/_tmp/fileCache13093542092136750342.tmp'
+14:50:48.775 DEBUG: GET 200 http://host.docker.internal:9000/api/plugins/download?plugin=flex | time=10ms
+14:50:48.814 DEBUG: Download plugin 'go' to '/opt/sonar-scanner/.sonar/_tmp/fileCache11504692193005610944.tmp'
+14:50:48.825 DEBUG: GET 200 http://host.docker.internal:9000/api/plugins/download?plugin=go | time=11ms
+14:50:49.041 DEBUG: Download plugin 'web' to '/opt/sonar-scanner/.sonar/_tmp/fileCache3949361788972980285.tmp'
+14:50:49.052 DEBUG: GET 200 http://host.docker.internal:9000/api/plugins/download?plugin=web | time=11ms
+14:50:49.071 DEBUG: Download plugin 'iac' to '/opt/sonar-scanner/.sonar/_tmp/fileCache8064938185644872529.tmp'
+14:50:49.084 DEBUG: GET 200 http://host.docker.internal:9000/api/plugins/download?plugin=iac | time=12ms
+14:50:49.133 DEBUG: Download plugin 'jacoco' to '/opt/sonar-scanner/.sonar/_tmp/fileCache4912621325303661138.tmp'
+14:50:49.144 DEBUG: GET 200 http://host.docker.internal:9000/api/plugins/download?plugin=jacoco | time=11ms
+14:50:49.149 DEBUG: Download plugin 'java' to '/opt/sonar-scanner/.sonar/_tmp/fileCache10422682763199476779.tmp'
+14:50:49.158 DEBUG: GET 200 http://host.docker.internal:9000/api/plugins/download?plugin=java | time=9ms
+14:50:49.783 DEBUG: Download plugin 'javascript' to '/opt/sonar-scanner/.sonar/_tmp/fileCache1004894092591792559.tmp'
+14:50:49.791 DEBUG: GET 200 http://host.docker.internal:9000/api/plugins/download?plugin=javascript | time=7ms
+14:50:50.489 DEBUG: Download plugin 'kotlin' to '/opt/sonar-scanner/.sonar/_tmp/fileCache15367139626535451410.tmp'
+14:50:50.497 DEBUG: GET 200 http://host.docker.internal:9000/api/plugins/download?plugin=kotlin | time=8ms
+14:50:51.583 DEBUG: Download plugin 'php' to '/opt/sonar-scanner/.sonar/_tmp/fileCache16239744513432096755.tmp'
+14:50:51.595 DEBUG: GET 200 http://host.docker.internal:9000/api/plugins/download?plugin=php | time=12ms
+14:50:51.761 DEBUG: Download plugin 'python' to '/opt/sonar-scanner/.sonar/_tmp/fileCache3216916784706621182.tmp'
+14:50:51.769 DEBUG: GET 200 http://host.docker.internal:9000/api/plugins/download?plugin=python | time=7ms
+14:50:51.987 DEBUG: Download plugin 'ruby' to '/opt/sonar-scanner/.sonar/_tmp/fileCache7451642260229414342.tmp'
+14:50:51.993 DEBUG: GET 200 http://host.docker.internal:9000/api/plugins/download?plugin=ruby | time=6ms
+14:50:52.407 DEBUG: Download plugin 'sonarscala' to '/opt/sonar-scanner/.sonar/_tmp/fileCache1827932186429492815.tmp'
+14:50:52.414 DEBUG: GET 200 http://host.docker.internal:9000/api/plugins/download?plugin=sonarscala | time=7ms
+14:50:52.832 DEBUG: Download plugin 'text' to '/opt/sonar-scanner/.sonar/_tmp/fileCache12747043923838528592.tmp'
+14:50:52.839 DEBUG: GET 200 http://host.docker.internal:9000/api/plugins/download?plugin=text | time=7ms
+14:50:52.845 DEBUG: Download plugin 'vbnet' to '/opt/sonar-scanner/.sonar/_tmp/fileCache15145713040852362656.tmp'
+14:50:52.851 DEBUG: GET 200 http://host.docker.internal:9000/api/plugins/download?plugin=vbnet | time=6ms
+14:50:52.970 DEBUG: Download plugin 'xml' to '/opt/sonar-scanner/.sonar/_tmp/fileCache16085273585473947676.tmp'
+14:50:52.976 DEBUG: GET 200 http://host.docker.internal:9000/api/plugins/download?plugin=xml | time=6ms
+14:50:53.043 INFO: Load/download plugins (done) | time=4578ms
+14:50:53.137 DEBUG: Plugins:
+14:50:53.137 DEBUG:   * Python Code Quality and Security 3.24.1.11916 (python)
+14:50:53.138 DEBUG:   * Go Code Quality and Security 1.11.0.3905 (go)
+14:50:53.138 DEBUG:   * JaCoCo 1.3.0.1538 (jacoco)
+14:50:53.139 DEBUG:   * Kotlin Code Quality and Security 2.12.0.1956 (kotlin)
+14:50:53.139 DEBUG:   * IaC Code Quality and Security 1.11.0.2847 (iac)
+14:50:53.139 DEBUG:   * JavaScript/TypeScript/CSS Code Quality and Security 9.13.0.20537 (javascript)
+14:50:53.140 DEBUG:   * Ruby Code Quality and Security 1.11.0.3905 (ruby)
+14:50:53.140 DEBUG:   * Scala Code Quality and Security 1.11.0.3905 (sonarscala)
+14:50:53.140 DEBUG:   * C# Code Quality and Security 8.51.0.59060 (csharp)
+14:50:53.141 DEBUG:   * Java Code Quality and Security 7.16.0.30901 (java)
+14:50:53.141 DEBUG:   * HTML Code Quality and Security 3.7.1.3306 (web)
+14:50:53.141 DEBUG:   * Flex Code Quality and Security 2.8.0.3166 (flex)
+14:50:53.142 DEBUG:   * XML Code Quality and Security 2.7.0.3820 (xml)
+14:50:53.142 DEBUG:   * PHP Code Quality and Security 3.27.1.9352 (php)
+14:50:53.142 DEBUG:   * Text Code Quality and Security 2.0.2.1090 (text)
+14:50:53.142 DEBUG:   * VB.NET Code Quality and Security 8.51.0.59060 (vbnet)
+14:50:53.142 DEBUG:   * Configuration detection fot Code Quality and Security 1.2.0.267 (config)
+14:50:53.655 INFO: Process project properties
+14:50:53.672 INFO: Process project properties (done) | time=17ms
+14:50:53.677 INFO: Execute project builders
+14:50:53.677 DEBUG: Execute project builder: org.sonar.plugins.csharp.CSharpGlobalProtobufFileProcessor
+14:50:53.679 DEBUG: Execute project builder: org.sonar.plugins.vbnet.VbNetGlobalProtobufFileProcessor
+14:50:53.681 INFO: Execute project builders (done) | time=4ms
+14:52:49.027 INFO: Project key: mx.uv.tcsw:tcsw-ventas-frontend
+14:52:49.028 INFO: Base dir: /usr/src
+14:52:49.028 INFO: Working dir: /usr/src/.scannerwork
+14:52:49.028 DEBUG: Project global encoding: UTF-8, default locale: en_US
+14:52:49.052 INFO: Load project settings for component key: 'mx.uv.tcsw:tcsw-ventas-frontend'
+14:52:49.102 DEBUG: GET 404 http://host.docker.internal:9000/api/settings/values.protobuf?component=mx.uv.tcsw%3Atcsw-ventas-frontend | time=50ms
+14:52:49.263 DEBUG: Creating module hierarchy
+14:52:49.264 DEBUG:   Init module 'tcsw-ventas-frontend'
+14:52:49.269 DEBUG:     Base dir: /usr/src
+14:52:49.269 DEBUG:     Working dir: /usr/src/.scannerwork
+14:52:49.269 DEBUG:     Module global encoding: UTF-8, default locale: en_US
+14:52:49.291 DEBUG: Available languages:
+14:52:49.291 DEBUG:   * Python => "py"
+14:52:49.291 DEBUG:   * Go => "go"
+14:52:49.291 DEBUG:   * Kotlin => "kotlin"
+14:52:49.291 DEBUG:   * Terraform => "terraform"
+14:52:49.291 DEBUG:   * CloudFormation => "cloudformation"
+14:52:49.291 DEBUG:   * Kubernetes => "kubernetes"
+14:52:49.291 DEBUG:   * Docker => "docker"
+14:52:49.292 DEBUG:   * JavaScript => "js"
+14:52:49.292 DEBUG:   * TypeScript => "ts"
+14:52:49.292 DEBUG:   * CSS => "css"
+14:52:49.292 DEBUG:   * Ruby => "ruby"
+14:52:49.292 DEBUG:   * Scala => "scala"
+14:52:49.292 DEBUG:   * C# => "cs"
+14:52:49.292 DEBUG:   * Java => "java"
+14:52:49.292 DEBUG:   * HTML => "web"
+14:52:49.292 DEBUG:   * JSP => "jsp"
+14:52:49.292 DEBUG:   * Flex => "flex"
+14:52:49.293 DEBUG:   * XML => "xml"
+14:52:49.293 DEBUG:   * PHP => "php"
+14:52:49.293 DEBUG:   * Text => "text"
+14:52:49.293 DEBUG:   * Secrets => "secrets"
+14:52:49.293 DEBUG:   * VB.NET => "vbnet"
+14:52:49.293 DEBUG:   * YAML => "yaml"
+14:52:49.293 DEBUG:   * JSON => "json"
+14:52:49.332 WARN: SCM provider autodetection failed. Please use "sonar.scm.provider" to define SCM of your project, or disable the SCM Sensor in the project settings.
+14:52:49.347 INFO: Load quality profiles
+14:52:49.356 DEBUG: GET 404 http://host.docker.internal:9000/api/qualityprofiles/search.protobuf?project=mx.uv.tcsw%3Atcsw-ventas-frontend | time=9ms
+14:52:49.400 DEBUG: GET 200 http://host.docker.internal:9000/api/qualityprofiles/search.protobuf?defaults=true | time=42ms
+14:52:49.419 INFO: Load quality profiles (done) | time=72ms
+14:52:49.426 INFO: Load active rules
+14:52:49.514 DEBUG: GET 200 http://host.docker.internal:9000/api/rules/search.protobuf?f=repo,name,severity,lang,internalKey,templateKey,params,actives,createdAt,updatedAt,deprecatedKeys&activation=true&qprofile=AaA6Pgn5bBvizXbjE6tz&ps=500&p=1 | time=88ms
+14:52:49.658 DEBUG: GET 200 http://host.docker.internal:9000/api/rules/search.protobuf?f=repo,name,severity,lang,internalKey,templateKey,params,actives,createdAt,updatedAt,deprecatedKeys&activation=true&qprofile=AaA6PgoubBvizXbjE6ux&ps=500&p=1 | time=35ms
+14:52:49.712 DEBUG: GET 200 http://host.docker.internal:9000/api/rules/search.protobuf?f=repo,name,severity,lang,internalKey,templateKey,params,actives,createdAt,updatedAt,deprecatedKeys&activation=true&qprofile=AaA6PgprbBvizXbjE6wO&ps=500&p=1 | time=47ms
+14:52:49.744 DEBUG: GET 200 http://host.docker.internal:9000/api/rules/search.protobuf?f=repo,name,severity,lang,internalKey,templateKey,params,actives,createdAt,updatedAt,deprecatedKeys&activation=true&qprofile=AaA6PgqZbBvizXbjE6wu&ps=500&p=1 | time=23ms
+14:52:49.800 DEBUG: GET 200 http://host.docker.internal:9000/api/rules/search.protobuf?f=repo,name,severity,lang,internalKey,templateKey,params,actives,createdAt,updatedAt,deprecatedKeys&activation=true&qprofile=AaA6PgqwbBvizXbjE6xp&ps=500&p=1 | time=55ms
+14:52:49.883 DEBUG: GET 200 http://host.docker.internal:9000/api/rules/search.protobuf?f=repo,name,severity,lang,internalKey,templateKey,params,actives,createdAt,updatedAt,deprecatedKeys&activation=true&qprofile=AaA6PgsObBvizXbjE61J&ps=500&p=1 | time=77ms
+14:52:50.027 DEBUG: GET 200 http://host.docker.internal:9000/api/rules/search.protobuf?f=repo,name,severity,lang,internalKey,templateKey,params,actives,createdAt,updatedAt,deprecatedKeys&activation=true&qprofile=AaA6PguJbBvizXbjE69p&ps=500&p=1 | time=132ms
+14:52:50.200 DEBUG: GET 200 http://host.docker.internal:9000/api/rules/search.protobuf?f=repo,name,severity,lang,internalKey,templateKey,params,actives,createdAt,updatedAt,deprecatedKeys&activation=true&qprofile=AaA6PgwDbBvizXbjE7HF&ps=500&p=1 | time=125ms
+14:52:50.239 DEBUG: GET 200 http://host.docker.internal:9000/api/rules/search.protobuf?f=repo,name,severity,lang,internalKey,templateKey,params,actives,createdAt,updatedAt,deprecatedKeys&activation=true&qprofile=AaA6PgxUbBvizXbjE7KM&ps=500&p=1 | time=23ms
+14:52:50.265 DEBUG: GET 200 http://host.docker.internal:9000/api/rules/search.protobuf?f=repo,name,severity,lang,internalKey,templateKey,params,actives,createdAt,updatedAt,deprecatedKeys&activation=true&qprofile=AaA6Pgy2bBvizXbjE7MI&ps=500&p=1 | time=24ms
+14:52:50.314 DEBUG: GET 200 http://host.docker.internal:9000/api/rules/search.protobuf?f=repo,name,severity,lang,internalKey,templateKey,params,actives,createdAt,updatedAt,deprecatedKeys&activation=true&qprofile=AaA6PgyKbBvizXbjE7LZ&ps=500&p=1 | time=47ms
+14:52:50.477 DEBUG: GET 200 http://host.docker.internal:9000/api/rules/search.protobuf?f=repo,name,severity,lang,internalKey,templateKey,params,actives,createdAt,updatedAt,deprecatedKeys&activation=true&qprofile=AaA6Pg0vbBvizXbjE7Uk&ps=500&p=1 | time=159ms
+14:52:50.707 DEBUG: GET 200 http://host.docker.internal:9000/api/rules/search.protobuf?f=repo,name,severity,lang,internalKey,templateKey,params,actives,createdAt,updatedAt,deprecatedKeys&activation=true&qprofile=AaA6Pg41bBvizXbjE7oC&ps=500&p=1 | time=210ms
+14:52:50.768 DEBUG: GET 200 http://host.docker.internal:9000/api/rules/search.protobuf?f=repo,name,severity,lang,internalKey,templateKey,params,actives,createdAt,updatedAt,deprecatedKeys&activation=true&qprofile=AaA6Pg7SbBvizXbjE7wb&ps=500&p=1 | time=37ms
+14:52:50.817 DEBUG: GET 200 http://host.docker.internal:9000/api/rules/search.protobuf?f=repo,name,severity,lang,internalKey,templateKey,params,actives,createdAt,updatedAt,deprecatedKeys&activation=true&qprofile=AaA6Pg9FbBvizXbjE7zp&ps=500&p=1 | time=45ms
+14:52:50.869 DEBUG: GET 200 http://host.docker.internal:9000/api/rules/search.protobuf?f=repo,name,severity,lang,internalKey,templateKey,params,actives,createdAt,updatedAt,deprecatedKeys&activation=true&qprofile=AaA6Pg8GbBvizXbjE7xq&ps=500&p=1 | time=49ms
+14:52:50.888 DEBUG: GET 200 http://host.docker.internal:9000/api/rules/search.protobuf?f=repo,name,severity,lang,internalKey,templateKey,params,actives,createdAt,updatedAt,deprecatedKeys&activation=true&qprofile=AaA6Pg90bBvizXbjE70a&ps=500&p=1 | time=18ms
+14:52:50.980 DEBUG: GET 200 http://host.docker.internal:9000/api/rules/search.protobuf?f=repo,name,severity,lang,internalKey,templateKey,params,actives,createdAt,updatedAt,deprecatedKeys&activation=true&qprofile=AaA6Pg-6bBvizXbjE76s&ps=500&p=1 | time=91ms
+14:52:51.048 DEBUG: GET 200 http://host.docker.internal:9000/api/rules/search.protobuf?f=repo,name,severity,lang,internalKey,templateKey,params,actives,createdAt,updatedAt,deprecatedKeys&activation=true&qprofile=AaA6PhAGbBvizXbjE7_I&ps=500&p=1 | time=59ms
+14:52:51.072 DEBUG: GET 200 http://host.docker.internal:9000/api/rules/search.protobuf?f=repo,name,severity,lang,internalKey,templateKey,params,actives,createdAt,updatedAt,deprecatedKeys&activation=true&qprofile=AaA6PhAtbBvizXbjE7_9&ps=500&p=1 | time=22ms
+14:52:51.158 DEBUG: GET 200 http://host.docker.internal:9000/api/rules/search.protobuf?f=repo,name,severity,lang,internalKey,templateKey,params,actives,createdAt,updatedAt,deprecatedKeys&activation=true&qprofile=AaA6PhBvbBvizXbjE8EA&ps=500&p=1 | time=85ms
+14:52:51.243 DEBUG: GET 200 http://host.docker.internal:9000/api/rules/search.protobuf?f=repo,name,severity,lang,internalKey,templateKey,params,actives,createdAt,updatedAt,deprecatedKeys&activation=true&qprofile=AaA6PhC3bBvizXbjE8Gw&ps=500&p=1 | time=79ms
+14:52:51.357 DEBUG: GET 200 http://host.docker.internal:9000/api/rules/search.protobuf?f=repo,name,severity,lang,internalKey,templateKey,params,actives,createdAt,updatedAt,deprecatedKeys&activation=true&qprofile=AaA6PhEobBvizXbjE8N4&ps=500&p=1 | time=113ms
+14:52:51.395 DEBUG: GET 200 http://host.docker.internal:9000/api/rules/search.protobuf?f=repo,name,severity,lang,internalKey,templateKey,params,actives,createdAt,updatedAt,deprecatedKeys&activation=true&qprofile=AaA6PhDebBvizXbjE8HM&ps=500&p=1 | time=28ms
+14:52:51.408 INFO: Load active rules (done) | time=1982ms
+14:52:51.415 INFO: Load analysis cache
+14:52:51.432 DEBUG: GET 404 http://host.docker.internal:9000/api/analysis_cache/get?project=mx.uv.tcsw:tcsw-ventas-frontend | time=17ms
+14:52:51.434 INFO: Load analysis cache (404) | time=19ms
+14:52:51.560 INFO: Load project repositories
+14:52:51.567 DEBUG: GET 404 http://host.docker.internal:9000/batch/project.protobuf?key=mx.uv.tcsw%3Atcsw-ventas-frontend | time=7ms
+14:52:51.568 DEBUG: Project repository not available - continuing without it
+14:52:51.568 INFO: Load project repositories (done) | time=8ms
+14:52:51.588 DEBUG: Declared extensions of language Python were converted to sonar.lang.patterns.py : **/*.py
+14:52:51.588 DEBUG: Declared extensions of language Go were converted to sonar.lang.patterns.go : **/*.go
+14:52:51.588 DEBUG: Declared extensions of language Kotlin were converted to sonar.lang.patterns.kotlin : **/*.kt
+14:52:51.589 DEBUG: Declared extensions of language Terraform were converted to sonar.lang.patterns.terraform : **/*.tf
+14:52:51.589 DEBUG: Declared extensions of language CloudFormation were converted to sonar.lang.patterns.cloudformation : 
+14:52:51.589 DEBUG: Declared extensions of language Kubernetes were converted to sonar.lang.patterns.kubernetes : 
+14:52:51.589 DEBUG: Declared extensions of language Docker were converted to sonar.lang.patterns.docker : 
+14:52:51.589 DEBUG: Declared extensions of language JavaScript were converted to sonar.lang.patterns.js : **/*.js,**/*.jsx,**/*.cjs,**/*.mjs,**/*.vue
+14:52:51.589 DEBUG: Declared extensions of language TypeScript were converted to sonar.lang.patterns.ts : **/*.ts,**/*.tsx,**/*.cts,**/*.mts
+14:52:51.590 DEBUG: Declared extensions of language CSS were converted to sonar.lang.patterns.css : **/*.css,**/*.less,**/*.scss
+14:52:51.590 DEBUG: Declared extensions of language Ruby were converted to sonar.lang.patterns.ruby : **/*.rb
+14:52:51.590 DEBUG: Declared extensions of language Scala were converted to sonar.lang.patterns.scala : **/*.scala
+14:52:51.590 DEBUG: Declared extensions of language C# were converted to sonar.lang.patterns.cs : **/*.cs
+14:52:51.590 DEBUG: Declared extensions of language Java were converted to sonar.lang.patterns.java : **/*.java,**/*.jav
+14:52:51.591 DEBUG: Declared extensions of language HTML were converted to sonar.lang.patterns.web : **/*.html,**/*.xhtml,**/*.cshtml,**/*.vbhtml,**/*.aspx,**/*.ascx,**/*.rhtml,**/*.erb,**/*.shtm,**/*.shtml,**/*.cmp,**/*.twig
+14:52:51.591 DEBUG: Declared extensions of language JSP were converted to sonar.lang.patterns.jsp : **/*.jsp,**/*.jspf,**/*.jspx
+14:52:51.591 DEBUG: Declared extensions of language Flex were converted to sonar.lang.patterns.flex : **/*.as
+14:52:51.592 DEBUG: Declared extensions of language XML were converted to sonar.lang.patterns.xml : **/*.xml,**/*.xsd,**/*.xsl
+14:52:51.592 DEBUG: Declared extensions of language PHP were converted to sonar.lang.patterns.php : **/*.php,**/*.php3,**/*.php4,**/*.php5,**/*.phtml,**/*.inc
+14:52:51.592 DEBUG: Declared extensions of language Text were converted to sonar.lang.patterns.text : 
+14:52:51.593 DEBUG: Declared extensions of language Secrets were converted to sonar.lang.patterns.secrets : 
+14:52:51.593 DEBUG: Declared extensions of language VB.NET were converted to sonar.lang.patterns.vbnet : **/*.vb
+14:52:51.594 DEBUG: Declared extensions of language YAML were converted to sonar.lang.patterns.yaml : **/*.yaml,**/*.yml
+14:52:51.595 DEBUG: Declared extensions of language JSON were converted to sonar.lang.patterns.json : **/*.json
+14:52:51.606 DEBUG: Will ignore generated code
+14:52:51.608 DEBUG: Will ignore generated code
+14:52:51.611 INFO: Indexing files...
+14:52:51.611 INFO: Project configuration:
+14:52:51.612 INFO:   Excluded sources: **/*.spec.ts
+14:52:51.694 DEBUG: 'src/app/app.config.ts' generated metadata with charset 'UTF-8'
+14:52:51.717 DEBUG: 'src/app/app.config.ts' indexed with language 'ts'
+14:52:51.739 DEBUG: 'src/app/app.css' generated metadata with charset 'UTF-8'
+14:52:51.742 DEBUG: Average line length for src/app/app.css is 0
+14:52:51.755 DEBUG: 'src/app/app.css' indexed with language 'css'
+14:52:51.772 DEBUG: 'src/app/app.html' indexed with language 'web'
+14:52:51.814 DEBUG: 'src/app/app.routes.ts' generated metadata with charset 'UTF-8'
+14:52:51.829 DEBUG: 'src/app/app.routes.ts' indexed with language 'ts'
+14:52:51.860 DEBUG: 'src/app/app.ts' generated metadata with charset 'UTF-8'
+14:52:51.875 DEBUG: 'src/app/app.ts' indexed with language 'ts'
+14:52:51.938 DEBUG: 'src/app/catalogo/catalogo.component.css' generated metadata with charset 'UTF-8'
+14:52:51.945 DEBUG: Average line length for src/app/catalogo/catalogo.component.css is 15
+14:52:51.964 DEBUG: 'src/app/catalogo/catalogo.component.css' indexed with language 'css'
+14:52:51.984 DEBUG: 'src/app/catalogo/catalogo.component.html' indexed with language 'web'
+14:52:52.052 DEBUG: 'src/app/catalogo/catalogo.component.ts' generated metadata with charset 'UTF-8'
+14:52:52.067 DEBUG: 'src/app/catalogo/catalogo.component.ts' indexed with language 'ts'
+14:52:52.110 DEBUG: 'src/app/modelos/api.modelos.ts' generated metadata with charset 'UTF-8'
+14:52:52.126 DEBUG: 'src/app/modelos/api.modelos.ts' indexed with language 'ts'
+14:52:52.192 DEBUG: 'src/app/producto/producto-detalle.component.css' generated metadata with charset 'UTF-8'
+14:52:52.199 DEBUG: Average line length for src/app/producto/producto-detalle.component.css is 84
+14:52:52.220 DEBUG: 'src/app/producto/producto-detalle.component.css' indexed with language 'css'
+14:52:52.237 DEBUG: 'src/app/producto/producto-detalle.component.html' indexed with language 'web'
+14:52:52.308 DEBUG: 'src/app/producto/producto-detalle.component.ts' generated metadata with charset 'UTF-8'
+14:52:52.327 DEBUG: 'src/app/producto/producto-detalle.component.ts' indexed with language 'ts'
+14:52:52.380 DEBUG: 'src/app/servicios/errores-api.ts' generated metadata with charset 'UTF-8'
+14:52:52.398 DEBUG: 'src/app/servicios/errores-api.ts' indexed with language 'ts'
+14:52:52.468 DEBUG: 'src/app/servicios/productos.service.ts' generated metadata with charset 'UTF-8'
+14:52:52.484 DEBUG: 'src/app/servicios/productos.service.ts' indexed with language 'ts'
+14:52:52.555 DEBUG: 'src/app/servicios/ventas.service.ts' generated metadata with charset 'UTF-8'
+14:52:52.568 DEBUG: 'src/app/servicios/ventas.service.ts' indexed with language 'ts'
+14:52:52.621 DEBUG: 'src/app/venta/venta.component.css' generated metadata with charset 'UTF-8'
+14:52:52.625 DEBUG: Average line length for src/app/venta/venta.component.css is 14
+14:52:52.639 DEBUG: 'src/app/venta/venta.component.css' indexed with language 'css'
+14:52:52.654 DEBUG: 'src/app/venta/venta.component.html' indexed with language 'web'
+14:52:52.727 DEBUG: 'src/app/venta/venta.component.ts' generated metadata with charset 'UTF-8'
+14:52:52.738 DEBUG: 'src/app/venta/venta.component.ts' indexed with language 'ts'
+14:52:52.759 DEBUG: 'src/index.html' indexed with language 'web'
+14:52:52.810 DEBUG: 'src/main.ts' generated metadata with charset 'UTF-8'
+14:52:52.827 DEBUG: 'src/main.ts' indexed with language 'ts'
+14:52:52.887 DEBUG: 'src/styles.css' generated metadata with charset 'UTF-8'
+14:52:52.895 DEBUG: Average line length for src/styles.css is 16
+14:52:52.913 DEBUG: 'src/styles.css' indexed with language 'css'
+14:52:52.918 INFO: 21 files indexed
+14:52:52.918 INFO: 7 files ignored because of inclusion/exclusion patterns
+14:52:52.919 INFO: Quality profile for css: Sonar way
+14:52:52.920 INFO: Quality profile for ts: Sonar way
+14:52:52.920 INFO: Quality profile for web: Sonar way
+14:52:52.920 INFO: ------------- Run sensors on module tcsw-ventas-frontend
+14:52:53.014 INFO: Load metrics repository
+14:52:53.030 DEBUG: GET 200 http://host.docker.internal:9000/api/metrics/search?ps=500&p=1 | time=15ms
+14:52:53.039 INFO: Load metrics repository (done) | time=25ms
+14:52:54.682 DEBUG: 'JavaSensor' skipped because there is no related file in current project
+14:52:54.683 DEBUG: 'Import external issues report' skipped because one of the required properties is missing
+14:52:54.684 DEBUG: 'Import external issues report from SARIF file.' skipped because one of the required properties is missing
+14:52:54.684 DEBUG: 'Python Sensor' skipped because there is no related file in current project
+14:52:54.685 DEBUG: 'Cobertura Sensor for Python coverage' skipped because there is no related file in current project
+14:52:54.685 DEBUG: 'PythonXUnitSensor' skipped because there is no related file in current project
+14:52:54.687 DEBUG: 'Import of Pylint issues' skipped because there is no related file in current project
+14:52:54.688 DEBUG: 'Import of Bandit issues' skipped because there is no related file in current project
+14:52:54.688 DEBUG: 'Import of Flake8 issues' skipped because there is no related file in current project
+14:52:54.689 DEBUG: 'Code Quality and Security for Go' skipped because there is no related file in current project
+14:52:54.690 DEBUG: 'Go Unit Test Report' skipped because there is no related file in current project
+14:52:54.691 DEBUG: 'Go Cover sensor for Go coverage' skipped because one of the required properties is missing
+14:52:54.692 DEBUG: 'Import of go vet issues' skipped because there is no related file in current project
+14:52:54.693 DEBUG: 'Import of Golint issues' skipped because there is no related file in current project
+14:52:54.693 DEBUG: 'Import of GoMetaLinter issues' skipped because there is no related file in current project
+14:52:54.693 DEBUG: 'Import of GolangCI-Lint issues' skipped because there is no related file in current project
+14:52:54.693 DEBUG: 'Kotlin Sensor' skipped because there is no related file in current project
+14:52:54.693 DEBUG: 'KotlinSurefireSensor' skipped because there is no related file in current project
+14:52:54.695 DEBUG: 'Import of detekt issues' skipped because there is no related file in current project
+14:52:54.695 DEBUG: 'Import of Android Lint issues' skipped because one of the required properties is missing
+14:52:54.695 DEBUG: 'Import of ktlint issues' skipped because there is no related file in current project
+14:52:54.696 DEBUG: 'IaC Terraform Sensor' skipped because there is no related file in current project
+14:52:54.697 DEBUG: 'IaC CloudFormation Sensor' skipped because there is no related file in current project
+14:52:54.697 DEBUG: 'IaC Kubernetes Sensor' skipped because there is no related file in current project
+14:52:54.697 DEBUG: 'JavaScript analysis' skipped because there is no related file in current project
+14:52:54.697 DEBUG: 'JavaScript inside YAML analysis' skipped because there is no related file in current project
+14:52:54.699 DEBUG: 'JavaScript/TypeScript Coverage' skipped because one of the required properties is missing
+14:52:54.700 DEBUG: 'Import of ESLint issues' skipped because one of the required properties is missing
+14:52:54.701 DEBUG: 'Import of TSLint issues' skipped because one of the required properties is missing
+14:52:54.702 DEBUG: 'Import of stylelint issues' skipped because one of the required properties is missing
+14:52:54.702 DEBUG: 'Ruby Sensor' skipped because there is no related file in current project
+14:52:54.703 DEBUG: 'Import of RuboCop issues' skipped because there is no related file in current project
+14:52:54.703 DEBUG: 'SimpleCov Sensor for Ruby coverage' skipped because there is no related file in current project
+14:52:54.704 DEBUG: 'Scala Sensor' skipped because there is no related file in current project
+14:52:54.705 DEBUG: 'Scoverage sensor for Scala coverage' skipped because there is no related file in current project
+14:52:54.706 DEBUG: 'Import of Scalastyle issues' skipped because there is no related file in current project
+14:52:54.706 DEBUG: 'Import of Scapegoat issues' skipped because there is no related file in current project
+14:52:54.708 DEBUG: 'Import of Checkstyle issues' skipped because there is no related file in current project
+14:52:54.709 DEBUG: 'Import of PMD issues' skipped because one of the required properties is missing
+14:52:54.710 DEBUG: 'Import of SpotBugs issues' skipped because there is no related file in current project
+14:52:54.710 DEBUG: 'SurefireSensor' skipped because there is no related file in current project
+14:52:54.711 DEBUG: 'Removed properties sensor' skipped because there is no related file in current project
+14:52:54.712 DEBUG: 'Flex' skipped because there is no related file in current project
+14:52:54.713 DEBUG: 'Flex Cobertura' skipped because there is no related file in current project
+14:52:54.713 DEBUG: 'XML Sensor' skipped because there is no related file in current project
+14:52:54.713 DEBUG: 'PHP sensor' skipped because there is no related file in current project
+14:52:54.713 DEBUG: 'Analyzer for "php.ini" files' skipped because there is no related file in current project
+14:52:54.714 DEBUG: 'Import of PHPStan issues' skipped because there is no related file in current project
+14:52:54.714 DEBUG: 'Import of Psalm issues' skipped because there is no related file in current project
+14:52:54.719 DEBUG: 'Generic Test Executions Report' skipped because one of the required properties is missing
+14:52:54.720 DEBUG: Sensors : JaCoCo XML Report Importer -> TypeScript analysis -> CSS Rules -> CSS Metrics -> C# Project Type Information -> C# Analysis Log -> C# Properties -> HTML -> TextAndSecretsSensor -> VB.NET Project Type Information -> VB.NET Analysis Log -> VB.NET Properties -> IaC Docker Sensor
+14:52:54.722 INFO: Sensor JaCoCo XML Report Importer [jacoco]
+14:52:54.724 INFO: 'sonar.coverage.jacoco.xmlReportPaths' is not defined. Using default locations: target/site/jacoco/jacoco.xml,target/site/jacoco-it/jacoco.xml,build/reports/jacoco/test/jacocoTestReport.xml
+14:52:54.729 INFO: No report imported, no coverage information will be imported by JaCoCo XML Report Importer
+14:52:54.729 INFO: Sensor JaCoCo XML Report Importer [jacoco] (done) | time=8ms
+14:52:54.729 INFO: Sensor TypeScript analysis [javascript]
+14:52:54.736 DEBUG: Deploying bundle
+14:52:54.736 DEBUG: Deploying eslint-bridge into /usr/src/.scannerwork/.sonartmp/eslint-bridge-bundle
