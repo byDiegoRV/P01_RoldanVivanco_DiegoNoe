@@ -1,4 +1,4 @@
-tcsw-ventas — P01/P02/P03
+tcsw-ventas — Sistema de ventas (P01 a C04)
 Ambiente reproducible, Producto, Venta y Git
 Prototipo de ventas para la Experiencia Educativa Tecnologías para la Construcción de Software (TCSW-19234).
 •	P01 — Módulo M01. Ambiente y bases de POO: preparar un ambiente Java reproducible y construir la primera entidad del prototipo, Producto.
