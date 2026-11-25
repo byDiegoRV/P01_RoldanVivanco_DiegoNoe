@@ -35,3 +35,6 @@ Archivo: `.github/workflows/ci.yml` (GitHub Actions). Se ejecuta en cada `push` 
 | #12 | `480a32e` | Verde, 2 min 57 s | Estado final de la rama antes del PR a `master` |
 
 Enlace a la ejecución verde: https://github.com/byDiegoRV/P01_RoldanVivanco_DiegoNoe/actions/runs/44871294470
+
+## Hallazgo E-03: 429 de Maven Central
+Observado en la reproducción de Xochitl (PR #79): el job Backend del `push` falló a los 31 s con `status code: 429, Too Many Requests` al descargar el plugin de JaCoCo; el mismo commit pasó en el job del `pull_request` y el reintento pasó. No es un fallo del código. Mejora no aplicada para no cambiar el candidato: caché de Maven en `actions/setup-java` y reintentos HTTP. Ver `docs/hallazgos-reproduccion-c04.md`.

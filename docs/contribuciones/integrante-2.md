@@ -43,3 +43,24 @@ El cierre del corte (#66) lo realizó Noe por falta de disponibilidad de tiempo 
 
 **VERIFICADO:** pruebas del backend y de Angular, verificación M13, persistencia y reinicio, casos de éxito (detalle), de error (nombre inválido) y de estado vacío.
 **NO_VERIFICADO:** análisis de Sonar sobre el código TypeScript.
+
+---
+
+## C04 — Candidato de liberación (R05)
+
+> **Declaración:** esta sección fue redactada por Diego Noe Roldán Vivanco a partir de la evidencia del PR #79 y de los archivos subidos por la integrante, porque ella no alcanzó a subir su propia sección. Solo recoge lo que esa evidencia respalda.
+
+**Integrante:** Xochitl Salgado (`xochitlsalgado`)
+**Rama:** `feature/c04-xochitl` — PR #79, revisado por Diego Noe Roldán Vivanco.
+
+| Issue | Trabajo realizado | Estado |
+|---|---|---|
+| #76 (C04-07) | Reproducción del candidato desde un clon limpio de `master` (commit `e744604`) en su equipo (Windows, Docker Desktop, JDK 23): configuración con `.env`, verificación oficial M14, verificación con caída de la base de datos, comprobación del CI en `master` y registro de errores | VERIFICADO |
+
+**VERIFICADO:** `./scripts/verify-module.sh M14` con `MODULO_M14_VERIFICADO` en su equipo tras resolver E-01 (`evidencia/C04/C04-07_m14_xochitl.txt`; el intento fallido está en `C04-07_m14_xochitl_intento1.txt`); `./scripts/verify-stack.sh --con-caida` con `STACK_C04_VERIFICADO` (`C04-07_caida_xochitl.txt`); CI de `master` en verde (ejecución 16).
+**Hallazgos:** E-01 (nombre fijo del contenedor `postgres_ventas`), E-02 (pruebas del backend sin `DB_PASSWORD` en su terminal) y E-03 (429 de Maven Central en el CI); ver `docs/registro-errores-c04.md` y `docs/hallazgos-reproduccion-c04.md`.
+**NO_VERIFICADO / PENDIENTE:** pruebas del backend con su JDK (NO_VERIFICADO, E-02); prueba manual en navegador (no ejecutada); capturas de pantalla de la reproducción (no incluidas); Linux y macOS.
+
+**Evidencia:** `evidencia/C04/C04-07_*.txt`.
+**Commits:**
+- `c9af02e` docs(c04): reproduccion en equipo limpio y registro de errores (refs #76)

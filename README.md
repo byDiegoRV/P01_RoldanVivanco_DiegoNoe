@@ -1,14 +1,100 @@
-tcsw-ventas — P01/P02/P03
+tcsw-ventas — Sistema de ventas (P01 a C04)
 Ambiente reproducible, Producto, Venta y Git
 Prototipo de ventas para la Experiencia Educativa Tecnologías para la Construcción de Software (TCSW-19234).
 •	P01 — Módulo M01. Ambiente y bases de POO: preparar un ambiente Java reproducible y construir la primera entidad del prototipo, Producto.
 •	P02 — Módulo M02. Modelado orientado a objetos: modelar una venta en memoria con objetos colaborantes — DetalleVenta y Venta — sobre el Producto construido en P01.
 •	P03 — Módulo M03. Calidad inicial y Git: practicar ramas, integración y resolución explícita de un conflicto real sobre el código existente, agregando el método precioConDescuento a Producto.
+
+---
+
+## Candidato de liberación v1.0-rc (Corte 4, R05)
+
+![CI](https://github.com/byDiegoRV/P01_RoldanVivanco_DiegoNoe/actions/workflows/ci.yml/badge.svg)
+
+Candidato `v1.0-rc` del sistema de ventas: PostgreSQL 16, API REST (Spring Boot, Java 11) y cliente Angular servido por nginx, los tres en contenedores con Docker Compose. Rama de entrega: `master`; etiqueta: `v1.0-rc` (ver la Release en GitHub).
+
+> **Nota sobre las secciones anteriores.** El `Dockerfile` de P01 fue sustituido en C04 por `Dockerfile.api`, `Dockerfile.frontend` y `docker-compose.yml`. Las menciones al `Dockerfile` en las secciones de P01 a P03 son históricas. La rama `main` del repositorio solo conserva el commit inicial: el código vive en `master`.
+
+### Instrucciones de despliegue y reproducción (otra persona, otro equipo)
+
+Requisitos: Git, Docker Desktop abierto ("Engine running") y Git Bash. Java, Maven y Node locales **no** hacen falta para la pila (todo se construye dentro de contenedores).
+
+```bash
+git clone https://github.com/byDiegoRV/P01_RoldanVivanco_DiegoNoe.git tcsw-ventas
+cd tcsw-ventas
+git checkout v1.0-rc            # o master
+cp .env.example .env            # y edite DB_PASSWORD con una contraseña propia (no se sube a Git)
+./scripts/verify-module.sh M14
+```
+
+Resultado esperado (en este orden): `STACK_VERIFICADO` y, al final, `MODULO_M14_VERIFICADO`. Si algo falla se imprime `NO_VERIFICADO` con el motivo; no declare el módulo verificado sin haber visto esas dos marcas.
+
+Para usar el sistema a mano: `docker compose up -d --build`, cliente en `http://localhost:9095` y API en `http://localhost:9098/api/productos`.
+
+| Variable (`.env`) | Para qué sirve | Por defecto |
+|---|---|---|
+| `DB_USER`, `DB_PASSWORD`, `DB_NAME`, `DB_PORT` | Acceso a PostgreSQL (`DB_PORT` es el puerto del anfitrión) | sin valor: obligatorias |
+| `API_PORT` | Puerto del anfitrión para la API | 9098 |
+| `WEB_PORT` | Puerto del anfitrión para el cliente | 9095 |
+| `PERSISTENCIA` | Adaptador de persistencia de la API: `hibernate` o `jdbc` | hibernate |
+
+### Scripts de verificación (C04)
+
+| Script | Qué comprueba | Marca final |
+|---|---|---|
+| `scripts/verify-module.sh M14` | Verificación oficial: pila y recorrido | `MODULO_M14_VERIFICADO` |
+| `scripts/verify-stack.sh [--con-caida] [--sin-build]` | Pila completa, proxy cliente→API→BD, negativos; con `--con-caida`, detiene la BD y comprueba el error y la recuperación | `STACK_C04_VERIFICADO` |
+| `scripts/verify-recorrido.sh` | Venta completa: contrato, filas en PostgreSQL, descuento de existencia, negativos y atomicidad | `RECORRIDO_VERIFICADO` |
+| `scripts/verify-persistencia.sh` | El recorrido con `PERSISTENCIA=hibernate` y con `jdbc` | `PERSISTENCIA_VERIFICADA` |
+| `scripts/ensayo-reversa.sh` | Ensayo real de la reversa a `v0.3-web` y regreso | `ROLLBACK_VERIFICADO` |
+| `scripts/evidencia-c04-pruebas.sh` | Reporte de pruebas y cobertura (backend y frontend) | resumen |
+| `scripts/evidencia-c04-sonar.sh`, `scripts/evidencia-c04-sonar-frontend.sh` | Análisis de SonarQube local | resumen |
+
+### Pruebas
+
+- **Backend** (142 pruebas, JaCoCo): con PostgreSQL del compose arriba y el `.env` cargado en la terminal.
+  ```bash
+  docker compose up -d postgres
+  set -a; source .env; set +a
+  mvn -B verify
+  ```
+  Las pruebas de persistencia leen `DB_PASSWORD` del entorno y usan la base indicada por `DB_URL` (por defecto `localhost:5435/ventas_test`). Si falta `DB_PASSWORD` se detienen con `IllegalStateException` (hallazgo E-02, abajo).
+- **Frontend** (34 pruebas): `cd frontend && npm ci && npx ng test --watch=false --browsers=ChromeHeadless`.
+- Reporte completo y matriz de riesgos: `evidencia/C04/C04-05_reporte_pruebas.txt` y `docs/matriz-riesgos-pruebas.md`.
+
+### Si algo falla (problemas conocidos)
+
+| Síntoma | Causa | Qué hacer |
+|---|---|---|
+| `Conflict. The container name "/postgres_ventas" is already in use` | El compose fija el nombre del contenedor y ya existe uno de una pila anterior (E-01) | `docker rename postgres_ventas postgres_ventas_anterior` (o `docker rm`), `docker compose down` y repetir |
+| Un puerto ocupado (5435, 9098 o 9095) | Otro programa usa ese puerto | Cambiar `DB_PORT`, `API_PORT` o `WEB_PORT` en `.env` |
+| El cliente muestra una versión vieja tras cambiar código | `docker compose restart` no reconstruye imágenes (H-05) | `docker compose up -d --build` |
+| El cliente da error al llamar a la API tras recrear la API | nginx resuelve el nombre `api` al arrancar | `docker compose restart web` |
+| `mvn` local: `Define la variable de entorno DB_PASSWORD` | El `.env` no se exporta a un `mvn` directo (E-02) | `set -a; source .env; set +a` antes de `mvn` |
+| El CI falla con `429 Too Many Requests` al bajar un plugin de Maven | Límite de peticiones de Maven Central (E-03) | Pestaña Actions → Re-run failed jobs |
+
+Detalle de los hallazgos de la reproducción hecha por otra persona: `docs/hallazgos-reproduccion-c04.md`.
+
+### Plan de reversa
+
+Procedimiento, criterios de activación, ensayo ejecutado y límites: `docs/plan-reversa.md` (de `v1.0-rc` a `v0.3-web` con respaldo `pg_dump`).
+
+### Integración continua y calidad
+
+- GitHub Actions (`.github/workflows/ci.yml`): backend con PostgreSQL, frontend y pila completa en cada `push` y `pull request`. Detalle y registro de ejecuciones: `docs/integracion-continua.md`.
+- SonarQube corre de forma local (no en CI): backend y frontend sin hallazgos abiertos al cierre. Tratamiento: `docs/tratamiento-sonar-c04.md`.
+
+### Versión, notas y evidencia
+
+- Notas de versión: `docs/notas-de-version-v1.0-rc.md`. Versiones congeladas: `docs/versiones-congeladas.md`.
+- Índice de evidencia del equipo (ligado a R05, con el estado VERIFICADO / NO_VERIFICADO / PENDIENTE de cada elemento): `evidencia/C04_EQUIPO_06.md`.
+- Contribuciones: `docs/contribuciones/integrante-1.md` y `docs/contribuciones/integrante-2.md`.
+
 ________________________________________
 Contenido del repositorio
 tcsw-ventas/
 ├── pom.xml
-├── Dockerfile
+├── Dockerfile.api, Dockerfile.frontend y docker-compose.yml  (C04; sustituyen al Dockerfile de P01)
 ├── scripts/
 │   └── verify-module.sh
 ├── src/
@@ -26,7 +112,7 @@ tcsw-ventas/
 Descripción
 Archivo	Descripción
 pom.xml	Proyecto Maven con JUnit 5 y JaCoCo
-Dockerfile	Ambiente reproducible mediante contenedor
+Dockerfile.api, Dockerfile.frontend, docker-compose.yml	Ambiente reproducible en contenedores (C04; sustituyen al Dockerfile de P01)
 scripts/verify-module.sh	Script de verificación para M01, M02 y M03
 Producto.java	Entidad Producto de P01
 DetalleVenta.java	Objeto de valor que representa una línea de venta
@@ -106,6 +192,7 @@ El script:
 5.	Si algo falla, imprime MODULO_<MODULO>_NO_VERIFICADO y conserva el error en la salida.
 ________________________________________
 4. Alternativa reproducible con Docker
+> **Nota (C04):** esta sección describe el Dockerfile de P01, que fue sustituido por `Dockerfile.api`, `Dockerfile.frontend` y `docker-compose.yml`. Para construir y verificar la pila actual use la sección "Candidato de liberación v1.0-rc".
 Para construir la imagen:
 docker build -t tcsw-ventas:p01 .
 El Dockerfile ejecuta:
@@ -394,6 +481,7 @@ evidencia/P01_EVIDENCIA.md
 El paso específico de clean queda declarado como NO_VERIFICADO.
 Docker
 El Dockerfile se entrega como ambiente reproducible adicional, pero no fue construido en el entorno restringido utilizado para preparar la entrega debido a la ausencia de un daemon Docker.
+Nota (C04): el Dockerfile de P01 fue sustituido y la pila en contenedores se verificó en C04 (`MODULO_M14_VERIFICADO`).
 Estado: PENDIENTE de verificación en un ambiente con Docker disponible.
 ________________________________________
 P02
