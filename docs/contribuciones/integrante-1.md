@@ -122,3 +122,57 @@ Por falta de disponibilidad de tiempo de Xochitl, el cierre del corte lo realic�
 | Etiqueta del corte | `v0.3-web` |
 
 La evidencia de reproducción en un segundo equipo (issue #65) es de Xochitl (`docs/contribuciones/integrante-2.md`).
+
+---
+
+## C04 — Candidato de liberación (R05)
+
+**Integrante:** Diego Noe Roldán Vivanco (`byDiegoRV`)
+**Rama:** `feature/c04-contenedores` (PR #78) y `feature/c04-cierre`
+
+| Issue | Trabajo realizado | Estado |
+|---|---|---|
+| #70 (C04-01) | Pila en contenedores: Dockerfile.api, Dockerfile.frontend, compose con healthchecks, `verify-stack.sh` | VERIFICADO |
+| #71 (C04-02) | Recorrido de venta, módulo M14 en `verify-module.sh`, diagnóstico por fronteras (H-01, H-02, H-04) | VERIFICADO |
+| #72 (C04-03) | Integración continua en GitHub Actions y corrección del bloqueo por diálogos modales (H-03) | VERIFICADO |
+| #73 (C04-04) | SonarQube de backend y frontend, hallazgos corregidos | VERIFICADO (local) |
+| #74 (C04-05) | Reporte de pruebas, matriz de riesgos y verificación de los dos modos de persistencia | VERIFICADO; R13 PENDIENTE |
+| #75 (C04-06) | Plan de reversa a `v0.3-web` y ensayo real | VERIFICADO |
+| #77 (C04-08) | README final, notas de versión, índice de evidencia, versiones coherentes, etiqueta y Release | ver `evidencia/C04_EQUIPO_06.md` |
+
+**Pull requests:** #78 (issues #70 a #75) y el PR del cierre (#77).
+**Pruebas:** 142 del backend y 34 del frontend (`evidencia/C04/C04-05_reporte_pruebas.txt`), `./scripts/verify-module.sh M14` (`C04-08_m14_final.txt`).
+**Límites declarados:** R13 sin prueba; SonarQube solo local; ver `evidencia/C04_EQUIPO_06.md`, sección 4.
+
+**Commits:**
+- `2e6ca33` docs(evidencia): verificacion final M14 y versiones efectivas del candidato (refs #77)
+- `58bddc5` docs(evidencia): indice C04 del equipo ligado a los criterios de R05 (refs #77)
+- `408db8d` docs(version): notas de version v1.0-rc y hallazgos de la reproduccion (E-01 a E-03) (refs #77)
+- `7242477` chore(version): alinear version del cliente con backend y contrato (1.0.0) (refs #77)
+- `3ffb964` docs(readme): titulo del README actualizado al alcance P01 a C04 (refs #77)
+- `4d4d394` docs(readme): seccion del candidato v1.0-rc, despliegue, problemas conocidos y Dockerfile historico (refs #77)
+- `f96bcd7` docs(ci): historial final de ejecuciones antes del PR (refs #72)
+- `5f29f70` docs(ci): historial final de ejecuciones antes del PR (refs #72)
+- `480a32e` docs(reversa): completar resultados del ensayo en el plan (refs #75)
+- `f062563` docs(evidencia): ensayo de reversa ejecutado, hallazgo H-05 y capturas (refs #75)
+- `1d4b29b` feat(reversa): ensayo de reversa v1.0-rc a v0.3-web con respaldo y restauracion (refs #75)
+- `e1a5d73` docs(evidencia): capturas de la verificacion de persistencia por modo (refs #74)
+- `d57fb76` test(integracion): verificar recorrido con PERSISTENCIA=hibernate y jdbc (refs #74)
+- `45c6c94` docs(evidencia): capturas de C04-05 (refs #74)
+- `4d23bf8` docs(pruebas): matriz de riesgos, reporte de pruebas y cobertura del candidato (refs #74)
+- `e6498e3` docs(sonar): analisis final, tratamiento de hallazgos y evidencia (refs #73)
+- `679fbda` docs(evidencia): regenerar versiones efectivas con rutas ocultas (refs #70)
+- `5a1b061` docs(evidencia): capturas de Sonar del backend y del frontend (C04-04) (refs #73)
+- `edb14b8` feat(sonar): script del analisis del frontend en contenedor e ignorar .scannerwork (refs #73)
+- `00cc02e` fix(contenedores): healthcheck del cliente con 127.0.0.1 (H-04) (refs #71)
+- `d392b74` fix(frontend): caption accesible en tablas y eliminar app.css vacio (Sonar) (refs #73)
+- `4507197` fix(test): reemplazar Thread.sleep por ScheduledExecutorService en CierraDialogosModales (Sonar S2925) (refs #73)
+- `68741bb` docs(evidencia): ocultar rutas locales en C04-01_versiones (refs #70)
+- `28408d7` docs(ci): registro de ejecuciones y evidencia (refs #72)
+- `ad11bcb` ci: dar permiso de ejecucion a los scripts (refs #72)
+- `66616ae` ci: cerrar dialogos modales en pruebas de Swing y limitar tiempos del flujo (refs #72)
+- `cf6c9cf` ci: flujo de GitHub Actions (backend, frontend y pila completa) (refs #72)
+- `ff85534` docs(evidencia): capturas de C04-02 (refs #71)
+- `946585c` feat(integracion): verify-recorrido, soporte M14 y diagnostico por fronteras (refs #71)
+- `b04b2d4` docs(evidencia): captura actualizada del caso de BD caida (refs #70)
+- `e30b7ee` feat(contenedores): Dockerfile.api, Dockerfile.frontend, compose completo y verify-stack (refs #70)
