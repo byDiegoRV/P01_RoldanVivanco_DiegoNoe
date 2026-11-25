@@ -1,0 +1,6 @@
+git version 2.55.0.windows.5
+Docker version 29.7.2, build a7dcaa6
+Docker Compose version v5.4.0
+java version "23.0.2" 2025-01-21
+Apache Maven 3.9.16 (2bdd9fddda4b155ebf8000e807eb73fd829a51d5)
+v24.21.0
